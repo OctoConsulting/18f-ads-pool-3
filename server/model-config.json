@@ -26,5 +26,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Drug": {
+    "dataSource": null,
+    "public": true
   }
 }
