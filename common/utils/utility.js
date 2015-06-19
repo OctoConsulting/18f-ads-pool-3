@@ -1,4 +1,4 @@
-module.exports = function getToString(str) {
+var toString = module.exports.getToString = function (str) {
     if(!str) return null;
     var lastChar = str.charCodeAt(str.length-1);
 
@@ -9,9 +9,9 @@ module.exports = function getToString(str) {
 };
 
 
-module.exports = function getSearchQuery(str) {
-   var result = 'https://api.fda.gov/drug/label.json?search=openfda.brand_name:';
-   var range = '[' + str + '+TO+' + getToString(str) + ']';
+module.exports.getSearchQuery = function (str) {
+   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:';
+   var range = '[' + str + '+TO+' + toString(str) + ']';
    result = result + range + '+OR+openfda.generic_name:' + range +'&limit=10';
 
    return result;
