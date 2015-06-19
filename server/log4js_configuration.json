@@ -1,0 +1,13 @@
+{
+  "appenders": [
+    {
+      "type": "file",
+      "filename": "logs/log_file.log",
+      "maxLogSize": 20480,
+      "backups": 3,
+      "category": ["18f-asd-prototype-dev", "console"]
+    },
+     { "type": "console" }
+  ],
+   "replaceConsole": true
+}
