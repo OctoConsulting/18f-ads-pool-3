@@ -25,12 +25,16 @@
 
 
         function HomeController($scope, Restangular, $state) {
+            $scope.getSomething = function(){
+                $scope.something = 'value';
+            };
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
-                    return data.result.map(function(item){
+                    $scope.names = data.result.map(function(item){
                         return item.name;
                     });
+                    return $scope.names;
                 }, function() {
                     
                 });
