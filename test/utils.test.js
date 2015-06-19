@@ -1,7 +1,7 @@
 var app = require('../server/server.js');
 var should = require('should');
 var supertest = require('supertest');
-var utils = require('../utils.js')
+var utils = require('../common/utils/utility.js')
 
 describe('Test Utils Fucntions', function(){
 	 describe('Test getSearchQuery', function(){
