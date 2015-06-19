@@ -5,16 +5,22 @@
  * automatically.
  */
 describe( 'Home', function() {
-  beforeEach( module( 'app' ) );
+  beforeEach( module( 'app') );
+  beforeEach( module( 'ngMockE2E') );
+  var scope;
 
-  beforeEach( inject( function( $controller, _$location_, $rootScope ) {
+  var HomeCtrl;
+  beforeEach( inject( function( $controller, _$location_, $rootScope,_$httpBackend_ ) {
       $location = _$location_;
-      $scope = $rootScope.$new();
+      scope = $rootScope.$new();
+      $scope = scope;
+      $httpBackend = _$httpBackend_;
       HomeCtrl = $controller( 'HomeController', { $location: $location, $scope: $scope });
    }));
 
-  afterEach(inject(function($httpBackend, $rootScope) {
+ /* afterEach(inject(function(_$httpBackend_, $rootScope) {
     // Force all of the http requests to respond.
+    $httpBackend = _$httpBackend_;
     $httpBackend.flush();
  
     // Force all of the promises to resolve.
@@ -25,17 +31,31 @@ describe( 'Home', function() {
     // Check that we don't have anything else hanging.
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-  }));
+  })); */
 
   it( 'should return drug names', inject( function() {
     // This will fail the spec if this http request does not happen.
-    $httpBackend.expect('GET', baseUrl + '/api/drugs/suggestions?q=Tyl')
-        .respond({response: {"id":"0027e3a2-862a-474d-8c33-dda1a2264b27","name":"Infants TYLENOL","indicator":"brand"});
+    $httpBackend.expect('GET', '/api/drugs/suggestions?q=Tyl')
+        .respond({response: {"id":"0027e3a2-862a-474d-8c33-dda1a2264b27","name":"Infants TYLENOL","indicator":"brand"}});
  
-    HomeCtrl.create(article).then(function(data) {
-      expect(data.id).toBeGreatherThan(0);
-      expect(data.title).toEqual(article.title);
+    scope.getSuggestions('Tyl').then(function(data) {
+      $httpBackend.flush();	
+      expect(data.id).toEqual("0027e3a2-862a-474d-8c33-dda1a2264b27");
+      expect(data.name).toEqual("Infants TYLENOL"); 
     });
   }));
+
+  it( 'should not match the id and name for given drug characters', inject( function() {
+    // This will fail the spec if this http request does not happen.
+    $httpBackend.expect('GET', '/api/drugs/suggestions?q=Tyl')
+        .respond({response: {"id":"0027e3a2-862a-474d-8c33-dda1a2264b27","name":"Infants TYLENOL","indicator":"brand"}});
+ 
+    scope.getSuggestions('Tyl').then(function(data) {
+      $httpBackend.flush();	
+      expect(data.id).not.toEqual("0027e3a2-862a-474d-8c33-dda1a2264b27");
+      expect(data.name).not.toEqual("Infants TYLENOL");
+    });
+  }));
+
 });
 
