@@ -16,7 +16,7 @@
 
         .config( function initRoutes ($urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider) {
             $urlRouterProvider.otherwise( '/' );
-             RestangularProvider.setBaseUrl(location.protocol + '//' + location.hostname + (location.port && ':' + location.port));
+             RestangularProvider.setBaseUrl(location.protocol + '//' + location.hostname + (location.port && ':' + location.port) + '/api');
             $provide.decorator('$uiViewScroll', function ($delegate, $stateParams, $location, $document) {
                 return function (uiViewElement) {
                     $document.scrollTop(0, 0);
@@ -34,7 +34,7 @@
         .constant('appName', 'Octo | 18F')
         .constant('appVersion', '1.0.0')
         .run( function initApplication ($rootScope, $state) {
-                $rootScope.$state = $state;
+            $rootScope.$state = $state;
 
         });
 })();

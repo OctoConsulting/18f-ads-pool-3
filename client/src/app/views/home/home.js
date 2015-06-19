@@ -28,10 +28,9 @@
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
-                    return data.result.map(function(name){
-                        return name;
+                    return data.result.map(function(item){
+                        return item.name;
                     });
-
                 }, function() {
                     
                 });
