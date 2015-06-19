@@ -1,33 +1,15 @@
 var request = require('request');
-//var utilsjs = require('../utils/utils');
+var utils = require('../utils/utility');
 var log4js = require('log4js');
 log4js.configure('server/log4js_configuration.json', {});
 var logger = log4js.getLogger('18f-asd-prototype-dev');
 
 module.exports = function(Drug) {
 
-function getToString(str) {
-    if(!str) return null;
-    var lastChar = str.charCodeAt(str.length-1);
-
-    var nextChar = String.fromCharCode(lastChar+1);
-    var newString = str.slice(0,str.length-1) + nextChar;    
-    
-    return newString;
-};
-
-function getSearchQuery(str) {
-   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:';
-   var range = '[' + str + '+TO+' + getToString(str) + ']';
-   result = result + range + '+OR+openfda.generic_name:' + range +'&limit=10';
-
-   return result;
-};
-
 Drug.findSuggestions = function(q, cb){
 	logger.debug('Enterd findSuggestions method');
   //Fetching the search API
-  var fdaAPI = getSearchQuery(q);
+  var fdaAPI = utils.getSearchQuery(q);
   logger.debug('fdaAPI:: '+ fdaAPI);
   //Making the API call
   request(fdaAPI, 
