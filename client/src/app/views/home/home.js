@@ -7,10 +7,16 @@
             .state( 'home', {
                 url: '/',
                 views: {
+                    "menu": {
+                        templateUrl: 'views/menu/menu.tpl.html'
+                    },
                     "main": {
                         controller: 'HomeController',
                         templateUrl: 'views/home/home.tpl.html'
-                    }
+                    },
+                    "footer": {
+                        templateUrl: 'views/footer/footer.tpl.html'
+                    }                    
                 }
             })
             ;
@@ -19,6 +25,17 @@
 
 
         function HomeController($scope, Restangular, $state) {
+            $scope.getSuggestions = function(val) {
+                return Restangular.one('drugs').customGET('suggestions',{'q':val})
+                .then(function(data) {
+                    return data.result.map(function(name){
+                        return name;
+                    });
+
+                }, function() {
+                    
+                });
+            };            
         }
 })();
 
