@@ -2,6 +2,8 @@
 	'use strict';
 
 	angular.module('app')
+    
+        // Configuration section for the home page
         .config( function initRoutes( $stateProvider ) {
             $stateProvider
             .state( 'home', {
@@ -23,8 +25,10 @@
         })
         .controller( 'HomeController', HomeController);
 
-
+        // Home controller
         function HomeController($scope, Restangular, $state) {
+
+            // Function to get suggestions from the users search 
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
