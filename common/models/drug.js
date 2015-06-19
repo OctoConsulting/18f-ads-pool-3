@@ -17,7 +17,7 @@ function getToString(str) {
 };
 
 function getSearchQuery(str) {
-   var result = 'https://api.fda.gov/drug/label.json?search=openfda.brand_name:';
+   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:';
    var range = '[' + str + '+TO+' + getToString(str) + ']';
    result = result + range + '+OR+openfda.generic_name:' + range +'&limit=10';
 
@@ -25,26 +25,34 @@ function getSearchQuery(str) {
 };
 
 Drug.findSuggestions = function(q, cb){
-	logger.debug('Enterd findSuggestions method ::: '+q);
+	logger.debug('Enterd findSuggestions method');
+  //Fetching the search API
   var fdaAPI = getSearchQuery(q);
   logger.debug('fdaAPI:: '+ fdaAPI);
+  //Making the API call
   request(fdaAPI, 
           function (error, response, body) {
-    var drugSuggestions = [];
-    q = q.toUpperCase();
-    if (!error && response.statusCode == 200) {
+    var drugSuggestions = [];  
+    //if error returning error object  
+    if(error){
+      logger.debug('Error happened');
+      return cb(error); 
+    } else if (!error && response.statusCode == 200) {
+      q = q.toUpperCase();
+      //Converting response bidy to JSON object
       var responseOBJ = JSON.parse(body);
       var results = responseOBJ.results;
       for(var i in results) {
          var drugItem = results[i];
          if(drugItem.set_id){
 
+            //Looping brandnames to find the matches
             if(drugItem.openfda.brand_name){
               var brandNames = drugItem.openfda.brand_name;
               for(var j in brandNames){
                  var brandName = brandNames[j];
                   brandName = brandName.toUpperCase();
-                  logger.debug('brandName:::'+brandName);
+                  //logger.debug('brandName:::'+brandName);
                  if(brandName.indexOf(q) > -1){
                   drugSuggestions.push({
                       "id": drugItem.set_id,
@@ -53,14 +61,15 @@ Drug.findSuggestions = function(q, cb){
                    });
                  }
               }
-            }   
+            }  
 
+            //Looping generic names to find the matches
             if(drugItem.openfda.generic_name){
                var genericNames = drugItem.openfda.generic_name;
                 for(var k in genericNames){
                  var genericName = genericNames[k];
                 genericName = genericName.toUpperCase();
-                 logger.debug('genericName:::'+genericName);
+                 //logger.debug('genericName:::'+genericName);
                  if(genericName.indexOf(q) > -1){
                   drugSuggestions.push({
                       "id": drugItem.set_id,
@@ -72,9 +81,9 @@ Drug.findSuggestions = function(q, cb){
             } 
 
          }         
-      }
-      return cb(null, drugSuggestions);
+      }      
     }
+    return cb(null, drugSuggestions);
   });
 };
 
