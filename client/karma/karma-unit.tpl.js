@@ -18,12 +18,12 @@ module.exports = function ( karma ) {
     ],
     frameworks: [ 'jasmine' ],
     plugins: [ 'karma-jasmine', 'karma-chrome-launcher', 'karma-firefox-launcher', 'karma-phantomjs-launcher', 'karma-coverage', 'karma-coffee-preprocessor' ],
-    // preprocessors: {      
-    //   // source files, that you wanna generate coverage for
-    //   // do not include tests or libraries
-    //   // (these files will be instrumented by Istanbul)
-    //   'src/**/*.js': ['coverage']
-    // },
+    preprocessors: {      
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'src/**/*.js': ['coverage']
+    },
     coverageReporter: {
       type : 'html',
       dir : 'test/coverage'
@@ -61,8 +61,7 @@ module.exports = function ( karma ) {
      * the aesthetic advantage of not launching a browser every time you save.
      */
     browsers: [
-      'PhantomJS',
-      'Chrome'
+      'PhantomJS'
     ]
   });
 };

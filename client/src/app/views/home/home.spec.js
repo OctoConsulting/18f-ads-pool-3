@@ -53,7 +53,7 @@ describe( 'Home', function() {
     scope.getSuggestions('Tyl').then(function(data) {
       $httpBackend.flush();	
       expect(data.id).not.toEqual("0027e3a2-862a-474d-8c33-dda1a2264b27");
-      expect(data.name).not.toEqual("Infants TYLENOL");
+      expect(data.name).not.toEqual("Infants TYLENOL");  
     });
   }));
 

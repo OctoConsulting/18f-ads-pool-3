@@ -10,7 +10,7 @@
 
 					<form ng-submit="search();">
 						<div class="input-group input-group-lg autocomplete">
-							<input ng-disabled="loginLoading" autofocus type="text" ng-model="query" placeholder="Search Medications" typeahead-min-length="3" typeahead-wait-ms="250" typeahead="name for name in getSuggestions($viewValue)" typeahead-loading="loadingDrugs" typeahead-on-select='onSelect($item, $model, $label)' class="form-control">
+							<input ng-disabled="loginLoading" autofocus type="text" ng-model="query" placeholder="Search Medications" typeahead-min-length="3" typeahead-wait-ms="250" typeahead="item as item.name for item in getSuggestions($viewValue)" typeahead-loading="loadingDrugs" typeahead-on-select='onSelect($item, $model, $label)' class="form-control">
 							<span class="input-group-btn">
 								<button class="btn btn-primary" type="button" ng-click="search();" ladda="loginLoading"><span class="glyphicon glyphicon-search"></span></button>
 							</span>
