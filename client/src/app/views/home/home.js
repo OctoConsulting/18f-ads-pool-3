@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('app')
-
+    
         // Configuration section for the home page
         .config( function initRoutes( $stateProvider ) {
             $stateProvider
@@ -18,7 +18,7 @@
                     },
                     "footer": {
                         templateUrl: 'views/footer/footer.tpl.html'
-                    }
+                    }                    
                 }
             })
             ;
@@ -28,18 +28,13 @@
         // Home controller
         function HomeController($scope, Restangular, $state) {
 
-            $scope.search = function () {
-                $state.go('details', {detailId: $scope.query.id});
-            };
-
             // Function to get suggestions from the users search 
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
-                    var res = data.result.map(function(item){
-                        return item;
+                    return data.result.map(function(item){
+                        return item.name;
                     });
-                    return res;
                 }, function() {
                     
                 });
