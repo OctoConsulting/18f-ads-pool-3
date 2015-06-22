@@ -36,5 +36,22 @@ describe( 'Home', function() {
 
   }));
 
+  it( 'should return no results found for non-existing name', inject( function() {
+
+    // This is the mock for the back end call
+    $httpBackend.expect('GET', '/api/drugs/suggestions?q=Xyz')
+        .respond({result: [{"name":"No results found."}]});
+  
+    // Call the controller function and see if the returned suggestions has "No results found."
+    scope.getSuggestions('Xyz').then(function(suggestions) {
+      expect(suggestions[0].name).not.toEqual("Infants TYLENOL");
+      expect(suggestions[0].name).toEqual("No results found.");
+    });
+
+    // Perform the async ajax call
+    $httpBackend.flush();
+
+  }));
+
 });
 
