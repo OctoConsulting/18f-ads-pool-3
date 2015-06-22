@@ -8,12 +8,15 @@ var logger = log4js.getLogger('app');
 
 var app = module.exports = loopback();
 
+app.log4js = log4js;
+
 
 app.start = function() {
   // start the web server
   return app.listen(function() {
     app.emit('started');
     console.log('Web server listening at: %s', app.get('url'));
+    app.log4js.getLogger('app').debug('App started');
   });
 };
 
@@ -36,7 +39,7 @@ app.get('remoting').errorHandler = {
     var ret = {};
     ret.message = 'Unexpected Error occured on server when processing request!';
     ret.status = err.statusCode;
-    logger.error('Sever Internal Error : ' + err.message);
+    app.log4js.getLogger('app').error('Sever Internal Error : ' + err.message);
     res.status(err.statusCode).json(ret);
 
     // send the error back to the original handlero
