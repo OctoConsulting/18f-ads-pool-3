@@ -1,0 +1,14 @@
+{
+  "name": "Recall",
+  "plural": "Recalls",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

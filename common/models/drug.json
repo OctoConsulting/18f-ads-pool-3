@@ -87,6 +87,11 @@
         "string"
       ]
     },
+    "ask_doctor": {
+      "type": [
+        "string"
+      ]
+    },
     "questions": {
       "type": [
         "string"

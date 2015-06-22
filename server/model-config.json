@@ -30,5 +30,13 @@
   "Drug": {
     "dataSource": null,
     "public": true
+  },
+  "Recall": {
+    "dataSource": null,
+    "public": true
+  },
+  "Event": {
+    "dataSource": null,
+    "public": true
   }
 }
