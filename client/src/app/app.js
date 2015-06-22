@@ -13,11 +13,13 @@
             'angular.filter',
             'angular-chartist',
             'angular-ladda',
-            'stpa.morris'
+            'stpa.morris',
+            'angular-growl',
+            'highcharts-ng'
         ])
 
         // Declare any global configurations
-        .config( function initRoutes ($urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider) {
+        .config( function initRoutes ($urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider, growlProvider) {
             $urlRouterProvider.otherwise( '/' );
              RestangularProvider.setBaseUrl('/api');
             $provide.decorator('$uiViewScroll', function ($delegate, $stateParams, $location, $document) {
@@ -27,7 +29,18 @@
             });
             laddaProvider.setOption({ 
               style: 'zoom-in'
-            });            
+            });
+            growlProvider.globalPosition('top-right');
+            growlProvider.globalDisableCountDown(true);
+            growlProvider.globalTimeToLive({success: 5000, error: 8000, warning: 5000, info: 5000});
+
+            $provide.decorator("$exceptionHandler", ['$delegate', '$injector', function($delegate, $injector) {
+                return function(exception, cause) {
+                    var growl = $injector.get("growl");
+                    $delegate(exception, cause);
+                    growl.error("There was an issue: " + exception.message);
+                };
+            }]);
         })
 
         // Initiate the application
@@ -41,8 +54,22 @@
         .constant('appVersion', '1.0.0')
 
         // Main Run Function
-        .run( function initApplication ($rootScope, $state) {
+        .run( function initApplication ($rootScope, $state, Restangular, growl) {
             $rootScope.$state = $state;
-        });
+
+            Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
+                
+                if (response.status === 404) {
+                    growl.error('There was an issue fetching your results.');
+                }
+                else if (response.status === 500) {
+                    growl.error('The server encountered an error. Please try again.');
+                }
+
+                return true;
+            });
+
+        })
+        ;
 })();
 

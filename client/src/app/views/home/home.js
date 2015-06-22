@@ -36,9 +36,15 @@
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
-                    return data.result.map(function(item){
-                        return item;
-                    });
+                    if(data.result.length) {
+                        return data.result.map(function(item){
+                            return item;
+                        });
+                    }
+                    else {
+                        return [{"name":"No results found."}];
+                    }
+
                 }, function() {
                     
                 });

@@ -16,7 +16,7 @@
                     },
                     "footer": {
                         templateUrl: 'views/footer/footer.tpl.html'
-                    }                    
+                    }
                 },
                 data:{ pageTitle: 'Octo | 18F' },
                 resolve: {

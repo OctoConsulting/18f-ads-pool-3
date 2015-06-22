@@ -76,13 +76,16 @@ module.exports = {
       'vendor/ladda/dist/ladda.min.js',
       'vendor/angular-ladda/dist/angular-ladda.js',
       'vendor/raphael/raphael-min.js',
-      'vendor/morris.js/morris.min.js'
+      'vendor/morris.js/morris.min.js',
+      'vendor/angular-growl-v2/build/angular-growl.min.js',
+      'vendor/highcharts-ng/dist/highcharts-ng.min.js'
     ],
     css: [
        'vendor/font-awesome/css/font-awesome.min.css',
        'vendor/chartist/dist/chartist.min.css',
        'vendor/ladda/dist/ladda.min.css',
-       'vendor/morris.js/morris.css'
+       'vendor/morris.js/morris.css',
+       'vendor/angular-growl-v2/build/angular-growl.min.css'
     ],
     assets: [
     ],
