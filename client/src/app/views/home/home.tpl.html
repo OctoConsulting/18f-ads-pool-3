@@ -1,13 +1,9 @@
-<!-- Header -->
 <div class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-sm-offset-2">
+            <div class="col-lg-12 vert-offset-top-5">
                 <div class="intro-message">
-                    <h1>Application Name</h1>
-                    <h3>Tagline Goes Here</h3>
-                    <hr class="intro-divider">
-
+                    <img alt="MedCheck- Check Twice. Choose Once." src="/assets/images/logo-01.png">
 					<form ng-submit="search();">
 						<div class="input-group input-group-lg autocomplete">
 							<input ng-disabled="loginLoading" autofocus type="text" ng-model="query" placeholder="Search Medications" typeahead-min-length="3" typeahead-wait-ms="250" typeahead="item as item.name for item in getSuggestions($viewValue)" typeahead-loading="loadingDrugs" typeahead-on-select='onSelect($item, $model, $label)' class="form-control">
@@ -15,55 +11,9 @@
 								<button class="btn btn-primary" type="button" ng-click="search();" ladda="loginLoading"><span class="glyphicon glyphicon-search"></span></button>
 							</span>
 						</div><!-- /input-group -->
-					</form>                                        
+					</form>  
                 </div>
             </div>
-    	</div>
-
-    	<div class="row vert-offset-top-3">
-    		<div class="col-md-12">
-    			<highchart id="homeChart" config="chartConfig"></highchart>
-    		</div>
-    	</div>
-
-        <div class="row vert-offset-top-3">
-            <div class="col-md-4">
-		        <div class="panel panel-default">
-		          <div class="panel-heading"><a href="#" class="pull-right">View More</a> <h4>Card 1</h4></div>
-		   			<div class="panel-body">
-		              <div class="list-group">
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 1</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 2</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 3</a>
-		              </div>
-		            </div>
-		   		</div>
-		   	</div>
-            <div class="col-md-4">
-		        <div class="panel panel-default">
-		          <div class="panel-heading"><a href="#" class="pull-right">View More</a> <h4>Card 2</h4></div>
-		   			<div class="panel-body">
-		              <div class="list-group">
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 1</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 2</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 3</a>
-		              </div>
-		            </div>
-		   		</div>
-		   	</div>
-            <div class="col-md-4">
-		        <div class="panel panel-default">
-		          <div class="panel-heading"><a href="#" class="pull-right">View More</a> <h4>Card 3</h4></div>
-		   			<div class="panel-body">
-		              <div class="list-group">
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 1</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 2</a>
-		                <a href="http://www.octoconsulting.com/" class="list-group-item">Topic 3</a>
-		              </div>
-		            </div>
-		   		</div>
-		   	</div>
-		</div>
+        </div>
     </div>
 </div>
-
