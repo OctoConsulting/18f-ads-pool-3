@@ -55,18 +55,17 @@
 
         // Main Run Function
         .run( function initApplication ($rootScope, $state, Restangular, growl) {
+
             $rootScope.$state = $state;
 
             Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
                 
-                if (response.status === 404) {
-                    growl.error('There was an issue fetching your results.');
-                }
-                else if (response.status === 500) {
-                    growl.error('The server encountered an error. Please try again.');
+                if (response.status === 404 || response.status === 500) {
+                    growl.error(response.data.message);
                 }
 
                 return true;
+                
             });
 
         })

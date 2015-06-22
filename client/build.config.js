@@ -78,6 +78,7 @@ module.exports = {
       'vendor/raphael/raphael-min.js',
       'vendor/morris.js/morris.min.js',
       'vendor/angular-growl-v2/build/angular-growl.min.js',
+      'vendor/highcharts-release/highcharts.js',
       'vendor/highcharts-ng/dist/highcharts-ng.min.js'
     ],
     css: [

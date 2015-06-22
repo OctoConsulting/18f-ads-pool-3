@@ -5,7 +5,7 @@
         .config( function initRoutes( $stateProvider ) {
             $stateProvider
             .state( 'results', {
-                url: '/results?q',
+                url: '/results',
                 views: {
                     "main": {
                         controller: 'ResultsController',
@@ -24,7 +24,7 @@
         .controller( 'ResultsController', ResultsController);
 
         function ResultsController($scope, Restangular, $state, resultData) {
-            
+            Restangular.one('drugs1').get();
         }
 })();
 
