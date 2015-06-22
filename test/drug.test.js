@@ -28,7 +28,7 @@ describe('Test Drug Model', function(){
 	 });
 	 describe('Test REST API - getDrugDetails', function(){
 	 	it('Results exists', function(done){
-	 		supertest(app).get("/api/drugs/details?q=0027e3a2-862a-474d-8c33-dda1a2264b27").expect(200).end(function(err,res){
+	 		supertest(app).get("/api/drugs/details?q=ACETAMINOPHEN&typ=generic").expect(200).end(function(err,res){
 		 		if(err) throw err;
 		 		res.status.should.equal(200);
 		 		done();
@@ -36,7 +36,7 @@ describe('Test Drug Model', function(){
 	 	});
 
 	 	it("Results doesn't exist", function(done){
-	 		supertest(app).get("/api/drugs/details?q=XXXX").expect(200).end(function(err,res){
+	 		supertest(app).get("/api/drugs/details?q=ACETAMINOPHEN&typ=brand").expect(200).end(function(err,res){
 		 		if(err) throw err;
 		 		res.status.should.equal(200);
 		 		done();

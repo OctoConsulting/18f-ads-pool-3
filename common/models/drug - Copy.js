@@ -102,11 +102,8 @@ isTheDrugRecalled = function(product_ndc){
     }
 };
 
-Drug.getDrugDetails = function(q, typ, cb){
-   var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=generic_name:'+q; 
-   if(typ == 'brand')
-      fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=brand_name:'+q;
-
+Drug.getDrugDetails = function(q, cb){
+   var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=set_id:'+q; 
    logger.debug('fdaLabelURL:: '+ fdaLabelURL);
    request(fdaLabelURL, function (error, response, body) {
     if(error){
@@ -115,15 +112,60 @@ Drug.getDrugDetails = function(q, typ, cb){
     } else if (!error && response.statusCode == 200) {
        var responseOBJ = JSON.parse(body);
        var results = responseOBJ.results;
-       var meta = responseOBJ.meta;
-       if(results.length != 0){          
+       if(results.length != 0){
+          //logger.debug('Result is::::');
+          //logger.debug(results[0]);
           var drugModel = {};
+          drugModel.substance_name = results[0].openfda.substance_name;
           drugModel.brand_name =  results[0].openfda.brand_name;
+          drugModel.purpose =  results[0].purpose;
           drugModel.generic_name =  results[0].openfda.generic_name;
-          drugModel.purpose =  ((results[0].description == null || results[0].description == '') ? results[0].purpose : results[0].description);
-          drugModel.count = meta.results.total;
+          drugModel.manufacturer_name =  results[0].openfda.manufacturer_name;
+          drugModel.product_type =  results[0].openfda.product_type;
+          drugModel.route =  results[0].openfda.route;
+          drugModel.package_label_principal_display_panel =  results[0].package_label_principal_display_panel;
+          drugModel.active_ingredient =  results[0].active_ingredient;
+          drugModel.inactive_ingredient =  results[0].inactive_ingredient;
+          drugModel.overdosage =  results[0].overdosage;
+          drugModel.dosage_and_administration =  results[0].dosage_and_administration;
+          drugModel.adverse_reactions =  results[0].adverse_reactions;
+          drugModel.warnings =  results[0].warnings;
+          drugModel.stop_use =  results[0].stop_use;
+          drugModel.keep_out_of_reach_of_children =  results[0].keep_out_of_reach_of_children;
+          drugModel.ask_doctor =  results[0].ask_doctor;
+          drugModel.questions =  results[0].questions;
+          //Populating the recall indicator
+          drugModel.recalled = 'No';
+          if(results[0].openfda.product_ndc){
+            var fdaEnforcementURL = 'https://api.fda.gov/drug/enforcement.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search='; 
+            var product_ndc_string = '(openfda.product_ndc:';
+            var product_ndc = results[0].openfda.product_ndc;
+            for(var i in product_ndc){
+              if(i>0){
+                product_ndc_string = product_ndc_string+'+"'+product_ndc[i]+'"';
+              }else{
+                product_ndc_string = product_ndc_string+'"'+product_ndc[i]+'"';
+              }        
+            }
+            product_ndc_string = product_ndc_string + ')';
+            fdaEnforcementURL = fdaEnforcementURL + product_ndc_string;
+            request(fdaEnforcementURL, function (error, response, body) {
+              if(error){
+                logger.debug('Error happened when connecting to FDA drug enforcement API'); 
+              }else if (!error && response.statusCode == 200){
+                var responseOBJ = JSON.parse(body);
+                var results = responseOBJ.results;
+                logger.debug('results.length:'+results.length); 
+                if(results.length != 0){
+                  drugModel.recalled = 'Yes';
+                }
+              }
+              return cb(null, drugModel);
+            });
 
-          return cb(null, drugModel);         
+          }else{
+             return cb(null, drugModel);
+           }         
        }    
     }else{
       return cb(null, {});
@@ -145,7 +187,7 @@ Drug.remoteMethod(
     'getDrugDetails',
     {
       description: 'Fetch drug details for the given drug set_id',
-      accepts: [{arg: 'q', type: 'string', required: true},{arg: 'typ', type: 'string', required: true}],
+      accepts: {arg: 'q', type: 'string', required: true},
       returns: {arg: 'drug', type: 'object'},
       http: {path: '/details', verb: 'get'}
     }
