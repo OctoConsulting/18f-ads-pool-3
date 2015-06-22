@@ -12,7 +12,7 @@ var toString = module.exports.getToString = function (str) {
 module.exports.getSearchQuery = function (str) {
    var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:';
    var range = '[' + str + '+TO+' + toString(str) + ']';
-   result = result + range + '+OR+openfda.generic_name:' + range +'&limit=10';
+   result = result + range + '+OR+openfda.generic_name:' + range +'&limit=25';
 
    return result;
 };

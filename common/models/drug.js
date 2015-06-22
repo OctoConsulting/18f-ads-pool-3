@@ -15,6 +15,7 @@ Drug.findSuggestions = function(q, cb){
   request(fdaAPI, 
           function (error, response, body) {
     var drugSuggestions = [];  
+    var drugNames = [];
     //if error returning error object  
     if(error){
       logger.debug('Error happened');
@@ -25,6 +26,10 @@ Drug.findSuggestions = function(q, cb){
       var responseOBJ = JSON.parse(body);
       var results = responseOBJ.results;
       for(var i in results) {
+        //Limitng the suggestions to 10
+         if(drugNames.length == 10){
+            break;
+         }
          var drugItem = results[i];
          if(drugItem.set_id){
 
@@ -35,12 +40,12 @@ Drug.findSuggestions = function(q, cb){
                  var brandName = brandNames[j];
                   brandName = brandName.toUpperCase();
                   //logger.debug('brandName:::'+brandName);
-                 if(brandName.indexOf(q) > -1){
-                  drugSuggestions.push({
-                      "id": drugItem.set_id,
-                      "name": brandNames[j],
-                      "indicator": "brand"
-                   });
+                 if(brandName.indexOf(q) > -1 && drugNames.indexOf(brandNames[j]+'-brand') == -1){
+                  var drugSuggestion = {};
+                  drugSuggestion.name =  brandNames[j];
+                  drugNames.push(drugSuggestion.name+'-brand');
+                  drugSuggestion.indicator = "brand";
+                  drugSuggestions.push(drugSuggestion);
                  }
               }
             }  
@@ -52,12 +57,12 @@ Drug.findSuggestions = function(q, cb){
                  var genericName = genericNames[k];
                 genericName = genericName.toUpperCase();
                  //logger.debug('genericName:::'+genericName);
-                 if(genericName.indexOf(q) > -1){
-                  drugSuggestions.push({
-                      "id": drugItem.set_id,
-                      "name": genericNames[k],
-                      "indicator": "generic"
-                   });
+                 if(genericName.indexOf(q) > -1 && drugNames.indexOf(brandNames[j]+'-generic') == -1){
+                  var drugSuggestion = {};
+                  drugSuggestion.name =  brandNames[j];
+                  drugNames.push(drugSuggestion.name+'-generic');
+                  drugSuggestion.indicator = "generic";
+                  drugSuggestions.push(drugSuggestion);
                  }
               }
             } 
@@ -69,38 +74,7 @@ Drug.findSuggestions = function(q, cb){
   });
 };
 
-isTheDrugRecalled = function(product_ndc){
-  var fdaEnforcementURL = 'https://api.fda.gov/drug/enforcement.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search='; 
-  if(product_ndc && product_ndc.length >0){
-      var product_ndc_string = '(openfda.product_ndc:';
-      for(var i in product_ndc){
-        if(i>0){
-          product_ndc_string = product_ndc_string+'+"'+product_ndc[i]+'"';
-        }else{
-          product_ndc_string = product_ndc_string+'"'+product_ndc[i]+'"';
-        }        
-      }
-      product_ndc_string = product_ndc_string + ')';
-      fdaEnforcementURL = fdaEnforcementURL + product_ndc_string;
-      logger.debug('fdaEnforcementURL:: '+ fdaEnforcementURL);
-      request(fdaEnforcementURL, function (error, response, body) {
-        var recalled = false;
-        if(error){
-          logger.debug('Error happened when connecting to FDA drug enforcement API'); 
-        }else if (!error && response.statusCode == 200){
-          var responseOBJ = JSON.parse(body);
-          var results = responseOBJ.results;
-          logger.debug('results.length:'+results.length); 
-          if(results.length != 0){
-            recalled =  true;
-          }
-        }
-        return recalled;
-      });
-  }else{
-      return false; 
-    }
-};
+
 
 Drug.getDrugDetails = function(q, typ, cb){
    var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=generic_name:'+q; 

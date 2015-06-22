@@ -17,7 +17,7 @@ describe('Test Utils Fucntions', function(){
 	 describe('Test getSearchQuery', function(){
 	 	it('should return FDA REST API URL for search term', function(done){
 	 		var result = utils.getSearchQuery('Tyl');
-	 	    result.should.match('https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:[Tyl+TO+Tym]+OR+openfda.generic_name:[Tyl+TO+Tym]&limit=10');
+	 	    result.should.match('https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:[Tyl+TO+Tym]+OR+openfda.generic_name:[Tyl+TO+Tym]&limit=25');
 
 	 	    done();
 
