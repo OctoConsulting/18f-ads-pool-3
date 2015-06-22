@@ -19,7 +19,7 @@
         // Declare any global configurations
         .config( function initRoutes ($urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider) {
             $urlRouterProvider.otherwise( '/' );
-             RestangularProvider.setBaseUrl(location.protocol + '//' + location.hostname + (location.port && ':' + location.port) + '/api');
+             RestangularProvider.setBaseUrl('/api');
             $provide.decorator('$uiViewScroll', function ($delegate, $stateParams, $location, $document) {
                 return function (uiViewElement) {
                     $document.scrollTop(0, 0);

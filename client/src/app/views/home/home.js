@@ -1,7 +1,7 @@
 (function(){
-	'use strict';
+    'use strict';
 
-	angular.module('app')
+    angular.module('app')
 
         // Configuration section for the home page
         .config( function initRoutes( $stateProvider ) {
@@ -36,10 +36,9 @@
             $scope.getSuggestions = function(val) {
                 return Restangular.one('drugs').customGET('suggestions',{'q':val})
                 .then(function(data) {
-                    var res = data.result.map(function(item){
+                    return data.result.map(function(item){
                         return item;
                     });
-                    return res;
                 }, function() {
                     
                 });
