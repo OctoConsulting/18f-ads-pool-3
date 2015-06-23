@@ -1,4 +1,4 @@
-var toString = module.exports.getToString = function (str) {
+var toStr = module.exports.getToString = function (str) {
     if(!str) return null;
     var lastChar = str.charCodeAt(str.length-1);
 
@@ -10,9 +10,22 @@ var toString = module.exports.getToString = function (str) {
 
 
 module.exports.getSearchQuery = function (str) {
-   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=openfda.brand_name:';
-   var range = '[' + str + '+TO+' + toString(str) + ']';
-   result = result + range + '+OR+openfda.generic_name:' + range +'&limit=25';
+   var res = str.split(' ');	
+   var range = '(';
+
+   for(var i=0; i < res.length; i++) {
+     if(i > 0) range = range + '+AND+'; //Joining Terms by AND
+     if(i === (res.length-1)) { //Last token should be range
+     	range = range + 'openfda.brand_name:[' + res[i] + '+TO+' + toStr(res[i]) + '])';
+     } else {
+     	range = range + 'openfda.brand_name:' + res[i]; //Else append exact term
+     }
+   }
+
+   var genericRange = range.replace(/brand_name/g, 'generic_name');
+   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=';
+   //var range = '[' + str + '+TO+' + toStr(str) + ']';
+   result = result + range + '+OR+' + genericRange +'&limit=25';
 
    return result;
 };
