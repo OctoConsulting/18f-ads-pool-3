@@ -55,7 +55,7 @@ Drug.findSuggestions = function(q, cb){
                var genericNames = drugItem.openfda.generic_name;
                 for(var k in genericNames){
                  var genericName = genericNames[k];
-                genericName = genericName.toUpperCase();
+                 genericName = genericName.toUpperCase();
                  //logger.debug('genericName:::'+genericName);
                  if(genericName.indexOf(q) > -1 && drugNames.indexOf(brandNames[j]+'-generic') == -1){
                   var drugSuggestion = {};
@@ -77,9 +77,9 @@ Drug.findSuggestions = function(q, cb){
 
 
 Drug.getDrugDetails = function(q, typ, cb){
-   var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=generic_name:'+q; 
+   var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=generic_name:"'+q+'"'; 
    if(typ == 'brand')
-      fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=brand_name:'+q;
+      fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=brand_name:"'+q+'"';
 
    logger.debug('fdaLabelURL:: '+ fdaLabelURL);
    request(fdaLabelURL, function (error, response, body) {
