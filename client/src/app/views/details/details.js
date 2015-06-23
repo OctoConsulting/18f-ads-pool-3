@@ -5,7 +5,7 @@
         .config( function initRoutes( $stateProvider ) {
             $stateProvider
             .state( 'details', {
-                url: '/details/:detailId',
+                url: '/details/:typ/:name',
                 views: {
                     "menu": {
                         templateUrl: 'views/menu/menu.tpl.html'
@@ -21,7 +21,7 @@
                 data:{ pageTitle: 'Octo | 18F' },
                 resolve: {
                     detailsData: function(Restangular, $stateParams) {
-                        return Restangular.one('drugs').customGET('details',{'q':$stateParams.detailId});
+                        return Restangular.one('drugs').customGET('details',{'q':$stateParams.name,'typ':$stateParams.typ});
                     }
                 }
             })
