@@ -1,17 +1,20 @@
 <header class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <img alt="MedCheck Logo" src="assets/images/logo_proposal_medcheck_banner.png" class="img-responsive"/>
+        <div class="col-sm-4">
+            <img class="img-responsive" src="assets/images/logo_proposal_medcheck_banner.png" alt="MedCheck Logo">
         </div>
-        <div class="col-md-6 col-md-offset-3">
+    </div>
+    <div class="row">
+        <div class="col-md-8">
             <form ng-submit="search();">
-                <div class="input-group input-group-lg autocomplete">
-                    <input ng-disabled="loginLoading" autofocus type="text" ng-model="query" placeholder="Search Medications" typeahead-min-length="3" typeahead-wait-ms="250" typeahead="item as item.name for item in getSuggestions($viewValue)" typeahead-loading="loadingDrugs" typeahead-on-select='onSelect($item, $model, $label)' class="form-control">
+                <div class="input-group autocomplete">
+                    <input ng-disabled="loginLoading" autofocus type="text" ng-model="query" placeholder="" typeahead-min-length="3" typeahead-wait-ms="250" typeahead="item as item.name for item in getSuggestions($viewValue)" typeahead-loading="loadingDrugs" typeahead-on-select='onSelect($item, $model, $label)' class="form-control">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="button" ng-click="search();" ladda="loginLoading"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
                 </div><!-- /input-group -->
             </form>
-       </div>
+        </div>
     </div>
+    
 </header>
