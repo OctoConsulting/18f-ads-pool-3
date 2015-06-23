@@ -1,9 +1,9 @@
 <article class="container">
   <header class="row">
     <div class="col-md-8">
-          <h1>Brand Name</h1>
-          <h5>Type of Medicine</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis. Pellentesque placerat libero vitae sagittis semper. Phasellus ut ipsum a metus condimentum tincidunt vel at justo. In auctor blandit cursus. In sagittis sodales mauris non cursus.</p>
+          <h1>{{details.drug.brand_name[0] | uppercase}}</h1>
+          <h5>{{details.drug.generic_name[0]}}</h5>
+          <p>{{details.drug.purpose[0]}}</p>
       </div>
       <div class="col-md-4">
         <nav class="col-lg-12">

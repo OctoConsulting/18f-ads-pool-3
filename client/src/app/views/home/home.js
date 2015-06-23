@@ -29,7 +29,7 @@
         function HomeController($scope, Restangular, $state) {
 
             $scope.search = function () {
-                $state.go('details', {detailId: $scope.query.id});
+                $state.go('details', {typ: $scope.query.indicator, name: $scope.query.name});
             };
 
             // Function to get suggestions from the users search 
