@@ -1,6 +1,6 @@
 {
   "name": "Recall",
-  "plural": "Recalls",
+  "plural": "recalls",
   "base": "Model",
   "idInjection": true,
   "options": {
