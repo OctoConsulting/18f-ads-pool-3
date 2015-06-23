@@ -57,9 +57,9 @@ Drug.findSuggestions = function(q, cb){
                  var genericName = genericNames[k];
                  genericName = genericName.toUpperCase();
                  //logger.debug('genericName:::'+genericName);
-                 if(genericName.indexOf(q) > -1 && drugNames.indexOf(brandNames[j]+'-generic') == -1){
+                 if(genericName.indexOf(q) > -1 && drugNames.indexOf(genericNames[k]+'-generic') == -1){
                   var drugSuggestion = {};
-                  drugSuggestion.name =  brandNames[j];
+                  drugSuggestion.name =  genericNames[k];
                   drugNames.push(drugSuggestion.name+'-generic');
                   drugSuggestion.indicator = "generic";
                   drugSuggestions.push(drugSuggestion);
