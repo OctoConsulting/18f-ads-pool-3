@@ -56,19 +56,51 @@ Event.fetchEvents = function(q, typ, skip, limit, cb){
 	          	var date = results[i].receivedate;
 	          	eventModel.receivedate = date.substring(0,4)+'-'+date.substring(4,6)+'-'+date.substring(6,8);
 	          }
-	          
 	          //Event serious information
-	          eventModel.serious = results[i].serious;
-	          eventModel.seriousnessdisabling = results[i].seriousnessdisabling;
-	          eventModel.seriousnessother = results[i].seriousnessother;
-	          eventModel.seriousnesshospitalization = results[i].seriousnesshospitalization;
-	          eventModel.seriousnesscongenitalanomali = results[i].seriousnesscongenitalanomali;
-	          eventModel.seriousnessdeath = results[i].seriousnessdeath;
-	          eventModel.seriousnesslifethreatening = results[i].seriousnesslifethreatening;
+	          eventModel.serious = [];
+
+	          if(results[i].serious){
+	          	if(results[i].serious == '1'){
+	          		eventModel.serious.push('This was a serous event.');
+	          	}else{
+	          		eventModel.serious.push('This was a non-serous event.');
+	          	}
+	          }
+	          if(results[i].seriousnessdisabling && results[i].seriousnessdisabling == '1'){
+	          	eventModel.serious.push('This event caused the disability of a patient.');
+	          }
+	          if(results[i].seriousnessother && results[i].seriousnessother == '1'){
+	          	eventModel.serious.push('This event has an unknown level of seriousness.');
+	          }
+	          if(results[i].seriousnesshospitalization && results[i].seriousnesshospitalization == '1'){
+	          	eventModel.serious.push('This event caused patient hospitalization.');
+	          }
+	          if(results[i].seriousnesscongenitalanomali && results[i].seriousnesscongenitalanomali == '1'){
+	          	eventModel.serious.push('This event caused a congenital defect to the patient.');
+	          }
+	          if(results[i].seriousnessdeath && results[i].seriousnessdeath == '1'){
+	          	eventModel.serious.push('This event ended in the death of a patient.');
+	          }
+	          if(results[i].seriousnesslifethreatening && results[i].seriousnesslifethreatening == '1'){
+	          	eventModel.serious.push('This event was life threatening to the patient.');
+	          }
 	          //Setting the patient information
 	          if(results[i].patient){
 	          	  eventModel.patient = {};
-		          eventModel.patient.reaction = results[i].patient.reaction;
+		          //Constructing reaction string
+		          if(results[i].patient.reaction){
+		          	var reactionString = '';
+		          	for(var j in results[i].patient.reaction){
+		          		if(results[i].patient.reaction[j].reactionmeddrapt){
+		          			if( j == 0){
+		          				reactionString = results[i].patient.reaction[j].reactionmeddrapt;
+		          			}else{
+		          				reactionString = reactionString + ',' + results[i].patient.reaction[j].reactionmeddrapt;
+		          			}		          			
+		          		}			          			          		
+		          	}
+		          	eventModel.patient.reaction = reactionString;
+		          }
 		          if(results[i].patient.patientonsetage && !isNaN(results[i].patient.patientonsetage)){
 		          	eventModel.patient.age = parseInt(results[i].patient.patientonsetage);
 		          }		          
