@@ -10,9 +10,9 @@ module.exports = function(Recall) {
 Recall.getRecallDetails = function(q, typ, limit, skip, cb){
    var fdaRecallURL = 'https://api.fda.gov/drug/enforcement.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=';
    if(typ === 'generic')
-  	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name:"'+ q +'"' ;
+  	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name.exact:"'+ q +'"' ;
    if(typ === 'brand')
-     fdaRecallURL =  fdaRecallURL + 'openfda.brand_name:"'+ q +'"' ;
+     fdaRecallURL =  fdaRecallURL + 'openfda.brand_name.exact:"'+ q +'"' ;
 
      var lim = parseInt(limit);
      if(!isNaN(lim)) { 
