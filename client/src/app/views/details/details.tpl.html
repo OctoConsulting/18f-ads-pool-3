@@ -11,10 +11,10 @@
         <nav class="col-lg-12">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                   <li class="active">
-                      <a class="text-uppercase" href="#recalls" aria-controls="recalls" role="tab" data-toggle="tab">Recalls <span class="badge">24</span></a>
+                      <a ng-click="tabState='recalls'" class="text-uppercase" aria-controls="recalls" role="tab">Recalls <span class="badge">{{recalls.response.count | number}}</span></a>
                   </li>
                   <li>
-                      <a class="text-uppercase" href="#events" aria-controls="events" role="tab" data-toggle="tab">Adverse Events <span class="badge">1</span></a>
+                      <a ng-click="tabState='events'" class="text-uppercase" aria-controls="events" role="tab">Adverse Events <span class="badge">{{events.response.count | number}}</span></a>
                   </li>
               </ul>
           </nav>
@@ -24,18 +24,19 @@
     
       <!-- Tab panes -->
     <div class="tab-content col-md-12">
-          <section id="recalls" role="tabpanel" class="tab-pane active item-listing">
+          <section ng-class="{ 'active': tabState=='recalls' }" role="tabpanel" class="tab-pane item-listing">
               <header>
-                  <h3>24 Total Recalls</h3>
+                  <h3>{{recalls.response.count | number}} Total Recalls</h3>
               </header>
-              <article>
+
+              <article ng-repeat="item in recalls.response.recalls">
                   <header class="row">
                     <div class="col-xs-3 col-sm-1 col-md-1">
                       <img alt="image" class="img-circle img-responsive" src="http://placehold.it/100x100">
                       </div>
                       <div class="col-xs-8 col-sm-11 col-md-11">
-                        <a data-toggle="collapse" href="#recallNumber001" aria-expanded="false" aria-controls="recallNumber001" ><strong>Recall Number</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis...</a>
-                      <small class="text-muted clearfix">June 18th, 2015</small>
+                        <a data-toggle="collapse" href="#recallNumber001" aria-expanded="false" aria-controls="recallNumber001" ><strong>{{item.recall_number}}</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis...</a>
+                      <small class="text-muted clearfix">{{item.recall_initiation_date | amDateFormat:'MMMM Do, YYYY' }}</small>
                       </div>
                   </header>
                   <section id="recallNumber001" class="collapse row">  
@@ -63,81 +64,7 @@
                               <li><a class="btn btn-primary" href="#">Share</a></li>
                           </ul>
                       </nav>
-                </section>    
-              </article>
-              <article>
-                  <header class="row">
-                    <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" src="http://placehold.it/100x100">
-                      </div>
-                      <div class="col-xs-8 col-sm-11 col-md-11">
-                        <a data-toggle="collapse" href="#recallNumber002" aria-expanded="false" aria-controls="recallNumber002" ><strong>Recall Number</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis...</a>
-                      <small class="text-muted clearfix">June 18th, 2015</small>
-                      </div>
-                  </header>
-                  <section id="recallNumber002" class="collapse row">  
-                    <div class="col-md-11 col-md-offset-1">
-                          <dl>
-                            <dt>Recall Number</dt>
-                            <dd>...</dd>
-                            <dt>Recall Initiation Date</dt>
-                            <dd>...</dd>
-                            <dt>Reason for Recall</dt>
-                            <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis. Pellentesque placerat libero vitae sagittis semper.</dd>
-                            <dt>Distribution Pattern</dt>
-                            <dd>...</dd>
-                            <dt>Recalling Firm Name</dt>
-                            <dd>...</dd>
-                            <dt>Quantity</dt>
-                            <dd>...</dd>
-                            <dt>Product Description</dt>
-                            <dd>...</dd>
-                          </dl>
-                      </div>
-                      <nav class="pull-right">
-                          <ul class="nav navbar-nav">
-                              <li><a class="btn btn-default" data-toggle="collapse" href="#recallNumber002" aria-expanded="false" aria-controls="recallNumber002"  role="button">Collapse</a></li>
-                              <li><a class="btn btn-primary" href="#">Share</a></li>
-                          </ul>
-                      </nav>
-                </section>    
-              </article>
-              <article>
-                  <header class="row">
-                    <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" src="http://placehold.it/100x100">
-                      </div>
-                      <div class="col-xs-8 col-sm-11 col-md-11">
-                        <a data-toggle="collapse" href="#recallNumber003" aria-expanded="false" aria-controls="recallNumber003" ><strong>Recall Number</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis...</a>
-                      <small class="text-muted clearfix">June 18th, 2015</small>
-                      </div>
-                  </header>
-                  <section id="recallNumber003" class="collapse row">  
-                    <div class="col-md-11 col-md-offset-1">
-                          <dl>
-                            <dt>Recall Number</dt>
-                            <dd>...</dd>
-                            <dt>Recall Initiation Date</dt>
-                            <dd>...</dd>
-                            <dt>Reason for Recall</dt>
-                            <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eros eu purus dapibus iaculis. Pellentesque placerat libero vitae sagittis semper.</dd>
-                            <dt>Distribution Pattern</dt>
-                            <dd>...</dd>
-                            <dt>Recalling Firm Name</dt>
-                            <dd>...</dd>
-                            <dt>Quantity</dt>
-                            <dd>...</dd>
-                            <dt>Product Description</dt>
-                            <dd>...</dd>
-                          </dl>
-                      </div>
-                      <nav class="pull-right">
-                          <ul class="nav navbar-nav">
-                              <li><a class="btn btn-default" data-toggle="collapse" href="#recallNumber003" aria-expanded="false" aria-controls="recallNumber003"  role="button">Collapse</a></li>
-                              <li><a class="btn btn-primary" href="#">Share</a></li>
-                          </ul>
-                      </nav>
-                </section>    
+                  </section>    
               </article>
               <footer>
                   <nav>
@@ -161,9 +88,9 @@
                   </nav>
               </footer>
           </section>
-          <section id="events" role="tabpanel" class="tab-pane item-listing">
+          <section ng-class="{ 'active': tabState=='events' }" role="tabpanel" class="tab-pane item-listing">
               <header>
-                  <h3>4 Adverse Events</h3>
+                  <h3>{{events.response.count | number}} Adverse Events</h3>
               </header>
               <article>
                 <header class="row">
