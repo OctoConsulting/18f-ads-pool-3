@@ -18,7 +18,7 @@ describe( 'Home', function() {
   beforeEach( inject( function( $controller, _$location_, $rootScope,_$httpBackend_ ) {
       scope = $rootScope.$new();
       $httpBackend = _$httpBackend_;
-      DetailsCtrl = $controller( 'DetailsController', { $scope: scope, detailsData: detailsData });
+      DetailsCtrl = $controller( 'DetailsController', { $scope: scope, detailsData: detailsData, eventsData:{}, recallsData:{} });
    }));
 
   it( 'should return drug details', inject( function() {

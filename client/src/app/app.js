@@ -15,7 +15,8 @@
             'angular-ladda',
             'stpa.morris',
             'angular-growl',
-            'highcharts-ng'
+            'highcharts-ng',
+            'angularMoment'
         ])
 
         // Declare any global configurations
