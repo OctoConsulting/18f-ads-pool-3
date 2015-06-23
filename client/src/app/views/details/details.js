@@ -25,10 +25,10 @@
                         return Restangular.one('drugs').customGET('details',{'q':$stateParams.name,'typ':$stateParams.typ});
                     },
                     eventsData: function(Restangular, $stateParams) {
-                        return Restangular.one('events').customGET('',{'q':$stateParams.name,'typ':$stateParams.typ,'limit':5,'skip':0});
+                        return Restangular.one('events').customGET('',{'q':$stateParams.name.toUpperCase(),'typ':$stateParams.typ,'limit':5,'skip':0});
                     },
                     recallsData: function(Restangular, $stateParams) {
-                        return Restangular.one('recalls').customGET('',{'q':$stateParams.name,'typ':$stateParams.typ,'limit':5,'skip':0});
+                        return Restangular.one('recalls').customGET('',{'q':$stateParams.name.toUpperCase(),'typ':$stateParams.typ,'limit':5,'skip':0});
                     }
                 }
             })
