@@ -1,6 +1,6 @@
 {
   "name": "Event",
-  "plural": "Events",
+  "plural": "events",
   "base": "Model",
   "idInjection": true,
   "options": {
