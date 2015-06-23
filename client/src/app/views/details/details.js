@@ -29,8 +29,10 @@
         })
         .controller( 'DetailsController', DetailsController);
 
-        function DetailsController($scope, Restangular, $state, detailsData) {
+        function DetailsController($scope, Restangular, $state, detailsData, $stateParams) {
             $scope.details = detailsData;
+            $scope.indicator = $stateParams.typ;
+            $scope.name = $stateParams.name;
         }
 })();
 
