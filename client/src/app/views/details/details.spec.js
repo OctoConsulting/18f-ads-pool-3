@@ -24,7 +24,7 @@ describe( 'Home', function() {
   it( 'should return drug details', inject( function() {
    
     // Check if the details is in the correct format
-     expect(scope.details.drug.substance_name[0]).toEqual("ACETAMINOPHEN"); 
+     expect(scope.details.drug.generic_name[0]).toEqual("ACETAMINOPHEN"); 
    
 
   }));
@@ -32,7 +32,7 @@ describe( 'Home', function() {
    it( 'should not equal the drug name', inject( function() {
    
     // Check if the details is in the correct format
-     expect(scope.details.drug.substance_name[0]).not.toEqual("ACETAMI"); 
+     expect(scope.details.drug.generic_name[0]).not.toEqual("ACETAMI"); 
    
 
   }));
