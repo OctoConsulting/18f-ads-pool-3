@@ -37,13 +37,13 @@ app.get('remoting').errorHandler = {
   handler: function(err, req, res, defaultHandler) {
   	err = app.buildError(err);
     var ret = {};
-    ret.message = 'Unexpected Error occured on server when processing request!';
+    ret.message = 'Sever Internal Error : ' + err.message;
     ret.status = err.statusCode;
     app.log4js.getLogger('app').error('Sever Internal Error : ' + err.message);
     res.status(err.statusCode).json(ret);
 
-    // send the error back to the original handlero
-    defaultHandler(err);
+    // End here no need to use Default Error Handler
+
   },
   disableStackTrace: true
 }
