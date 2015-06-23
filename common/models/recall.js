@@ -46,7 +46,10 @@ Recall.getRecallDetails = function(q, typ, limit, skip, cb){
 	          //Set Recall details
 	          var recallDetails = {};
 	          recallDetails.recall_number = results[i].recall_number;
-	          recallDetails.recall_initiation_date = results[i].recall_initiation_date;
+            if(results[i].recall_initiation_date){
+              var date = results[i].recall_initiation_date;
+              recallDetails.recall_initiation_date = date.substring(0,4)+'-'+date.substring(4,6)+'-'+date.substring(6,8);
+            }	          
 	          recallDetails.reason_for_recall = results[i].reason_for_recall;
 	          recallDetails.distribution_pattern = results[i].distribution_pattern;
 	          recallDetails.recalling_firm = results[i].recalling_firm;

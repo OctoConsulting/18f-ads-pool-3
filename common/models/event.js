@@ -52,7 +52,11 @@ Event.fetchEvents = function(q, typ, skip, limit, cb){
 	          var eventModel = {};
 	          //Setting event information
 	          eventModel.safetyreportid = results[i].safetyreportid;
-	          eventModel.receivedate = results[i].receivedate;
+	          if(results[i].receivedate){
+	          	var date = results[i].receivedate;
+	          	eventModel.receivedate = date.substring(0,4)+'-'+date.substring(4,6)+'-'+date.substring(6,8);
+	          }
+	          
 	          //Event serious information
 	          eventModel.serious = results[i].serious;
 	          eventModel.seriousnessdisabling = results[i].seriousnessdisabling;
