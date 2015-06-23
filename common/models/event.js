@@ -20,9 +20,9 @@ Event.fetchEvents = function(q, typ, skip, limit, cb){
    var apiKey = "yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi";
    var fdaEventURL = fdaEventRestAPI + 'api_key='+ apiKey; 
    if(typ == 'brand'){   	
-      	fdaEventURL = fdaEventURL + '&search=brand_name:"'+ q +'"'; 
+      	fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
    }else if(typ == 'generic'){
-   		fdaEventURL = fdaEventURL + '&search=generic_name:"'+ q +'"'; 
+   		fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
    }
    //Adding limit param
    if(limit){
