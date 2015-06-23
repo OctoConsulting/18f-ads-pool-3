@@ -3,27 +3,11 @@
 
     angular.module('app')
 
-        // Configuration section for the home page
-        .config( function initRoutes( $stateProvider ) {
-            $stateProvider
-            .state( 'home', {
-                url: '/',
-                views: {
-                    "main": {
-                        controller: 'HomeController',
-                        templateUrl: 'views/home/home.tpl.html'
-                    },
-                    "footer": {
-                        templateUrl: 'views/footer/footer.tpl.html'
-                    }
-                }
-            })
-            ;
-        })
-        .controller( 'HomeController', HomeController);
+
+        .controller( 'MenuController', MenuController);
 
         // Home controller
-        function HomeController($scope, Restangular, $state) {
+        function MenuController($scope, Restangular, $state) {
 
             $scope.search = function () {
                 $state.go('details', {typ: $scope.query.indicator, name: $scope.query.name});
@@ -46,9 +30,6 @@
                     
                 });
             };
-
-
-
         }
 })();
 
