@@ -55,6 +55,14 @@
           </div>
         </nav>
     </header>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="chart-height donut-chart" donut-chart donut-data='charts.events.reactions'></div>      
+      </div>
+      <div class="col-md-6">
+        <div class="chart-height donut-chart" donut-chart donut-data='charts.events.outcomes'></div>      
+      </div>      
+    </div>
     <article ng-repeat="item in events.response.events">
       <header class="row">
           <div class="col-xs-3 col-sm-1 col-md-1">

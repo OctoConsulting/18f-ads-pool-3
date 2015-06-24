@@ -12,21 +12,33 @@
                         templateUrl: 'views/details/tabs/events/events.tpl.html'
                     }
                 },
-                data:{ pageTitle: 'Octo | 18F' }
+                data:{ pageTitle: 'Octo | 18F' },
+                resolve: {
+                    eventReactionChartData: function(Restangular, $stateParams) {
+                        return Restangular.one('events').customGET('reactions',{'q':$stateParams.name,'typ':$stateParams.typ});
+                    },
+                    eventOutcomesChartData: function(Restangular, $stateParams) {
+                        return Restangular.one('events').customGET('reactionOutComes',{'q':$stateParams.name,'typ':$stateParams.typ});
+                    }                    
+                }
             })
             ;
         })
         .controller( 'DetailsEventsController', DetailsEventsController);
 
-        function DetailsEventsController($log, $scope, Restangular, $state, detailsData, $stateParams, eventsData, recallsData, referenceData) {
+        function DetailsEventsController($log, $scope, Restangular, $state, detailsData, $stateParams, eventsData, recallsData, referenceData, eventReactionChartData, eventOutcomesChartData) {
             $scope.references = referenceData.response;
             $scope.details = detailsData;
             $scope.indicator = $stateParams.typ;
             $scope.name = $stateParams.name;
             $scope.events = eventsData;
             $scope.events.filters = {};
-
+            $scope.charts = {};
+            $scope.charts.events = {};
+            $scope.charts.events.reactions = eventReactionChartData.result;
+            $scope.charts.events.outcomes = eventOutcomesChartData.results;
             
+
             $scope.maxPerPage = 5;
 
             $scope.events.currentPage = 1;
@@ -147,6 +159,7 @@
                 }
                 $scope.updateEvents();
             }; 
+
             
         }
 })();
