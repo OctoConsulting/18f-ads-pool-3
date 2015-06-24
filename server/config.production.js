@@ -1,7 +1,7 @@
 module.exports = {
   restApiRoot: "/api",
-  host: process.env.CUSTOM_HOST,
-  port: process.env.CUSTOM_PORT,
+  host: (process.env.CUSTOM_HOST || "0.0.0.0"),
+  port: (process.env.CUSTOM_PORT || 3000),
   remoting :  {
     "context": {
       "enableHttpContext": false
