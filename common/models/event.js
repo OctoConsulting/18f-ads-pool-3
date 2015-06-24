@@ -294,4 +294,74 @@ Event.remoteMethod(
       http: {path: '/', verb: 'get'}
     }
   );
+
+
+Event.remoteMethod(
+    'getReactions',
+    {
+      description: 'Fetch Top 5 reactions with count of each reaction each',
+      accepts: [{arg: 'q', type: 'string', required: true},
+                {arg: 'typ', type: 'string', required: true}],
+      returns: {arg: 'result', type: 'array'},
+      http: {path: '/reactions', verb: 'get'}
+    }
+  );
+
+validateReactionsParams = function(q, typ, cb){
+   if(typ != 'brand' && typ != 'generic'){    
+      error = new Error();
+      error.statusCode = 400;
+      error.message = messages.ERROR_TYP_VALIDATION;
+      return cb(error); 
+   }
+};
+
+constructReactionsURL = function(q, typ) {
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
+   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }
+   fdaEventURL = fdaEventURL + '&count=patient.reaction.reactionmeddrapt.exact';
+   return fdaEventURL;
+};
+
+Event.getReactions = function(q, typ, cb){
+  //Validating the params
+  validateReactionsParams(q, typ, cb);
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = constructReactionsURL(q, typ);
+   logger.debug('fdaEventURL:: '+ fdaEventURL);
+   //Make rest API to FDA to retrieve adverse events for the drung
+   request(fdaEventURL, function (error, response, body) {
+      processReactionsResponse(error, response, body, cb);
+   });
+};
+
+processReactionsResponse = function (error, response, body, cb) {
+    var retResults = [];
+    if(error){
+      logger.error('Error happened in retrieving the drug reactions information');
+      return cb(error); 
+    }else if (!error && response.statusCode == 200) {
+      var responseOBJ = JSON.parse(body);     
+      var results = responseOBJ.results;
+
+      if(results) {
+        if(results.length > 5) {
+          retResults = results.slice(0, 5);
+        } else {
+          retResults = results;
+        }
+      }
+    }
+    return cb(null, retResults); 
+};
+
 };
