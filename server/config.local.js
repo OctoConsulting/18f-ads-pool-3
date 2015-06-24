@@ -23,5 +23,9 @@ module.exports = {
       "disableStackTrace": false
     }
   },
-  legacyExplorer: false
+  legacyExplorer: false,
+  fdaApiKey: 'yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi',
+  fdaDrugEventApi: 'https://api.fda.gov/drug/event.json?',
+  fdaDrugLabelApi: 'https://api.fda.gov/drug/label.json?',
+  fdaDrugEnforcementApi: 'https://api.fda.gov/drug/enforcement.json?'
 };

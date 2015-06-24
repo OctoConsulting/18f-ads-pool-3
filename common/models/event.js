@@ -118,8 +118,8 @@ processFetchEventsResponse = function (error, response, body, cb) {
 */
 Event.fetchEvents = function(q, typ, skip, limit, cb){
    //Constructing the URL to fetch adverse events
-   var fdaEventRestAPI = "https://api.fda.gov/drug/event.json?";
-   var apiKey = "yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi";
+   var fdaEventRestAPI = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");;
    var fdaEventURL = fdaEventRestAPI + 'api_key='+ apiKey; 
    //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
    q = q.toUpperCase();
