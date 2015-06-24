@@ -1,7 +1,6 @@
 <article class="container">
   <header class="row">
     <div class="col-md-8">
-
         <div class="page-title">
           <h1 ng-if="indicator=='brand'">{{details.drug.brand_name[0] | uppercase}}</h1>
           <h1 ng-if="indicator=='generic'">{{details.drug.generic_name[0] | uppercase}}</h1>
@@ -14,205 +13,19 @@
       <nav class="col-lg-12">
             <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="active">
-                    <a ng-click="tabState='recalls'" class="text-uppercase" aria-controls="recalls" role="tab">Recalls <span class="badge">{{recalls.response.count | number}}</span></a>
+                    <a ui-sref=".recalls" class="text-uppercase" aria-controls="recalls" role="tab">Recalls <span class="badge">{{recalls.response.count | number}}</span></a>
                 </li>
                 <li>
-                    <a ng-click="tabState='events'" class="text-uppercase" aria-controls="events" role="tab">Adverse Events <span class="badge">{{events.response.count | number}}</span></a>
+                    <a ui-sref=".events" class="text-uppercase" aria-controls="events" role="tab">Adverse Events <span class="badge">{{events.response.count | number}}</span></a>
                 </li>
             </ul>
         </nav>
     </div>
   </header>
   <section class="row">
-    
       <!-- Tab panes -->
     <div class="tab-content col-md-12">
-          <section ng-class="{ 'active': tabState=='recalls' }" role="tabpanel" class="tab-pane item-listing">
-              <header>
-                  <h3>{{recalls.response.count | number}} Total Recalls</h3>
-                  <nav class="navbar">
-                    <div class="container-fluid increase-both">
-                      <ul class="nav navbar-nav">
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span ng-if="!recalls.filters.reason">Reason</span> <span ng-if="recalls.filters.reason"> {{recalls.filters.reason.val}} </span> <span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateReasons();">View all reasons</a></li>
-                              <li ng-repeat="reasonItem in references.reasons">
-                                <a ng-click="updateReasons(reasonItem);">{{reasonItem.val}}</a>
-                              </li>
-                            </ul>
-                        </li>                      
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span ng-if="!recalls.filters.time">Time Frame</span> <span ng-if="recalls.filters.time && !recalls.filters.time.minDt">Past {{recalls.filters.time.maxDt}} years</span><span ng-if="recalls.filters.time &&!recalls.filters.time.maxDt">Over {{recalls.filters.time.minDt}} years</span><span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateRecallTimeframe();">All time frames</a></li>
-                              <li ng-repeat="timeItem in references.timeline">
-                                <a ng-if="!timeItem.minDt" ng-click="updateRecallTimeframe(timeItem);">Past {{timeItem.maxDt}} years</a>
-                                <a ng-if="!timeItem.maxDt" ng-click="updateRecallTimeframe(timeItem);">Over {{timeItem.minDt}} years</a>
-                              </li>
-                            </ul>
-                        </li>                                                                 
-                      </ul>
-                    </div>
-                  </nav>
-              </header>
-
-              <article ng-repeat="item in recalls.response.recalls">
-                  <header class="row" >
-                    <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" ng-src="{{getRelevantImage(item.recall_initiation_date)}}">
-                      </div>
-                      <div class="col-xs-8 col-sm-11 col-md-11">
-                        <a ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="recallNumber001" ><strong>{{item.recall_number}}</strong> {{item.reason_for_recall}}</a>
-                      <small class="text-muted clearfix">{{item.recall_initiation_date | amDateFormat:'MMMM Do, YYYY' }}</small>
-                      </div>
-                  </header>
-                  <section id="recallNumber001" class="collapse row" collapse="!item.collapsed">  
-                    <div class="col-md-11 col-md-offset-1">
-                          <dl>
-                            <dt>Recall Number</dt>
-                            <dd>{{item.recall_number}}<dd>
-                            <dt>Recall Initiation Date</dt>
-                            <dd>{{item.recall_initiation_date | amDateFormat:'MMMM Do, YYYY' }}</dd>
-                            <dt>Reason for Recall</dt>
-                            <dd>{{item.reason_for_recall}}</dd>
-                            <dt>Distribution Pattern</dt>
-                            <dd>{{item.distribution_pattern}}</dd>
-                            <dt>Recalling Firm Name</dt>
-                            <dd>{{item.recalling_firm}}</dd>
-                            <dt>Quantity</dt>
-                            <dd>{{item.product_quantity}}</dd>
-                            <dt>Product Description</dt>
-                            <dd>{{item.product_description}}</dd>
-                          </dl>
-                      </div>
-                      <nav class="pull-right">
-                          <ul class="nav navbar-nav">
-                              <li><a class="btn btn-default" ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="recallNumber001"  role="button">Collapse</a></li>
-                              <!--<li><a class="btn btn-primary" href="#">Share</a></li>-->
-                          </ul>
-                      </nav>
-                  </section>    
-              </article>
-              <footer>
-                  <nav ng-class="{ 'disabled': recalls.pageChangeAction }">
-                    <pagination items-per-page="maxPerPage" total-items="recalls.response.count" ng-model="recalls.currentPage" ng-change="recallsPageChanged()" max-size="recalls.maxPages" class="pagination-sm" boundary-links="true" rotate="false" num-pages="recalls.totalPages"></pagination>
-                  </nav>
-              </footer>
-          </section>
-          <section ng-class="{ 'active': tabState=='events' }" role="tabpanel" class="tab-pane item-listing">
-              <header>
-                  <h3>{{events.response.count | number}} Adverse Events</h3>
-                  <nav class="navbar">
-                    <div class="container-fluid increase-both">
-                      <ul class="nav navbar-nav">
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                              <span ng-if="!events.filters.gender">Gender</span> <span ng-if="events.filters.gender"> {{events.filters.gender.val}} </span><span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateGender();">Any Gender</a></li>
-                              <li ng-repeat="genderItem in references.gender">
-                                <a ng-click="updateGender(genderItem);">{{genderItem.val}}</a>
-                              </li>
-                            </ul>
-                        </li>
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span ng-if="!events.filters.age">Age</span> <span ng-if="events.filters.age && !events.filters.age.minAge"> Under {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && events.filters.age.minAge && events.filters.age.maxAge" > Ages {{events.filters.age.minAge}} to {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && !events.filters.age.maxAge"> {{events.filters.age.minAge}} and up </span> <span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateAge();">All ages</a></li>
-                              <li ng-repeat="ageItem in references.age">
-                                <a ng-if="!ageItem.minAge" ng-click="updateAge(ageItem);">Under {{ageItem.maxAge}}</a>
-                                <a ng-if="ageItem.minAge && ageItem.maxAge" ng-click="updateAge(ageItem);">Ages {{ageItem.minAge}} to {{ageItem.maxAge}}</a>
-                                <a ng-if="!ageItem.maxAge" ng-click="updateAge(ageItem);">{{ageItem.minAge}} and up</a>
-                              </li>
-                            </ul>
-                        </li> 
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span ng-if="!events.filters.time">Time Frame</span> <span ng-if="events.filters.time && !events.filters.time.minDt">Past {{events.filters.time.maxDt}} years</span><span ng-if="events.filters.time &&!events.filters.time.maxDt">Over {{events.filters.time.minDt}} years</span><span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateTimeframe();">All time frames</a></li>
-                              <li ng-repeat="timeItem in references.timeline">
-                                <a ng-if="!timeItem.minDt" ng-click="updateTimeframe(timeItem);">Past {{timeItem.maxDt}} years</a>
-                                <a ng-if="!timeItem.maxDt" ng-click="updateTimeframe(timeItem);">Over {{timeItem.minDt}} years</a>
-                              </li>
-                            </ul>
-                        </li>
-                        <li dropdown>
-                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span ng-if="!events.filters.severity">Severity</span> <span ng-if="events.filters.severity"> {{events.filters.severity.val}} </span> <span class="caret"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu">
-                              <li><a ng-click="updateSeverity();">View all severities</a></li>
-                              <li ng-repeat="seriousItem in references.seriousness">
-                                <a ng-click="updateSeverity(seriousItem);">{{seriousItem.val}}</a>
-                              </li>
-                            </ul>
-                        </li>                                                                 
-                      </ul>
-                    </div>
-                  </nav>
-              </header>
-              <article ng-repeat="item in events.response.events">
-                <header class="row">
-                    <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" ng-src="{{getRelevantImage(item.receivedate)}}">
-                      </div>
-                      <div class="col-xs-8 col-sm-11 col-md-11">
-                        <a ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="reportID001" ><strong>{{item.safetyreportid}}</strong> {{item.patient.reaction}}</a>
-                      <small class="text-muted clearfix">{{item.receivedate | amDateFormat:'MMMM Do, YYYY' }}</small>
-                      </div>
-                  </header>
-                  <section id="reportID001" class="collapse row" collapse="!item.collapsed">  
-                    <div class="col-md-11 col-md-offset-1">
-                          <dl>
-                            <dt>Safety Report Id</dt>
-                            <dd>{{item.safetyreportid}}</dd>
-                            <dt>Received Date</dt>
-                            <dd>{{item.receivedate | amDateFormat:'MMMM Do, YYYY' }}</dd>
-                            <dt>Seriousness</dt>
-                            <dd>
-                              <ul>
-                                <li ng-repeat='seriousItem in item.serious track by $index'>{{seriousItem}}</li>
-                              </ul>
-                            </dd>
-                            <dt>Reactions</dt>
-                            <dd>{{item.patient.reaction}}</dd>                          
-                            <dt>Patient Age</dt>
-                            <dd>{{item.patient.age}}</dd>
-                            <dt>Patient Sex</dt>
-                            <dd>{{item.patient.gender}}</dd>
-                            <dt>All Substance(s) Taken</dt>
-                            <dd>
-                              <ul>
-                                <li ng-repeat='drugItem in item.patient.drugSubstance track by $index'>{{drugItem}}</li>
-                              </ul>
-                            </dd>                            
-                          </dl>
-                      </div>
-                      <nav class="pull-right">
-                          <ul class="nav navbar-nav">
-                              <li><a class="btn btn-default" ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="reportID001"  role="button">Collapse</a></li>
-                              <!--<li><a class="btn btn-primary" href="#">Share</a></li>-->
-                          </ul>
-                      </nav>
-                   </section>
-              </article>
-
-              <footer>
-                  <nav ng-class="{ 'disabled': events.pageChangeAction }">
-                    <pagination items-per-page="maxPerPage" total-items="events.response.count" ng-model="events.currentPage" ng-change="eventsPageChanged()" max-size="events.maxPages" class="pagination-sm" boundary-links="true" rotate="false" num-pages="events.totalPages"></pagination>
-                  </nav>
-              </footer>
-          </section>
-      </div>
+      <div ui-view></div>
+    </div>
   </section>
 </article>

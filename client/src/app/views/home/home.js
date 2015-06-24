@@ -26,7 +26,7 @@
         function HomeController($scope, Restangular, $state) {
 
             $scope.search = function () {
-                $state.go('details', {typ: $scope.query.indicator, name: $scope.query.name});
+                $state.go('details.recalls', {typ: $scope.query.indicator, name: $scope.query.name});
             };
 
             // Function to get suggestions from the users search 
