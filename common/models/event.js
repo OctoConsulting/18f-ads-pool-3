@@ -107,6 +107,82 @@ processFetchEventsResponse = function (error, response, body, cb) {
    	return cb(null, responseObj); 
 };
 
+validateAndConstructfetchEventsRestUri = function(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate, cb){
+   //Constructing the URL to fetch adverse events
+   var fdaEventRestAPI = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   var fdaEventURL = fdaEventRestAPI + 'api_key='+ apiKey; 
+   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }else{
+      error = new Error();
+      error.statusCode = 400;
+      error.message = 'Typ must be either brand or generic.';
+      return cb(error); 
+   }
+  
+   //Adding filter for age
+   if(minAge && maxAge){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:['+minAge+'+TO+'+ maxAge+'])';
+   }else if(minAge){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:>=' + minAge+')';
+   }else if(maxAge){    
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:<=' + maxAge+')';
+   }
+   //Adding filter for gender
+   if(gender){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientsex:' + gender + ')';
+   }
+   //Adding filter for seriousness
+   if(seriousness){
+    fdaEventURL = fdaEventURL + '+AND+(_exists_:' + seriousness + ')';
+   }
+
+   //Replacing the date
+   if(fromDate){
+     fromDate = fromDate.replace(/-/g,"");
+   }
+   if(toDate){
+     toDate = toDate.replace(/-/g,"");
+   }
+
+   //Adding filter for received dates
+   if(fromDate && toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:['+fromDate+'+TO+'+ toDate+'])';    
+   }else if(fromDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:>=' + fromDate+')';
+   }else if(toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:<=' + toDate+')';
+   }
+   //Adding filter for limit
+   if(limit){
+      fdaEventURL = fdaEventURL + '&limit=' + limit
+   }
+   //Adding filter for skip
+   if(skip){
+      fdaEventURL = fdaEventURL + '&skip=' + skip;
+   }
+   //FDA API cannot support limit more than 100. Please try again with limit less than or equal to 100.
+   if(limit > 100){
+      error = new Error();
+      error.statusCode = 400;
+      error.message = 'Limit cannot be more than 100.';
+      return cb(error);
+   }
+   //FDA API cannot support skip more than 5000. Please try again with skip less than or equal to 5000.
+   if(skip > 5000){
+      error = new Error();
+      error.statusCode = 400;
+      error.message = 'Skip cannot be more than 5000.';
+      return cb(error);
+   }
+   return fdaEventURL;
+};
+
 /**
 	Fetches the adverse events for the given drug. This method also supports pagination.
 
@@ -117,51 +193,14 @@ processFetchEventsResponse = function (error, response, body, cb) {
 	@param {number} limit Docs from FDA API : Return up to this number of records that match the search parameter. 
 					Large numbers (above 100) could take a very long time, or crash your browser. 
 */
-Event.fetchEvents = function(q, typ, skip, limit, cb){
+Event.fetchEvents = function(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate, cb){
    //Constructing the URL to fetch adverse events
-   var fdaEventRestAPI = Event.app.get("fdaDrugEventApi");
-   var apiKey = Event.app.get("fdaApiKey");;
-   var fdaEventURL = fdaEventRestAPI + 'api_key='+ apiKey; 
-   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
-   q = q.toUpperCase();
-   if(typ == 'brand'){   	
-      	fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
-   }else if(typ == 'generic'){
-   		fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
-   }else{
-      error = new Error();
-      error.statusCode = 400;
-      error.message = 'Typ must be either brand or generic.';
-      return cb(error);	
-   }
-   //Adding limit param
-   if(limit){
-   		fdaEventURL = fdaEventURL + '&limit=' + limit
-   }
-   //Adding skip param for pagination
-   if(skip){
-   		fdaEventURL = fdaEventURL + '&skip=' + skip;
-   }
-   //FDA API cannot support limit more than 100. Please try again with limit less than or equal to 100.
-   if(limit > 100){
-   	  error = new Error();
-      error.statusCode = 400;
-      error.message = 'Limit cannot be more than 100.';
-      return cb(error);
-   }
-   //FDA API cannot support skip more than 5000. Please try again with skip less than or equal to 5000.
-   if(skip > 5000){
-   	  error = new Error();
-      error.statusCode = 400;
-      error.message = 'Skip cannot be more than 5000.';
-      return cb(error);
-   }
+   var fdaEventURL = validateAndConstructfetchEventsRestUri(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate, cb);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
    request(fdaEventURL, function (error, response, body) {
    		processFetchEventsResponse(error, response, body, cb);
    });
-
 };
 
 Event.remoteMethod(
@@ -176,7 +215,25 @@ Event.remoteMethod(
       												'FDA API does not support Skip more than 5000. So Skip cannot be more than 5000.']},
       			{arg: 'limit', type: 'number', required: true, description: [
       												'Return up to this number of records that match the search parameter.',      												
-      												'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']}
+      												'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'minAge', type: 'number', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'maxAge', type: 'number', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'gender', type: 'number', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'seriousness', type: 'string', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'fromDate', type: 'string', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']},
+            {arg: 'toDate', type: 'string', description: [
+                              'Return up to this number of records that match the search parameter.',                             
+                              'FDA API does not support Limit more than 100. So Limit cannot be more than 100.']}
       			],
       returns: {arg: 'response', type: 'object'},
       http: {path: '/', verb: 'get'}
