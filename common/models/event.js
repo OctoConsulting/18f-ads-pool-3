@@ -541,8 +541,20 @@ processReactionsResponse = function (error, response, body, cb) {
           retResults = results;
         }
       }
+
+      var finalResults = [];
+      if(retResults) {
+        for(var i=0; i < retResults.length; i++) {
+          var obj = {};
+          obj.label = retResults[i].term;
+          obj.value = retResults[i].count;
+
+          finalResults.push(obj);
+
+        }
+      }
     }
-    return cb(null, retResults); 
+    return cb(null, finalResults); 
 };
 
 };
