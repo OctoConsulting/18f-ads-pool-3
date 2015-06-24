@@ -11,15 +11,13 @@ module.exports = function(Reference) {
 	Fetches the references for filters.
 	
 */
-Reference.fetchReferences = function(cb){
-	var references = []; 
-	var reference = {};
-	reference.age = constants.ageReference ;	
-	reference.gender = constants.gender;
-	reference.seriousness =  constants.seriousness;	
-	reference.timeline = constants.timeline;
-	reference.reasons = constants.reasons;
-	references.push(reference);
+Reference.fetchReferences = function(cb){	
+	var references = {};
+	references.age = constants.ageReference ;	
+	references.gender = constants.gender;
+	references.seriousness =  constants.seriousness;	
+	references.timeline = constants.timeline;
+	references.reasons = constants.reasons;
 
 	return cb(null, references); 
 };
