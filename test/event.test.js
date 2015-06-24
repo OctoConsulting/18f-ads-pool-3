@@ -111,4 +111,19 @@ describe('Test Event Model', function(){
 
 	});
 
+	describe('Test - getReactions', function(){
+	 	it('Results exists for Reactions', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/reactions?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		var responseOBJ = res.body; 
+		 		should.exists(responseOBJ.result);
+		 	//responseOBJ.response.events.length.should.equal(1);
+		 		done();
+	 		});	
+	 	});
+
+
+	});	
 });

@@ -15,9 +15,7 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
    if(typ === 'brand')
      fdaRecallURL =  fdaRecallURL + 'openfda.brand_name.exact:"'+ q +'"' ;
 
-     logger.debug('reason:' + reason);
-     logger.debug('fromDate:' + fromDate);
-     logger.debug('toDate:' + toDate);
+
      //Append additional filters
      var filters = utils.buildFilterUrlForRecall(reason, fromDate, toDate);
      if(filters != '') {
