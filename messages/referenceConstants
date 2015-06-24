@@ -8,5 +8,15 @@ module.exports = {
 	{code:'seriousnesscongenitalanomali',val:'This event caused a congenital defect to the patient.'},
 	{code:'seriousnessdeath',val:'This event ended in the death of a patient.'},
 	{code:'seriousnesslifethreatening',val:'This event was life threatening to the patient.'}],
-	timeline:[{maxDt:3},{maxDt:6},{maxDt:10},{minDt:10}]
+	timeline:[{maxDt:3},{maxDt:6},{maxDt:10},{minDt:10}],
+	reasons:[{code:'Lack of Assurance of Sterility',val:'Lack of Assurance of Sterility'},
+	{code:'Penicillin Cross Contamination',val:'Penicillin Cross Contamination'},
+	{code:'Labeling',val:'Drug Label Issues'},
+	{code:'adverse reactions',val:'Adverse Reactions'},
+	{code:'Subpotent Drug',val:'Subpotent Drug'},
+	{code:'Contamination',val:'Contamination'},
+	{code:'Presence of Particulate Matter',val:'Presence of Particulate Matter'},
+	{code:'Tablet',val:'Tablet/Capsule issues'},
+	{code:'CGMP Deviations',val:'CGMP Deviations'},
+	{code:'Marketed without an approved NDA/ANDA',val:'Marketed without an approved NDA/ANDA'}]
 };

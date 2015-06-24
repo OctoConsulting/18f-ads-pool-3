@@ -18,6 +18,7 @@ Reference.fetchReferences = function(cb){
 	reference.gender = constants.gender;
 	reference.seriousness =  constants.seriousness;	
 	reference.timeline = constants.timeline;
+	reference.reasons = constants.reasons;
 	references.push(reference);
 
 	return cb(null, references); 
