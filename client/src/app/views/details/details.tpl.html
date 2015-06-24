@@ -190,8 +190,12 @@
                             <dd>{{item.patient.age}}</dd>
                             <dt>Patient Sex</dt>
                             <dd>{{item.patient.gender}}</dd>
-                            <dt>Substance Names(s)</dt>
-                            <dd>{{item.patient.drugSubstance[0]}}</dd>
+                            <dt>All Substance(s) Taken</dt>
+                            <dd>
+                              <ul>
+                                <li ng-repeat='drugItem in item.patient.drugSubstance track by $index'>{{drugItem}}</li>
+                              </ul>
+                            </dd>                            
                           </dl>
                       </div>
                       <nav class="pull-right">
