@@ -3,6 +3,7 @@ var request = require('request');
 var log4js = require('log4js');
 log4js.configure('server/log4js_configuration.json', {});
 var logger = log4js.getLogger('event');
+var constants = require('../../messages/constants');
 
 /**
 	This method process the response returned by fetchEvents FDA Rest API
@@ -87,11 +88,11 @@ processFetchEventsResponse = function (error, response, body, cb) {
 	          }		          
 	          if(results[i].patient.patientsex){
 	          	if(results[i].patient.patientsex == '1'){
-	          		eventModel.patient.gender = 'Male';
+	          		eventModel.patient.gender = constants.male;
 	          	}else if(results[i].patient.patientsex == '2'){
-	          		eventModel.patient.gender = 'Female';
+	          		eventModel.patient.gender = constants.female;
 	          	}else{
-	          		eventModel.patient.gender = 'Unknown';
+	          		eventModel.patient.gender = constants.unknown;
 	          	}
 	          }		          
 	          if(results[i].patient.drug 

@@ -38,5 +38,9 @@
   "Event": {
     "dataSource": null,
     "public": true
+  },
+  "Reference": {
+    "dataSource": null,
+    "public": true
   }
 }
