@@ -42,7 +42,18 @@ module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate)
 {  var result = '';
    
   if(reason) {
-    result = result + '+AND+reason_for_recall:"' + reason + ':"';
+    if(reason === 'Contamination') {
+      result = result + '+AND+(reason_for_recall:"Chemical Contamination"'+
+                        '+OR+reason_for_recall:"Impurities Degradation Products"' +
+                        '+OR+reason_for_recall:"Microbial Contamination"' +
+                        '+OR+reason_for_recall:"Presence of Foriegn Substance"' +
+                        '+OR+reason_for_recall:"Failed Impurities Degradation Specifications")';
+    } else if (reason === 'Tablet') {
+      result = result + '+AND+(reason_for_recall:"Failed Tablet Capsule Specifications"'+
+                        '+OR+reason_for_recall:"Presence of Foreign Tablets")';
+    } else {
+      result = result + '+AND+reason_for_recall:"' + reason + ':"';
+    }
   }
   if(fromDate && toDate) {
     result = result + '+AND+report_date:[' + fnDtFormat(fromDate) + '+TO+' + fnDtFormat(toDate) + ']';
