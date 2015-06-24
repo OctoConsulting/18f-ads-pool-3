@@ -32,7 +32,7 @@ module.exports.getSearchQuery = function (str) {
 
 //Return String in yyyymmdd format for date input in yyyy-mm-dd
 var fnDtFormat = module.exports.getFormattedDt = function(date) {
-  if(date instanceof String) {
+  if(date) {
     return date.replace(/-/g,"");  
   }
 };
