@@ -45,9 +45,20 @@
         })
 
         // Initiate the application
-        .controller( 'AppController', function AppController ($scope, $state, $location,  appName, appVersion) {
+        .controller( 'AppController', function AppController ($scope, $state, $location,  appName, appVersion, connections) {
             $scope.appName = appName;
             $scope.appVersion = appVersion;
+
+            $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                $scope.showLoader = 1;
+            });
+
+            $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+                 $scope.showLoader = 0;
+            });
+            $scope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+                $scope.showLoader = 0;                
+            });
         })
 
         // Declare application name and version
