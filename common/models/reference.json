@@ -1,6 +1,6 @@
 {
   "name": "Reference",
-  "plural": "reference",
+  "plural": "references",
   "base": "Model",
   "idInjection": true,
   "options": {
