@@ -40,7 +40,7 @@
         .controller( 'DetailsController', DetailsController);
 
         function DetailsController($log, $scope, Restangular, $state, detailsData, $stateParams, eventsData, recallsData, referenceData) {
-            $scope.references = referenceData.response[0];
+            $scope.references = referenceData.response;
             $scope.details = detailsData;
             $scope.indicator = $stateParams.typ;
             $scope.name = $stateParams.name;
