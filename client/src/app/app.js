@@ -66,16 +66,32 @@
         .constant('appVersion', '1.0.0')
 
         // Main Run Function
-        .run( function initApplication ($rootScope, $state, Restangular, growl) {
+        .run( function initApplication ($rootScope, $state, Restangular, growl, connections) {
 
             $rootScope.$state = $state;
+
+            Restangular.addRequestInterceptor(function(data, operation, what, url, response, deferred) {
+                if(url) {
+                    connections.addConnection();
+                    return data;
+                }
+
+            });
+
+            Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {        
+
+                if(url) {    
+                    connections.removeConnection();
+                    return data;
+                }
+            });
 
             Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
                 
                 if (response.status === 404 || response.status === 500) {
                     growl.error(response.data.message);
                 }
-
+                connections.removeConnection();
                 return true;
                 
             });
