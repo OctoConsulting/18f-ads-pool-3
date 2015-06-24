@@ -61,5 +61,8 @@ module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate)
   if(fromDate && !toDate) {
     result = result + '+AND+report_date:>=' + fnDtFormat(fromDate);
   }   
+  if(!fromDate && toDate) {
+    result = result + '+AND+report_date:<=' + fnDtFormat(toDate);
+  }   
   return result;
 };
