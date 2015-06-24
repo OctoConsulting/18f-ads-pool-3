@@ -6,6 +6,16 @@ var logger = log4js.getLogger('drug');
 
 module.exports = function(Drug) {
 
+isDrugExist = function(drugArray, drugName){
+  var result = false;
+  for(var i in drugArray){
+    if(drugName == drugArray[i].name){
+      return true;
+    }
+  }
+  return result;
+}
+
 Drug.findSuggestions = function(q, cb){
 	logger.debug('Enterd findSuggestions method');
   //Fetching the search API
@@ -15,19 +25,18 @@ Drug.findSuggestions = function(q, cb){
   request(fdaAPI, 
           function (error, response, body) {
     var drugSuggestions = [];  
-    var drugNames = [];
     //if error returning error object  
     if(error){
       logger.debug('Error happened');
       return cb(error); 
     } else if (!error && response.statusCode == 200) {
-      q = q.toUpperCase();
+      q = utils.capitalizeString(q);
       //Converting response bidy to JSON object
       var responseOBJ = JSON.parse(body);
       var results = responseOBJ.results;
       for(var i in results) {
         //Limitng the suggestions to 10
-         if(drugNames.length == 10){
+         if(drugSuggestions.length == 10){
             break;
          }
          var drugItem = results[i];
@@ -37,13 +46,11 @@ Drug.findSuggestions = function(q, cb){
             if(drugItem.openfda.brand_name){
               var brandNames = drugItem.openfda.brand_name;
               for(var j in brandNames){
-                 var brandName = brandNames[j];
-                  brandName = brandName.toUpperCase();
+                 var brandName = utils.capitalizeString(brandNames[j]);
                   //logger.debug('brandName:::'+brandName);
-                 if(brandName.indexOf(q) > -1 && drugNames.indexOf(brandNames[j]+'-brand') == -1){
+                 if(brandName.indexOf(q) > -1 && !isDrugExist(drugSuggestions, brandName)){
                   var drugSuggestion = {};
-                  drugSuggestion.name =  brandNames[j];
-                  drugNames.push(drugSuggestion.name+'-brand');
+                  drugSuggestion.name =  brandName;
                   drugSuggestion.indicator = "brand";
                   drugSuggestions.push(drugSuggestion);
                  }
@@ -54,13 +61,11 @@ Drug.findSuggestions = function(q, cb){
             if(drugItem.openfda.generic_name){
                var genericNames = drugItem.openfda.generic_name;
                 for(var k in genericNames){
-                 var genericName = genericNames[k];
-                 genericName = genericName.toUpperCase();
+                 var genericName = utils.capitalizeString(genericNames[k]);
                  //logger.debug('genericName:::'+genericName);
-                 if(genericName.indexOf(q) > -1 && drugNames.indexOf(genericNames[k]+'-generic') == -1){
+                 if(genericName.indexOf(q) > -1 && !isDrugExist(drugSuggestions, genericName)){
                   var drugSuggestion = {};
-                  drugSuggestion.name =  genericNames[k];
-                  drugNames.push(drugSuggestion.name+'-generic');
+                  drugSuggestion.name =  genericName;
                   drugSuggestion.indicator = "generic";
                   drugSuggestions.push(drugSuggestion);
                  }

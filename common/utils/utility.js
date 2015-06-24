@@ -8,6 +8,11 @@ var toStr = module.exports.getToString = function (str) {
     return newString;
 };
 
+module.exports.capitalizeString = function (str) {
+  if(!str) return null;
+  var str = str.toLowerCase();
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 module.exports.getSearchQuery = function (str) {
    var res = str.split(' ');	

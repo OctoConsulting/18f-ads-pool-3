@@ -269,7 +269,7 @@ validateReactionOutComesParams = function(q, typ, cb){
    }
 };
 
-constructReactionOutComesRestUri = function(q, typ){
+constructReactionOutComesRestUri = function(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate){
    var reactionOutComesURL = Event.app.get("fdaDrugEventApi");
    var apiKey = Event.app.get("fdaApiKey");
    reactionOutComesURL = reactionOutComesURL + 'api_key='+ apiKey;
@@ -281,6 +281,40 @@ constructReactionOutComesRestUri = function(q, typ){
    }else if(typ == 'generic'){
       reactionOutComesURL = reactionOutComesURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
    }
+    //Adding filter for age
+   if(minAge && maxAge){
+    reactionOutComesURL = reactionOutComesURL + '+AND+(patient.patientonsetage:['+minAge+'+TO+'+ maxAge+'])';
+   }else if(minAge){
+    reactionOutComesURL = reactionOutComesURL + '+AND+(patient.patientonsetage:>=' + minAge+')';
+   }else if(maxAge){    
+    reactionOutComesURL = reactionOutComesURL + '+AND+(patient.patientonsetage:<=' + maxAge+')';
+   }
+   //Adding filter for gender
+   if(gender){
+    reactionOutComesURL = reactionOutComesURL + '+AND+(patient.patientsex:' + gender + ')';
+   }
+   //Adding filter for seriousness
+   if(seriousness){
+    reactionOutComesURL = reactionOutComesURL + '+AND+(_exists_:' + seriousness + ')';
+   }
+
+   //Replacing the date
+   if(fromDate){
+     fromDate = fromDate.replace(/-/g,"");
+   }
+   if(toDate){
+     toDate = toDate.replace(/-/g,"");
+   }
+
+   //Adding filter for received dates
+   if(fromDate && toDate){
+     reactionOutComesURL = reactionOutComesURL + '+AND+(receivedate:['+fromDate+'+TO+'+ toDate+'])';    
+   }else if(fromDate){
+     reactionOutComesURL = reactionOutComesURL + '+AND+(receivedate:>=' + fromDate+')';
+   }else if(toDate){
+     reactionOutComesURL = reactionOutComesURL + '+AND+(receivedate:<=' + toDate+')';
+   }
+
    reactionOutComesURL = reactionOutComesURL + '&count=patient.reaction.reactionoutcome';
    return reactionOutComesURL;
 };
@@ -307,8 +341,8 @@ processGetReactionOutComesResponse = function(error, response, body, cb){
         for(var i in serverResObj.results){
           var result = serverResObj.results[i];
           var reactionOutcome = {};
-          reactionOutcome.name = getReactionOutcomeName(result.term);
-          reactionOutcome.count = result.count;          
+          reactionOutcome.label = getReactionOutcomeName(result.term);
+          reactionOutcome.value = result.count;          
           responseObj.push(reactionOutcome);
         }
       }
@@ -316,9 +350,9 @@ processGetReactionOutComesResponse = function(error, response, body, cb){
     return cb(null, responseObj); 
 };
 
-Event.getReactionOutComes = function(q, typ, cb){
+Event.getReactionOutComes = function(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate, cb){
   validateReactionOutComesParams(q, typ, cb);
-  var reactionOutComesURL = constructReactionOutComesRestUri(q, typ);
+  var reactionOutComesURL = constructReactionOutComesRestUri(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate);
   logger.debug('reactionOutComesURL:: '+ reactionOutComesURL);
   //Make rest API to FDA to retrieve reaction outComes for the drung
    request(reactionOutComesURL, function (error, response, body) {
@@ -367,7 +401,25 @@ Event.remoteMethod(
     {
       description: 'Fetch Top 5 reactions with count of each reaction each',
       accepts: [{arg: 'q', type: 'string', required: true},
-                {arg: 'typ', type: 'string', required: true}],
+                {arg: 'typ', type: 'string', required: true},
+                {arg: 'minAge', type: 'number', description: [
+                              'Filter the events by patent age that is greater than this age.']},
+                {arg: 'maxAge', type: 'number', description: [
+                              'Filter the events by patent age that is less than this age.']},
+                {arg: 'gender', type: 'number', description: [
+                              'Filter the events by patent gender.',                             
+                              'Valid values are : 0 = unknown, 1 = male , 2= Female']},
+                {arg: 'seriousness', type: 'string', description: [
+                              'Filter the events by patent gender.',                             
+                              'Valid values are : seriousnessdisabling, seriousnessother, seriousnesshospitalization,', 
+                               'seriousnesscongenitalanomali, seriousnessdeath, seriousnesslifethreatening']},
+                {arg: 'fromDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']},
+                {arg: 'toDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']}
+                ],
       returns: {arg: 'result', type: 'array'},
       http: {path: '/reactions', verb: 'get'}
     }
@@ -379,7 +431,24 @@ Event.remoteMethod(
       description: 'Fetch reaction outcomes for the given drug',
       accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
                 {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
-                                                'Should be either brand or generic']}
+                                                'Should be either brand or generic']},
+                {arg: 'minAge', type: 'number', description: [
+                              'Filter the events by patent age that is greater than this age.']},
+                {arg: 'maxAge', type: 'number', description: [
+                              'Filter the events by patent age that is less than this age.']},
+                {arg: 'gender', type: 'number', description: [
+                              'Filter the events by patent gender.',                             
+                              'Valid values are : 0 = unknown, 1 = male , 2= Female']},
+                {arg: 'seriousness', type: 'string', description: [
+                              'Filter the events by patent gender.',                             
+                              'Valid values are : seriousnessdisabling, seriousnessother, seriousnesshospitalization,', 
+                               'seriousnesscongenitalanomali, seriousnessdeath, seriousnesslifethreatening']},
+                {arg: 'fromDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']},
+                {arg: 'toDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']}
               ],
       returns: {arg: 'results', type: 'array'},
       http: {path: '/reactionOutComes', verb: 'get'}
@@ -395,7 +464,7 @@ validateReactionsParams = function(q, typ, cb){
    }
 };
 
-constructReactionsURL = function(q, typ) {
+constructReactionsURL = function(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate) {
    //Constructing the URL to fetch adverse events
    var fdaEventURL = Event.app.get("fdaDrugEventApi");
    var apiKey = Event.app.get("fdaApiKey");
@@ -407,15 +476,48 @@ constructReactionsURL = function(q, typ) {
    }else if(typ == 'generic'){
       fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
    }
+       //Adding filter for age
+   if(minAge && maxAge){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:['+minAge+'+TO+'+ maxAge+'])';
+   }else if(minAge){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:>=' + minAge+')';
+   }else if(maxAge){    
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientonsetage:<=' + maxAge+')';
+   }
+   //Adding filter for gender
+   if(gender){
+    fdaEventURL = fdaEventURL + '+AND+(patient.patientsex:' + gender + ')';
+   }
+   //Adding filter for seriousness
+   if(seriousness){
+    fdaEventURL = fdaEventURL + '+AND+(_exists_:' + seriousness + ')';
+   }
+
+   //Replacing the date
+   if(fromDate){
+     fromDate = fromDate.replace(/-/g,"");
+   }
+   if(toDate){
+     toDate = toDate.replace(/-/g,"");
+   }
+
+   //Adding filter for received dates
+   if(fromDate && toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:['+fromDate+'+TO+'+ toDate+'])';    
+   }else if(fromDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:>=' + fromDate+')';
+   }else if(toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:<=' + toDate+')';
+   }
    fdaEventURL = fdaEventURL + '&count=patient.reaction.reactionmeddrapt.exact';
    return fdaEventURL;
 };
 
-Event.getReactions = function(q, typ, cb){
+Event.getReactions = function(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate, cb){
   //Validating the params
   validateReactionsParams(q, typ, cb);
    //Constructing the URL to fetch adverse events
-   var fdaEventURL = constructReactionsURL(q, typ);
+   var fdaEventURL = constructReactionsURL(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
    request(fdaEventURL, function (error, response, body) {
