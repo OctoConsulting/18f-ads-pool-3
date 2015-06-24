@@ -35,7 +35,7 @@
               <article ng-repeat="item in recalls.response.recalls">
                   <header class="row" >
                     <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" src="http://placehold.it/100x100">
+                      <img alt="image" class="img-circle img-responsive" ng-src="{{getRelevantImage(item.recall_initiation_date)}}">
                       </div>
                       <div class="col-xs-8 col-sm-11 col-md-11">
                         <a ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="recallNumber001" ><strong>{{item.recall_number}}</strong> {{item.reason_for_recall}}</a>
@@ -78,11 +78,65 @@
           <section ng-class="{ 'active': tabState=='events' }" role="tabpanel" class="tab-pane item-listing">
               <header>
                   <h3>{{events.response.count | number}} Adverse Events</h3>
+                  <nav class="navbar">
+                    <div class="container-fluid increase-both">
+                      <ul class="nav navbar-nav">
+                        <li dropdown>
+                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                Gender <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a ng-click>Male</a></li>
+                                <li><a ng-click>Female</a></li>
+                            </ul>
+                        </li>
+                        <li dropdown>
+                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                Age <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a ng-click>0-5</a></li>
+                                <li><a ng-click>6-10</a></li>
+                                <li><a ng-click>11-18</a></li>
+                                <li><a ng-click>18-30</a></li>
+                                <li><a ng-click>31-40</a></li>
+                                <li><a ng-click>41-50</a></li>
+                                <li><a ng-click>51-60</a></li>
+                                <li><a ng-click>61-70</a></li>
+                                <li><a ng-click>71-80</a></li>
+                                <li><a ng-click>81-90</a></li>
+                                <li><a ng-click>90+</a></li>
+                            </ul>
+                        </li> 
+                        <li dropdown>
+                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                Time Frame <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a ng-click>Past 3 years</a></li>
+                                <li><a ng-click>Between 3 and 6 years</a></li>
+                                <li><a ng-click>Between 6 and 10 years</a></li>
+                                <li><a ng-click>Older than 10 years</a></li>
+                            </ul>
+                        </li>
+                        <li dropdown>
+                            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                Seriousness <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a ng-click>Resulted in death</a></li>
+                                <li><a ng-click>Resulted in hospitalization</a></li>
+                                <li><a ng-click>Other</a></li>
+                            </ul>
+                        </li>                                                                 
+                      </ul>
+                    </div>
+                  </nav>
               </header>
               <article ng-repeat="item in events.response.events">
                 <header class="row">
                     <div class="col-xs-3 col-sm-1 col-md-1">
-                      <img alt="image" class="img-circle img-responsive" src="http://placehold.it/100x100">
+                      <img alt="image" class="img-circle img-responsive" ng-src="{{getRelevantImage(item.receivedate)}}">
                       </div>
                       <div class="col-xs-8 col-sm-11 col-md-11">
                         <a ng-click="item.collapsed = !item.collapsed" aria-expanded="false" aria-controls="reportID001" ><strong>{{item.safetyreportid}}</strong> {{item.patient.reaction}}</a>

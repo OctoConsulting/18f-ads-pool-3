@@ -64,7 +64,7 @@
 
             $scope.eventsPageChanged = function () {
                 $scope.events.pageChangeAction = 1;
-                Restangular.one('events').customGET('',{'q':$stateParams.name,'typ':$stateParams.typ,'limit':$scope.maxPerPage,'skip':($scope.events.currentPage-1)*$scope.maxPerPage})
+                Restangular.one('events').customGET('',{'q':$stateParams.name.toUpperCase(),'typ':$stateParams.typ,'limit':$scope.maxPerPage,'skip':($scope.events.currentPage-1)*$scope.maxPerPage})
                 .then(function(data) {
                     $scope.events.response = data.response;
                     $scope.events.pageChangeAction = 0;
@@ -75,13 +75,32 @@
 
             $scope.recallsPageChanged = function () {
                 $scope.recalls.pageChangeAction = 1;
-                Restangular.one('recalls').customGET('',{'q':$stateParams.name,'typ':$stateParams.typ,'limit':$scope.maxPerPage,'skip':($scope.recalls.currentPage-1)*$scope.maxPerPage})
+                Restangular.one('recalls').customGET('',{'q':$stateParams.name.toUpperCase(),'typ':$stateParams.typ,'limit':$scope.maxPerPage,'skip':($scope.recalls.currentPage-1)*$scope.maxPerPage})
                 .then(function(data) {
                     $scope.recalls.response = data.response;
                     $scope.recalls.pageChangeAction = 0;
                 }, function() {
                     $scope.recalls.pageChangeAction = 0;
                 });
+            };
+            $scope.getRelevantImage = function(date) {
+                var threeYearsAgo = moment().subtract(3, 'years');
+                var sixYearsAgo = moment().subtract(6, 'years');
+                var tenYearsAgo = moment().subtract(10, 'years');
+                var assets = '/assets/images/icons/';
+
+                if(moment(date) > threeYearsAgo) {
+                    return assets+'dials_V4_alert4.png';
+                }
+                else if(moment(date) <= threeYearsAgo && moment(date) > sixYearsAgo) {
+                    return assets+'dials_V4_alert3.png';
+                }
+                else if(moment(date) <= sixYearsAgo && moment(date) > tenYearsAgo) {
+                    return assets+'dials_V4_alert2.png';
+                }
+                else {
+                    return assets+'dials_V4_alert1.png';
+                }                            
             };
         }
 })();
