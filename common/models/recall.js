@@ -37,7 +37,8 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
    logger.debug('fdaRecallURL:: '+ fdaRecallURL);
    request(fdaRecallURL, function (error, response, body) {
     if(error){
-      logger.debug('Error happened in retrieving the drug recall information');
+      logger.error('Error occured when retrieving the drug recall information');
+
       return cb(error); 
     } else if (!error && response.statusCode == 200) {
        var responseOBJ = JSON.parse(body);
@@ -72,7 +73,13 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
   
           return cb(null, response);         
        }    
-    }else{
+    } else if (!error && response.statusCode != 200) {
+      var responseOBJ = JSON.parse(body);
+      var err1 = new Error(responseOBJ.error.message);
+      err1.statusCode = response.statusCode;
+      return cb(err1);
+    }
+    else{
       return cb(null, {});
     }   
    });
