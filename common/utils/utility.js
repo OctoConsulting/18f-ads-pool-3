@@ -47,7 +47,7 @@ module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate)
                         '+OR+reason_for_recall:"Impurities Degradation Products"' +
                         '+OR+reason_for_recall:"Microbial Contamination"' +
                         '+OR+reason_for_recall:"Presence of Foriegn Substance"' +
-                        '+OR+reason_for_recall:"Failed Impurities Degradation Specifications")';
+                        '+OR+reason_for_recall:"Failed Impurities Specifications")';
     } else if (reason === 'Tablet') {
       result = result + '+AND+(reason_for_recall:"Failed Tablet Capsule Specifications"'+
                         '+OR+reason_for_recall:"Presence of Foreign Tablets")';
