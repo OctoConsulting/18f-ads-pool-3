@@ -6,9 +6,9 @@ var logger = log4js.getLogger('recall');
 module.exports = function(Recall) {
 
 //Implementation of Rest End Point for '/recalls' path, return Response with "response" JSON object with matadata and 
-//an array of recall details given a brand or generic drug name
+//an array of recall details given a brand or generic drug  
 Recall.getRecallDetails = function(q, typ, limit, skip, cb){
-   var fdaRecallURL = 'https://api.fda.gov/drug/enforcement.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=';
+   var fdaRecallURL = Recall.app.get('fdaDrugEnforcementApi') + 'api_key=' + Recall.app.get('fdaApiKey') +  '&search=';
    if(typ === 'generic')
   	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name.exact:"'+ q +'"' ;
    if(typ === 'brand')
