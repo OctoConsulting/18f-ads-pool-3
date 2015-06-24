@@ -18,5 +18,11 @@ module.exports = {
 	{code:'Presence of Particulate Matter',val:'Presence of Particulate Matter'},
 	{code:'Tablet',val:'Tablet/Capsule issues'},
 	{code:'CGMP Deviations',val:'CGMP Deviations'},
-	{code:'Marketed without an approved NDA/ANDA',val:'Marketed without an approved NDA/ANDA'}]
+	{code:'Marketed without an approved NDA/ANDA',val:'Marketed without an approved NDA/ANDA'}],
+	reactionOutcomes: [{code:1, description:'Recovered/resolved'},
+						{code:2, description:'Recovering/resolving'},
+						{code:3, description:'Not recovered/not resolved'},
+						{code:4, description:'Recovered/resolved with sequelae'},
+						{code:5, description:'Fatal'},
+						{code:6, description:'Unknown'}]
 };

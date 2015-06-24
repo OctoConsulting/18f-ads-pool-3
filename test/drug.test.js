@@ -3,45 +3,26 @@ var should = require('should');
 var supertest = require('supertest');
 
 describe('Test Drug Model', function(){
+	
 	 describe('Test REST API - findSuggestions', function(){
-	 	it('Results exists', function(done){
+	 	it('End-to-End Test', function(done){
+	 		this.timeout(30000);
 	 		supertest(app).get("/api/drugs/suggestions?q=Tyl").expect(200).end(function(err,res){
 		 		if(err) throw err;
 		 		res.status.should.equal(200);
-		 		var responseOBJ = res.body;	
-		 		console.log('responseOBJ:::'+responseOBJ);
-		 		//responseOBJ.result.length.should.notEqual(0);
 		 		done();
 	 		});	
 	 	});
-
-	 	it("Results doesn't exist", function(done){
-	 		supertest(app).get("/api/drugs/suggestions?q=XXXX").expect(200).end(function(err,res){
-		 		if(err) throw err;
-		 		res.status.should.equal(200);
-		 		var responseOBJ = res.body;	
-		 		responseOBJ.result.length.should.equal(0);
-		 		done();
-	 		});	
-	 	});
-
 	 });
+
 	 describe('Test REST API - getDrugDetails', function(){
-	 	it('Results exists', function(done){
+	 	this.timeout(30000);
+	 	it('End-to-End Test', function(done){
 	 		supertest(app).get("/api/drugs/details?q=ACETAMINOPHEN&typ=generic").expect(200).end(function(err,res){
 		 		if(err) throw err;
 		 		res.status.should.equal(200);
 		 		done();
 	 		});	
 	 	});
-
-	 	it("Results doesn't exist", function(done){
-	 		supertest(app).get("/api/drugs/details?q=ACETAMINOPHEN&typ=brand").expect(200).end(function(err,res){
-		 		if(err) throw err;
-		 		res.status.should.equal(200);
-		 		done();
-	 		});	
-	 	});
-
 	 });
 });

@@ -5,6 +5,7 @@ log4js.configure('server/log4js_configuration.json', {});
 var logger = log4js.getLogger('event');
 var constants = require('../../messages/constants');
 var messages = require('../../messages/event-messages');
+var referenceData = require('../../messages/referenceConstants');
 
 /**
 	This method process the response from fetchEvents FDA Rest API
@@ -21,14 +22,14 @@ processFetchEventsResponse = function (error, response, body, cb) {
       logger.error('Error happened in retrieving the drug event information');
       return cb(error); 
     }else if (!error && response.statusCode == 200) {
-    	var responseOBJ = JSON.parse(body);   	
-       	var meta = responseOBJ.meta;	       	
+    	var serverResObj = JSON.parse(body);   	
+       	var meta = serverResObj.meta;	       	
        	//Setting the meta data
 	    responseObj.count = meta.results.total;
 	    responseObj.skip = meta.results.skip;
 	    responseObj.limit = meta.results.limit;
 	    responseObj.events = [];
-	    var results = responseOBJ.results;
+	    var results = serverResObj.results;
        	for(var i in results){          
           var eventModel = {};
           //Setting event information
@@ -170,7 +171,7 @@ validateFetchEventsParams = function(q, typ, skip, limit, minAge, maxAge, gender
   @param {string} toDate Filter the events by event received date that is greater than this date. 
                               Valid format is yyyymmdd or yyyy-mm-dd 
 */
-constructfetchEventsRestUri = function(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate){
+constructFetchEventsRestUri = function(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate){
    //Constructing the URL to fetch adverse events
    var fdaEventURL = Event.app.get("fdaDrugEventApi");
    var apiKey = Event.app.get("fdaApiKey");
@@ -251,11 +252,77 @@ Event.fetchEvents = function(q, typ, skip, limit, minAge, maxAge, gender, seriou
   //Validating the params
   validateFetchEventsParams(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate, cb);
    //Constructing the URL to fetch adverse events
-   var fdaEventURL = constructfetchEventsRestUri(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate);
+   var fdaEventURL = constructFetchEventsRestUri(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
    request(fdaEventURL, function (error, response, body) {
    		processFetchEventsResponse(error, response, body, cb);
+   });
+};
+
+validateReactionOutComesParams = function(q, typ, cb){
+   if(typ != 'brand' && typ != 'generic'){    
+      error = new Error();
+      error.statusCode = 400;
+      error.message = messages.ERROR_TYP_VALIDATION;
+      return cb(error); 
+   }
+};
+
+constructReactionOutComesRestUri = function(q, typ){
+   var reactionOutComesURL = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   reactionOutComesURL = reactionOutComesURL + 'api_key='+ apiKey;
+   //Drung band names and generica name are all uppercase in adverse events dataset. 
+   //So converting the case to Uppercase always.
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        reactionOutComesURL = reactionOutComesURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      reactionOutComesURL = reactionOutComesURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }
+   reactionOutComesURL = reactionOutComesURL + '&count=patient.reaction.reactionoutcome';
+   return reactionOutComesURL;
+};
+
+getReactionOutcomeName = function(reactionOutcome){
+  if(reactionOutcome){
+    for(var i in referenceData.reactionOutcomes){
+      if(reactionOutcome == referenceData.reactionOutcomes[i].code){
+        return referenceData.reactionOutcomes[i].description;
+      }
+    }
+  }
+  return reactionOutcome;
+}
+
+processGetReactionOutComesResponse = function(error, response, body, cb){
+  var responseObj = [];
+  if(error){
+      logger.error('Error happened in retrieving the reaction outcomes for the drug');
+      return cb(error); 
+    }else if (!error && response.statusCode == 200) {
+      var serverResObj = JSON.parse(body);
+      if(serverResObj.results){
+        for(var i in serverResObj.results){
+          var result = serverResObj.results[i];
+          var reactionOutcome = {};
+          reactionOutcome.name = getReactionOutcomeName(result.term);
+          reactionOutcome.count = result.count;          
+          responseObj.push(reactionOutcome);
+        }
+      }
+    }
+    return cb(null, responseObj); 
+};
+
+Event.getReactionOutComes = function(q, typ, cb){
+  validateReactionOutComesParams(q, typ, cb);
+  var reactionOutComesURL = constructReactionOutComesRestUri(q, typ);
+  logger.debug('reactionOutComesURL:: '+ reactionOutComesURL);
+  //Make rest API to FDA to retrieve reaction outComes for the drung
+   request(reactionOutComesURL, function (error, response, body) {
+      processGetReactionOutComesResponse(error, response, body, cb);
    });
 };
 
@@ -295,7 +362,6 @@ Event.remoteMethod(
     }
   );
 
-
 Event.remoteMethod(
     'getReactions',
     {
@@ -306,7 +372,20 @@ Event.remoteMethod(
       http: {path: '/reactions', verb: 'get'}
     }
   );
-
+  
+Event.remoteMethod(
+    'getReactionOutComes',
+    {
+      description: 'Fetch reaction outcomes for the given drug',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
+                                                'Should be either brand or generic']}
+              ],
+      returns: {arg: 'results', type: 'array'},
+      http: {path: '/reactionOutComes', verb: 'get'}
+    }
+  );
+  
 validateReactionsParams = function(q, typ, cb){
    if(typ != 'brand' && typ != 'generic'){    
       error = new Error();
