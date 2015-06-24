@@ -48,6 +48,7 @@
         .controller( 'AppController', function AppController ($scope, $state, $location,  appName, appVersion, connections) {
             $scope.appName = appName;
             $scope.appVersion = appVersion;
+            $scope.connections = connections;
 
             $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
                 $scope.showLoader = 1;

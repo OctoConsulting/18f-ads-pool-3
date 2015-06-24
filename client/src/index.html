@@ -27,8 +27,9 @@
     <div ui-view="menu"></div>
     <div ui-view="main"></div>
     <div ui-view="footer"></div>
+    <div class="modal-backdrop fade in"  ng-show="showLoader || connections.getValue();"></div>
     <div class="loading-overlay fade in" ng-show="showLoader || connections.getValue();">
-        <i class="loading-icon"></i><div>Loading...</div>
+      <i class="loading-icon"></i><div>Loading...</div>
     </div>
   </body>
 
