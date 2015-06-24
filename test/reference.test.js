@@ -10,7 +10,6 @@ describe('Test Reference Model', function(){
 		 		if(err) throw err;
 		 		res.status.should.equal(200)
 		 		var responseOBJ = res.body; 
-		 		console.log(responseOBJ);
 		 		responseOBJ.response.age[0].maxAge.should.equal(10);		 		
 		 		done();
 	 		});	
