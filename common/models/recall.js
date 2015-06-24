@@ -71,12 +71,13 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
   
           return cb(null, response);         
        }    
-    } else if (!error && response.statusCode != 200) {
+    } 
+    /*else if (!error && response.statusCode != 200) {
       var responseOBJ = JSON.parse(body);
       var err1 = new Error(responseOBJ.error.message);
       err1.statusCode = response.statusCode;
       return cb(err1);
-    }
+    }*/
     else{
       return cb(null, {});
     }   
