@@ -29,3 +29,26 @@ module.exports.getSearchQuery = function (str) {
 
    return result;
 };
+
+//Return String in yyyymmdd format for date input in yyyy-mm-dd
+var fnDtFormat = module.exports.getFormattedDt = function(date) {
+  if(date instanceof String) {
+    return date.replace(/-/g,"");  
+  }
+};
+
+//Build search Filetetr list for FDA Recalls API
+module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate) 
+{  var result = '';
+   
+  if(reason) {
+    result = result + '+AND+reason_for_recall:"' + reason + ':"';
+  }
+  if(fromDate && toDate) {
+    result = result + '+AND+report_date:[' + fnDtFormat(fromDate) + '+TO+' + fnDtFormat(toDate) + ']';
+  }
+  if(fromDate && !toDate) {
+    result = result + '+AND+report_date:>=' + fnDtFormat(fromDate);
+  }   
+  return result;
+};

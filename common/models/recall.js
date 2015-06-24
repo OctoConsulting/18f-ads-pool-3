@@ -2,17 +2,27 @@ var request = require('request');
 var log4js = require('log4js');
 log4js.configure('server/log4js_configuration.json', {});
 var logger = log4js.getLogger('recall');
+var utils = require('../utils/utility');
 
 module.exports = function(Recall) {
 
 //Implementation of Rest End Point for '/recalls' path, return Response with "response" JSON object with matadata and 
 //an array of recall details given a brand or generic drug  
-Recall.getRecallDetails = function(q, typ, limit, skip, cb){
+Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate, cb){
    var fdaRecallURL = Recall.app.get('fdaDrugEnforcementApi') + 'api_key=' + Recall.app.get('fdaApiKey') +  '&search=';
    if(typ === 'generic')
   	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name.exact:"'+ q +'"' ;
    if(typ === 'brand')
      fdaRecallURL =  fdaRecallURL + 'openfda.brand_name.exact:"'+ q +'"' ;
+
+     logger.debug('reason:' + reason);
+     logger.debug('fromDate:' + fromDate);
+     logger.debug('toDate:' + toDate);
+     //Append additional filters
+     var filters = utils.buildFilterUrlForRecall(reason, fromDate, toDate);
+     if(filters != '') {
+        fdaRecallURL = fdaRecallURL + filters;
+     }
 
      var lim = parseInt(limit);
      if(!isNaN(lim)) { 
@@ -73,7 +83,13 @@ Recall.remoteMethod(
     'getRecallDetails',
     {
       description: 'Fetch drug recall details for the given drug brand_name',
-      accepts: [{arg: 'q', type: 'string', required: true},{arg: 'typ', type: 'string', required: true},{arg: 'limit', type: 'string', required: true},{arg: 'skip', type: 'string', required: true}],
+      accepts: [{arg: 'q', type: 'string', required: true},
+                {arg: 'typ', type: 'string', required: true},
+                {arg: 'limit', type: 'string', required: true},
+                {arg: 'skip', type: 'string', required: true},
+                {arg: 'reason', type: 'string'},
+                {arg: 'fromDate', type: 'string'},
+                {arg: 'toDate', type: 'string'}],
       returns: {arg: 'response', type: 'object'},
       http: {path: '/', verb: 'get'}
     }
