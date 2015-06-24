@@ -37,9 +37,9 @@ app.get('remoting').errorHandler = {
   handler: function(err, req, res, defaultHandler) {
   	err = app.buildError(err);
     var ret = {};
-    ret.message = 'Sever Internal Error : ' + err.message;
+    ret.message = err.message;
     ret.status = err.statusCode;
-    app.log4js.getLogger('app').error('Sever Internal Error : ' + err.message);
+    app.log4js.getLogger('app').error(err.message);
     res.status(err.statusCode).json(ret);
 
     // End here no need to use Default Error Handler

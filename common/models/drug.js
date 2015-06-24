@@ -2,7 +2,7 @@ var request = require('request');
 var utils = require('../utils/utility');
 var log4js = require('log4js');
 log4js.configure('server/log4js_configuration.json', {});
-var logger = log4js.getLogger('18f-asd-prototype-dev');
+var logger = log4js.getLogger('drug');
 
 module.exports = function(Drug) {
 
@@ -85,6 +85,7 @@ Drug.getDrugDetails = function(q, typ, cb){
    request(fdaLabelURL, function (error, response, body) {
     if(error){
       logger.debug('Error happened in retrieving the drug label information');
+      error.message = 'Your search could not be made at this time.';
       return cb(error); 
     } else if (!error && response.statusCode == 200) {
        var responseOBJ = JSON.parse(body);
@@ -100,7 +101,10 @@ Drug.getDrugDetails = function(q, typ, cb){
           return cb(null, drugModel);         
        }    
     }else{
-      return cb(null, {});
+      error = new Error();
+      error.statusCode = 400;
+      error.message = 'No results were found for your search.';
+      return cb(error);
     }   
    });
 };

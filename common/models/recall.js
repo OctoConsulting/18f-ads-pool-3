@@ -1,7 +1,7 @@
 var request = require('request');
 var log4js = require('log4js');
 log4js.configure('server/log4js_configuration.json', {});
-var logger = log4js.getLogger('18f-asd-prototype-dev-recall');
+var logger = log4js.getLogger('recall');
 
 module.exports = function(Recall) {
 
