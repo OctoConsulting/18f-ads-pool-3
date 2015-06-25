@@ -37,8 +37,8 @@
             $scope.charts.events = {};
             $scope.charts.events.reactions = eventReactionChartData.result;
             $scope.charts.events.outcomes = eventOutcomesChartData.results;
-            
-
+            $scope.charts.events.colors1 = ["#B0A248","#9F9341","#827835","#746B2F","#655D29"];
+            $scope.charts.events.colors2 = ["#9AB45C","#8DA84D","#819A47","#758C40","#697E3A","#5E7033"];
             $scope.maxPerPage = 5;
 
             $scope.events.currentPage = 1;
@@ -105,6 +105,18 @@
                 if($scope.events.filters.severity) {
                     query.seriousness = $scope.events.filters.severity.code;
                 }
+
+                Restangular.one('events').customGET('reactions',query)
+                .then(function(data) {
+                    $scope.charts.events.reactions = data.result;
+                }, function() {
+                });
+
+                Restangular.one('events').customGET('reactionOutComes',query)
+                .then(function(data) {
+                    $scope.charts.events.outcomes = data.results;
+                }, function() {
+                });
 
                 Restangular.one('events').customGET('',query)
                 .then(function(data) {

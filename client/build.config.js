@@ -81,7 +81,8 @@ module.exports = {
       'vendor/highcharts-release/highcharts.js',
       'vendor/highcharts-ng/dist/highcharts-ng.min.js',
       'vendor/moment/min/moment.min.js',
-      'vendor/angular-moment/angular-moment.min.js'
+      'vendor/angular-moment/angular-moment.min.js',
+      'vendor/angular-morris-chart/src/angular-morris-chart.min.js'
 
     ],
     css: [

@@ -1,5 +1,5 @@
 <div class="med-filters text-center">
-  <nav class="navbar">
+  <nav class="navbar navbar-default">
     <div class="container-fluid increase-both">
       <ul class="nav navbar-nav">
         <li dropdown>
@@ -56,6 +56,36 @@
 <h3 class="text-center" ng-if="indicator=='brand'">Adverse Effects for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
 <h3 class="text-center" ng-if="indicator=='generic'">Adverse Effects for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
 
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors1' donut-data='charts.events.reactions'></div>      
+      </div>
+      <div class="col-md-6">
+        <div class="well vert-offset-top-4">
+          <ul class="list-unstyled">
+            <li ng-repeat="name in charts.events.reactions track by $index"><span class="square-box" style="background:{{charts.events.colors1[$index]}}"></span>{{name.label}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">  
+        <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors2' donut-data='charts.events.outcomes'></div>      
+      </div>
+      <div class="col-md-6">
+        <div class="well vert-offset-top-3">
+          <ul class="list-unstyled">
+            <li ng-repeat="name in charts.events.outcomes track by $index"><span class="square-box" style="background:{{charts.events.colors2[$index]}}"></span>{{name.label}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>      
+</div>
 
 <section class="row">
   <div class="col-md-12 item-listing">
@@ -77,10 +107,6 @@
       <section class="detail-section collapse row" collapse="!item.collapsed">  
         <div class="col-md-12">
             <dl>
-              <dt>Safety Report Id</dt>
-              <dd>{{item.safetyreportid}}</dd>
-              <dt>Received Date</dt>
-              <dd>{{item.receivedate | amDateFormat:'MMMM Do, YYYY' }}</dd>
               <dt>Seriousness</dt>
               <dd>
                 <ul>
@@ -89,10 +115,6 @@
               </dd>
               <dt>Reactions</dt>
               <dd>{{item.patient.reaction}}</dd>                          
-              <dt>Patient Age</dt>
-              <dd>{{item.patient.age}}</dd>
-              <dt>Patient Sex</dt>
-              <dd>{{item.patient.gender}}</dd>
               <dt>All Substance(s) Taken</dt>
               <dd>
                 <ul>
@@ -118,12 +140,3 @@
     </footer>
   </div>
 </section>
-
-<div ng-if="0" class="row">
-  <div class="col-md-6">
-    <div class="chart-height donut-chart" donut-chart donut-data='charts.events.reactions'></div>      
-  </div>
-  <div class="col-md-6">
-    <div class="chart-height donut-chart" donut-chart donut-data='charts.events.outcomes'></div>      
-  </div>      
-</div>

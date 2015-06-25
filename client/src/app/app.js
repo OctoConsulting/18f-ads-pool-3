@@ -13,7 +13,7 @@
             'angular.filter',
             'angular-chartist',
             'angular-ladda',
-            'stpa.morris',
+            'angular.morris-chart',
             'angular-growl',
             'highcharts-ng',
             'angularMoment'
