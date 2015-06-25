@@ -37,13 +37,13 @@
             $scope.charts.events = {};
             $scope.charts.events.reactions = eventReactionChartData.result;
             $scope.charts.events.outcomes = eventOutcomesChartData.results;
-            $scope.charts.events.colors1 = ["#B0A248","#9F9341","#827835","#746B2F","#655D29"];
+            $scope.charts.events.colors1 = ["#237479","#2D9596","#32A6AD","#5BB8BD","#70C1C6"];
             $scope.charts.events.colors2 = ["#9AB45C","#8DA84D","#819A47","#758C40","#697E3A","#5E7033"];
             $scope.maxPerPage = 5;
 
             $scope.events.currentPage = 1;
             $scope.events.maxPages = 5;
-            $scope.events.totalPages = Math.ceil($scope.events.response.count / $scope.maxPerPage);
+            $scope.events.totalPages = Math.ceil($scope.events.response.count / $scope.maxPerPage);             
 
             if($scope.events.totalPages > 1000) {
                 $scope.events.totalPages = 1000;
@@ -106,15 +106,16 @@
                     query.seriousness = $scope.events.filters.severity.code;
                 }
 
+ 
                 Restangular.one('events').customGET('reactions',query)
                 .then(function(data) {
-                    $scope.charts.events.reactions = data.result;
+                    $scope.charts.events.reactions = data.result;                 
                 }, function() {
                 });
 
                 Restangular.one('events').customGET('reactionOutComes',query)
                 .then(function(data) {
-                    $scope.charts.events.outcomes = data.results;
+                    $scope.charts.events.outcomes = data.results;                 
                 }, function() {
                 });
 
@@ -127,6 +128,13 @@
                 });
             };
 
+            $scope.chartReactionsFormatter = function(input) {
+                return Math.round(input.value/$scope.events.response.count*100,2) + '%';
+            };
+
+            $scope.chartOutcomesFormatter = function(input) {
+                return Math.round(input.value/$scope.events.response.count*100,2) + '%';
+            };
 
             $scope.updateGender = function (gender) {
                 if(gender) {

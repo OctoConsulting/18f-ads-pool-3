@@ -53,33 +53,35 @@
     </div>
   </nav>
 </div>
-<h3 class="text-center" ng-if="indicator=='brand'">Adverse Effects for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
-<h3 class="text-center" ng-if="indicator=='generic'">Adverse Effects for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
+<h3 class="text-center" ng-if="indicator=='brand'">Adverse Events for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
+<h3 class="text-center" ng-if="indicator=='generic'">Adverse Events for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
 
 <div class="row">
   <div class="col-md-6">
+    <h3>Top 5 Reactions</h3>
     <div class="row">
       <div class="col-md-6">
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors1' donut-data='charts.events.reactions'></div>      
       </div>
       <div class="col-md-6">
-        <div class="chart-text well vert-offset-top-6">
+        <div class="chart-text well vert-offset-top-1">
           <ul class="list-unstyled">
-            <li ng-repeat="name in charts.events.reactions track by $index"><span class="square-box" style="background:{{charts.events.colors1[$index]}}"></span>{{name.label}}</li>
+            <li ng-repeat="name in charts.events.reactions track by $index"><span class="square-box" style="background:{{charts.events.colors1[$index]}}"></span>{{name.label}} ({{chartReactionsFormatter(name)}})</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
   <div class="col-md-6">
+    <h3>Event Outcomes</h3>
     <div class="row">
-      <div class="col-md-6">  
+      <div class="col-md-6">
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors2' donut-data='charts.events.outcomes'></div>      
       </div>
       <div class="col-md-6">
-        <div class="chart-text well vert-offset-top-5">
+        <div class="chart-text well vert-offset-top-1">
           <ul class="list-unstyled">
-            <li ng-repeat="name in charts.events.outcomes track by $index"><span class="square-box" style="background:{{charts.events.colors2[$index]}}"></span>{{name.label}}</li>
+            <li ng-repeat="name in charts.events.outcomes track by $index"><span class="square-box" style="background:{{charts.events.colors2[$index]}}"></span>{{name.label}} ({{chartOutcomesFormatter(name)}})</li>
           </ul>
         </div>
       </div>
@@ -89,17 +91,15 @@
 
 <section class="row">
   <div class="col-md-12 item-listing">
+    <h3>Adverse Event Details</h3>
     <article ng-repeat="item in events.response.events">
       <header class="row" ng-click="item.collapsed = !item.collapsed">
           <div class="col-md-12 item-detail">
               <div class="row-same-height">
-                  <div class="col-sm-2 col-middle">
-                      <img class="center-block hidden-xs" alt="image" ng-src="{{getRelevantImage(item.receivedate)}}">
-                      <h5 class="text-uppercase text-center small">{{item.safetyreportid}}</h5>
-                  </div>
-                  <div class="col-sm-10 col-middle col-md-height">
+                  <div class="col-sm-12 col-middle col-md-height">
                       <a class="item-link" aria-expanded="false" aria-controls="caseNum2" data-toggle="collapse">{{item.patient.reaction}}</a>
                       <p class="text-muted small">{{item.receivedate | amDateFormat:'MMMM Do, YYYY' }} <span class="pull-right">Patient: {{item.patient.gender}}, Age: {{item.patient.age}}</span></p>
+                      <h5 class="pull-left text-uppercase text-center small">{{item.safetyreportid}}</h5>
                   </div>
               </div>
           </div>
