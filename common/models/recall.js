@@ -6,7 +6,7 @@ var utils = require('../utils/utility');
 
 module.exports = function(Recall) {
 
-//Implementation of Rest End Point for '/recalls' path, return Response with "response" JSON object with matadata and 
+//Implementation of Rest End Point for '/recalls' path, return Response with "response" JSON object with metadata and 
 //an array of recall details given a brand or generic drug  
 Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate, cb){
    var fdaRecallURL = Recall.app.get('fdaDrugEnforcementApi') + 'api_key=' + Recall.app.get('fdaApiKey') +  '&search=';
@@ -72,31 +72,37 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
           return cb(null, response);         
        }    
     } 
-    /*else if (!error && response.statusCode != 200) {
-      var responseOBJ = JSON.parse(body);
-      var err1 = new Error(responseOBJ.error.message);
-      err1.statusCode = response.statusCode;
-      return cb(err1);
-    }*/
     else{
       return cb(null, {});
     }   
    });
 };
 
-
+//REST Endpoint Configuration
 Recall.remoteMethod(
     'getRecallDetails',
     {
-      description: 'Fetch drug recall details for the given drug brand_name',
-      accepts: [{arg: 'q', type: 'string', required: true},
-                {arg: 'typ', type: 'string', required: true},
-                {arg: 'limit', type: 'string', required: true},
-                {arg: 'skip', type: 'string', required: true},
-                {arg: 'reason', type: 'string'},
-                {arg: 'fromDate', type: 'string'},
-                {arg: 'toDate', type: 'string'}],
-      returns: {arg: 'response', type: 'object'},
+      description: 'Fetch drug recall details for a given drug name, type and other filters',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description:'Drug Type (valid values: generic or brand)'},
+                {arg: 'limit', type: 'string', required: true, description:'Number of records to return (valid values: from 1 - 100)'},
+                {arg: 'skip', type: 'string', required: true, description:'Number of records to skip (valid values: upto 0 - 5000)'},
+                {arg: 'reason', type: 'string', description:['Recall Reason from valid values. valid values:',
+                               '"Lack of Assurance of Sterility"',
+                               '"Penicillin Cross Contamination"',
+                               '"Labeling"',
+                               '"adverse reactions"',
+                               '"Subpotent Drug"',
+                               '"Contamination"',
+                               '"Presence of Particulate Matter"',
+                               '"Tablet"']},
+                {arg: 'fromDate', type: 'string', description: [
+                              'Recall Reported From Date.',                             
+                              'valid format is yyyymmdd or yyyy-mm-dd']},
+                {arg: 'toDate', type: 'string', description: [
+                              'Recall Reported To Date.',                             
+                              'valid format is yyyymmdd or yyyy-mm-dd']}],
+      returns: {arg: 'response', type: 'object', description:'Drug Name'},
       http: {path: '/', verb: 'get'}
     }
   );
