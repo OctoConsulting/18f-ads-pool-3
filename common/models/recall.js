@@ -10,6 +10,7 @@ module.exports = function(Recall) {
 //an array of recall details given a brand or generic drug  
 Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate, cb){
    var fdaRecallURL = Recall.app.get('fdaDrugEnforcementApi') + 'api_key=' + Recall.app.get('fdaApiKey') +  '&search=';
+   q = utils.removeSpecialChars(q);
    if(typ === 'generic')
   	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name.exact:"'+ q +'"' ;
    if(typ === 'brand')

@@ -1,3 +1,4 @@
+//Given a string , return a modified string with last character changed to next ASCII sequence character
 var toStr = module.exports.getToString = function (str) {
     if(!str) return null;
     var lastChar = str.charCodeAt(str.length-1);
@@ -8,12 +9,14 @@ var toStr = module.exports.getToString = function (str) {
     return newString;
 };
 
+//Given a string return a string with first letter in Uppercase and following characters in Lowercase
 module.exports.capitalizeString = function (str) {
   if(!str) return null;
   var str = str.toLowerCase();
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+//Return a string for search term based on given partial string
 module.exports.getSearchQuery = function (str) {
    var res = str.split(' ');	
    var range = '(';
@@ -70,4 +73,9 @@ module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate)
     result = result + '+AND+report_date:<=' + fnDtFormat(toDate);
   }   
   return result;
+};
+
+//Remove characters not suppported by FDA Search APIs
+module.exports.removeSpecialChars = function (str) {
+  return str.replace(/[`~!@#$%^&*|\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 };

@@ -16,7 +16,8 @@
             'angular.morris-chart',
             'angular-growl',
             'highcharts-ng',
-            'angularMoment'
+            'angularMoment',
+            'readMore'
         ])
 
         // Declare any global configurations
