@@ -6,6 +6,7 @@ var logger = log4js.getLogger('event');
 var constants = require('../../messages/constants');
 var messages = require('../../messages/event-messages');
 var referenceData = require('../../messages/referenceConstants');
+var utils = require('../utils/utility');
 
 /**
 	This method process the response from fetchEvents FDA Rest API
@@ -169,6 +170,7 @@ constructFetchEventsRestUri = function(q, typ, skip, limit, minAge, maxAge, gend
    var apiKey = Event.app.get("fdaApiKey");
    fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
    //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
    q = q.toUpperCase();
    if(typ == 'brand'){    
         fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
@@ -295,6 +297,7 @@ constructReactionOutComesRestUri = function(q, typ, minAge, maxAge, gender, seri
    reactionOutComesURL = reactionOutComesURL + 'api_key='+ apiKey;
    //Drung band names and generica name are all uppercase in adverse events dataset. 
    //So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
    q = q.toUpperCase();
    if(typ == 'brand'){    
         reactionOutComesURL = reactionOutComesURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
@@ -463,6 +466,7 @@ constructReactionsURL = function(q, typ, minAge, maxAge, gender, seriousness, fr
    var apiKey = Event.app.get("fdaApiKey");
    fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
    //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
    q = q.toUpperCase();
    if(typ == 'brand'){    
         fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 

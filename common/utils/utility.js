@@ -71,3 +71,8 @@ module.exports.buildFilterUrlForRecall = function (reason, fromDate, toDate)
   }   
   return result;
 };
+
+//Remove characters not suppported by FDA Search APIs
+module.exports.removeSpecialChars = function (str) {
+  return str.replace(/[`~!@#$%^&*|\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+};

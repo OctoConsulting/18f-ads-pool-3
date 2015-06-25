@@ -21,6 +21,7 @@ isDrugExist = function(drugArray, drugName){
 Drug.findSuggestions = function(q, cb){
 	logger.debug('Enterd findSuggestions method');
   //Fetching the search API
+  q = utils.removeSpecialChars(q);
   var fdaAPI = utils.getSearchQuery(q);
   logger.debug('fdaAPI:: '+ fdaAPI);
   //Making the API call
@@ -87,7 +88,7 @@ Drug.getDrugDetails = function(q, typ, cb){
    var fdaLabelURL = Drug.app.get("fdaDrugLabelApi");
    var apiKey = Drug.app.get("fdaApiKey");
    fdaLabelURL = fdaLabelURL + 'api_key='+ apiKey; 
-
+   q = utils.removeSpecialChars(q);
    if(typ == 'brand')
       fdaLabelURL = fdaLabelURL + '&search=brand_name:"'+q+'"';
    else if(typ == 'generic')   
