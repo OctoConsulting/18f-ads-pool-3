@@ -585,6 +585,7 @@ processReactionsResponse = function (error, response, body, cb) {
     return cb(null, finalResults); 
 };
 
+//REST API Endpoint Configuration
 Event.remoteMethod(
     'fetchEvents',
     {

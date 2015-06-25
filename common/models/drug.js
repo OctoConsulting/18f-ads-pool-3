@@ -5,7 +5,9 @@ log4js.configure('server/log4js_configuration.json', {});
 var logger = log4js.getLogger('drug');
 
 module.exports = function(Drug) {
-
+/**
+  This method checks whether the passed in drugname exists in the drugarray
+*/
 isDrugExist = function(drugArray, drugName){
   var result = false;
   for(var i in drugArray){
