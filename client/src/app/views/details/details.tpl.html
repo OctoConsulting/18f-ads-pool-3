@@ -9,10 +9,10 @@
           <p read-more ng-model="details.drug.purpose[0]" words="true" length="50" class="small"></p>
           <nav>
             <ul class="list-unstyled">
-                <li ui-sref-active="hidden" ng-if="recalls.response.count"><a ui-sref=".recalls" alt="" class="btn btn-primary btn-lg">View Recalls</a></li>
-                <li ui-sref-active="hidden" ng-if="!recalls.response.count"><a ui-sref=".recalls" alt=""></a>No recalls found.</li>
-                <li ui-sref-active="hidden" ng-if="events.response.count"><a ui-sref=".events" alt="" class="btn btn-primary btn-lg">View Adverse Events</a></li>
-                <li ui-sref-active="hidden" ng-if="!events.response.count"><a ui-sref=".recalls" alt=""></a>No events found.</li>
+                <li ui-sref-active="hidden" ng-if="recalls.response.count"><a ui-sref=".recalls" ui-sref-opts="{reload: true, notify: true}" alt="" class="btn btn-primary btn-lg">View Recalls</a></li>
+                <li ui-sref-active="hidden" ng-if="!recalls.response.count"><a ui-sref=".recalls" ui-sref-opts="{reload: true, notify: true}" alt=""></a>No recalls found.</li>
+                <li ui-sref-active="hidden" ng-if="events.response.count"><a ui-sref=".events" ui-sref-opts="{reload: true, notify: true}" alt="" class="btn btn-primary btn-lg">View Adverse Events</a></li>
+                <li ui-sref-active="hidden" ng-if="!events.response.count"><a ui-sref=".recalls" ui-sref-opts="{reload: true, notify: true}" alt=""></a>No events found.</li>
             </ul>
           </nav>
         </div>

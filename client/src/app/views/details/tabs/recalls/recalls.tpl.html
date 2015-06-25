@@ -29,8 +29,8 @@
     </div>
   </nav>
 </div>
-<h3 class="text-center" ng-if="indicator=='brand'">Recalls for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
-<h3 class="text-center" ng-if="indicator=='generic'">Recalls for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
+<h3 class="text-center" ng-if="indicator=='brand'">Recalls for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{recalls.response.count | number}})</span></h3>
+<h3 class="text-center" ng-if="indicator=='generic'">Recalls for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{recalls.response.count | number}})</span></h3>
 
 
 <section class="row">
