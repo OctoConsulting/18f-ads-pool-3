@@ -48,16 +48,16 @@
                 var assets = '/assets/images/icons/';
 
                 if(moment(date) > threeYearsAgo) {
-                    return assets+'dials_V4_alert4.png';
+                    return assets+'dials_V6_event4.png';
                 }
                 else if(moment(date) <= threeYearsAgo && moment(date) > sixYearsAgo) {
-                    return assets+'dials_V4_alert3.png';
+                    return assets+'dials_V6_event3.png';
                 }
                 else if(moment(date) <= sixYearsAgo && moment(date) > tenYearsAgo) {
-                    return assets+'dials_V4_alert2.png';
+                    return assets+'dials_V6_event2.png';
                 }
                 else {
-                    return assets+'dials_V4_alert1.png';
+                    return assets+'dials_V6_event1.png';
                 }                            
             };
 

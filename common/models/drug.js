@@ -16,6 +16,8 @@ isDrugExist = function(drugArray, drugName){
   return result;
 }
 
+//Implementation of Drug suggestion REST API endpoint (for Autocomplete on Drug search).
+//Given a Drug Partial Name return an array  of matching Drug Objects
 Drug.findSuggestions = function(q, cb){
 	logger.debug('Enterd findSuggestions method');
   //Fetching the search API
@@ -79,12 +81,17 @@ Drug.findSuggestions = function(q, cb){
   });
 };
 
-
-
+//Implementation of Drug details REST API endpoint.
+//Given a Complete Drug Name return a JSON object containing Drug Details
 Drug.getDrugDetails = function(q, typ, cb){
-   var fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=generic_name:"'+q+'"'; 
+   var fdaLabelURL = Drug.app.get("fdaDrugLabelApi");
+   var apiKey = Drug.app.get("fdaApiKey");
+   fdaLabelURL = fdaLabelURL + 'api_key='+ apiKey; 
+
    if(typ == 'brand')
-      fdaLabelURL = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=brand_name:"'+q+'"';
+      fdaLabelURL = fdaLabelURL + '&search=brand_name:"'+q+'"';
+   else if(typ == 'generic')   
+      fdaLabelURL = fdaLabelURL + '&search=generic_name:"'+q+'"'; 
 
    logger.debug('fdaLabelURL:: '+ fdaLabelURL);
    request(fdaLabelURL, function (error, response, body) {
@@ -114,12 +121,13 @@ Drug.getDrugDetails = function(q, typ, cb){
    });
 };
 
+//REST API Endpoint Configuration
 Drug.remoteMethod(
     'findSuggestions',
     {
-      description: 'Fetch suggestions for the given drug name',
-      accepts: {arg: 'q', type: 'string', required: true},
-      returns: {arg: 'result', type: 'array'},
+      description: 'Fetch suggestions for a given partial drug name',
+      accepts: {arg: 'q', type: 'string', required: true, description:'Partial Drug Name'},
+      returns: {arg: 'result', type: 'array', description:'Matching Drug Names'},
       http: {path: '/suggestions', verb: 'get'}
     }
   );
@@ -127,9 +135,10 @@ Drug.remoteMethod(
 Drug.remoteMethod(
     'getDrugDetails',
     {
-      description: 'Fetch drug details for the given drug set_id',
-      accepts: [{arg: 'q', type: 'string', required: true},{arg: 'typ', type: 'string', required: true}],
-      returns: {arg: 'drug', type: 'object'},
+      description: 'Fetch drug details for the given drug name and drug type',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Complete Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description:'Drug Type (genric OR brand)'}],
+      returns: {arg: 'drug', type: 'object', description:'Drug Details object'},
       http: {path: '/details', verb: 'get'}
     }
   );

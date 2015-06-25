@@ -23,8 +23,8 @@
         .controller( 'HomeController', HomeController);
 
         // Home controller
-        function HomeController($scope, Restangular, $state) {
-
+        function HomeController($scope, Restangular, $state, suggestionsConnections) {
+            $scope.suggestionsConnections = suggestionsConnections;
             $scope.search = function () {
                 $state.go('details.recalls', {typ: $scope.query.indicator, name: $scope.query.name});
             };
