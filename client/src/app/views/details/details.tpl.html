@@ -6,7 +6,7 @@
           <h1 class="text-uppercase" ng-if="indicator=='brand'">{{details.drug.brand_name[0] | uppercase}}</h1>
           <h1 class="text-uppercase" ng-if="indicator=='generic'">{{details.drug.generic_name[0] | uppercase}}</h1>
           <span class="lead highlight" ng-if="indicator=='brand'">{{details.drug.generic_name[0] | uppercase}}</span>
-          <p class="small">{{details.drug.purpose[0]}}</p>
+          <p read-more ng-model="details.drug.purpose[0]" words="true" length="50" class="small"></p>
           <nav>
             <ul class="list-unstyled">
                 <li ui-sref-active="hidden" ng-if="recalls.response.count"><a ui-sref=".recalls" alt=""><span class="glyphicon glyphicon-ban-circle"></span> View Recalls</a></li>
