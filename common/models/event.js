@@ -99,11 +99,18 @@ processFetchEventsResponse = function (error, response, body, cb) {
 	          	}
 	          }
             //Setting the substances		          
-	          if(results[i].patient.drug 
-	          		&& results[i].patient.drug.length > 2
-	          		&& results[i].patient.drug[2].openfda){
-	          	eventModel.patient.drugSubstance = results[i].patient.drug[2].openfda.substance_name;
-	          }		          
+	          // if(results[i].patient.drug 
+	          // 		&& results[i].patient.drug.length > 2
+	          // 		&& results[i].patient.drug[2].openfda){
+	          // 	eventModel.patient.drugSubstance = results[i].patient.drug[2].openfda.substance_name;
+	          // }
+            for(var j in results[i].patient.drug){
+                var drugNode = results[i].patient.drug[j];
+                if(drugNode.openfda){
+                  eventModel.patient.drugSubstance = drugNode.openfda.substance_name;
+                  break;
+                }
+            }		          
           }
           responseObj.events.push(eventModel);
        }

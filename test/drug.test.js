@@ -25,4 +25,19 @@ describe('Test Drug Model', function(){
 	 		});	
 	 	});
 	 });
+
+	 describe('Test - isDrugExist', function(){
+
+	 	var drugArray = [{name:'Tylenol'},{name:'Advil PM'}];
+	 	it('True - Scenario', function(done){
+			isDrugExist(drugArray, 'Tylenol').should.equal(true);
+			done();
+		});
+
+		it('False - Scenario', function(done){
+			isDrugExist(drugArray, 'Prilosec').should.equal(false);
+			done();
+		});
+
+	 });
 });
