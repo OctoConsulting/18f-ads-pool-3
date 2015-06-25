@@ -58,7 +58,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h3>Top 5 Reactions</h3>
+    <h4 class="text-center">Top 5 Reactions</h4>
     <div class="row">
       <div class="col-md-6">
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors1' donut-data='charts.events.reactions'></div>      
@@ -73,7 +73,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <h3>Event Outcomes</h3>
+    <h4 class="text-center">Event Outcomes</h4>
     <div class="row">
       <div class="col-md-6">
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors2' donut-data='charts.events.outcomes'></div>      
@@ -91,7 +91,7 @@
 
 <section class="row">
   <div class="col-md-12 item-listing">
-    <h3>Adverse Event Details</h3>
+    <h4>Adverse Event Details</h4>
     <article ng-repeat="item in events.response.events">
       <header class="row" ng-click="item.collapsed = !item.collapsed">
           <div class="col-md-12 item-detail">
