@@ -88,7 +88,7 @@ describe('Test Event Model', function(){
 		it('Response - Results found 1', function(done){
 			var response = {};
 			response.statusCode = 200;
-			console.log(eventData.dataset1);
+			//console.log(eventData.dataset1);
 			var body = eventData.dataset1;			
 			processFetchEventsResponse(null, response, JSON.stringify(body), function(error, result){
 				result.count.should.equal(300);
@@ -116,7 +116,7 @@ describe('Test Event Model', function(){
 		it('Response - Results found 2', function(done){
 			var response = {};
 			response.statusCode = 200;
-			console.log(eventData.dataset2);
+			//console.log(eventData.dataset2);
 			var body = eventData.dataset2;			
 			processFetchEventsResponse(null, response, JSON.stringify(body), function(error, result){
 				result.count.should.equal(300);
