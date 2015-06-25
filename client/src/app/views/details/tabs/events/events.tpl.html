@@ -63,7 +63,7 @@
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors1' donut-data='charts.events.reactions'></div>      
       </div>
       <div class="col-md-6">
-        <div class="well vert-offset-top-4">
+        <div class="chart-text well vert-offset-top-6">
           <ul class="list-unstyled">
             <li ng-repeat="name in charts.events.reactions track by $index"><span class="square-box" style="background:{{charts.events.colors1[$index]}}"></span>{{name.label}}</li>
           </ul>
@@ -77,7 +77,7 @@
         <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors2' donut-data='charts.events.outcomes'></div>      
       </div>
       <div class="col-md-6">
-        <div class="well vert-offset-top-3">
+        <div class="chart-text well vert-offset-top-5">
           <ul class="list-unstyled">
             <li ng-repeat="name in charts.events.outcomes track by $index"><span class="square-box" style="background:{{charts.events.colors2[$index]}}"></span>{{name.label}}</li>
           </ul>
