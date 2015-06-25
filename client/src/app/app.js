@@ -20,7 +20,7 @@
         ])
 
         // Declare any global configurations
-        .config( function initRoutes ($urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider, growlProvider) {
+        .config( function initRoutes ($locationProvider, $urlRouterProvider, $stateProvider, RestangularProvider, $provide, laddaProvider, growlProvider) {
             $urlRouterProvider.otherwise( '/' );
              RestangularProvider.setBaseUrl('/api');
             $provide.decorator('$uiViewScroll', function ($delegate, $stateParams, $location, $document) {
@@ -42,6 +42,8 @@
                     growl.error("There was an issue: " + exception.message);
                 };
             }]);
+
+            //$locationProvider.html5Mode(true);
         })
 
         // Initiate the application
