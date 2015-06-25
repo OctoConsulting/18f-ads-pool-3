@@ -11,7 +11,7 @@ MedCheck is deployed using [Docker](http://docker.com), with the docker image av
 ### Start the container
 	docker run -d -p 80:3000 -t octoconsulting/18f-asd-prototype-cicd
 
-This will start the container listening on port 80, you can specify a different port by changing the command below. Also, this port will have to be open and accessible on your server.
+This will start the container listening on port 80, you can specify a different port by changing the command above. Also, this port will have to be open and accessible on your server.
 
 ### Get the container ID with docker ps
 	# docker ps
