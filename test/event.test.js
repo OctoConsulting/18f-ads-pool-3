@@ -35,7 +35,7 @@ describe('Test Event Model', function(){
 	 	});
 
 
-	 	it('Results exists with brand name search', function(done){
+	 	it('Successful End-To-End Test - Search by brand', function(done){
 	 		this.timeout(30000);
 	 		supertest(app).get('/api/events?q="ROCEPHIN"&typ=brand&skip=1&limit=1').expect(200).end(function(err,res){
 		 		if(err) throw err;
@@ -49,7 +49,7 @@ describe('Test Event Model', function(){
 	 		});	
 	 	});
 
-	 	it('Results exists with generic name search', function(done){
+	 	it('Successful End-To-End Test - Search by generic', function(done){
 	 		this.timeout(30000);
 	 		supertest(app).get('/api/events?q="CEFTRIAXONE SODIUM"&typ=generic&skip=1&limit=1').expect(200).end(function(err,res){
 		 		if(err) throw err;
@@ -59,28 +59,6 @@ describe('Test Event Model', function(){
 		 		responseOBJ.response.limit.should.equal(1);
 		 		should.exists(responseOBJ.response.events);
 		 		responseOBJ.response.events.length.should.equal(1);
-		 		done();
-	 		});	
-	 	});
-
-	 	it("Results don't exists with brand name search", function(done){
-	 		this.timeout(30000);
-	 		supertest(app).get('/api/events?q="XXYYY"&typ=brand&skip=1&limit=1').expect(200).end(function(err,res){
-		 		if(err) throw err;
-		 		res.status.should.equal(200);
-		 		var responseOBJ = res.body; 
-		 		should.not.exists(responseOBJ.response.events);
-		 		done();
-	 		});	
-	 	});
-
-	 	it("Results don't exists with generic name search", function(done){
-	 		this.timeout(30000);
-	 		supertest(app).get('/api/events?q="XXYYY"&typ=generic&skip=1&limit=1').expect(200).end(function(err,res){
-		 		if(err) throw err;
-		 		res.status.should.equal(200);
-		 		var responseOBJ = res.body; 
-		 		should.not.exists(responseOBJ.response.events);
 		 		done();
 	 		});	
 	 	});
@@ -111,19 +89,45 @@ describe('Test Event Model', function(){
 
 	});
 
-	describe('Test - getReactions', function(){
-	 	it('Results exists for Reactions', function(done){
+	describe('Test - reactions', function(){
+
+	 	it('Successful End-To-End Test - Search by brand ', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/reactions?q=IBUPROFEN&typ=brand').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+	 	it('Successful End-To-End Test - Search by generic ', function(done){
 	 		this.timeout(30000);
 	 		supertest(app).get('/api/events/reactions?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
 		 		if(err) throw err;
 		 		res.status.should.equal(200)
-		 		var responseOBJ = res.body; 
-		 		should.exists(responseOBJ.result);
-		 	//responseOBJ.response.events.length.should.equal(1);
 		 		done();
 	 		});	
 	 	});
 
 
+	});	
+
+	describe('Test - reactionOutComes', function(){
+	 	it('Successful End-To-End Test - Search by brand', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/reactionOutComes?q=IBUPROFEN&typ=brand').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+	 	it('Successful End-To-End Test - Search by generic', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/reactionOutComes?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
 	});	
 });
