@@ -50,7 +50,7 @@
         .controller( 'AppController', function AppController ($scope, $state, $location,  appName, appVersion, connections) {
             $scope.appName = appName;
             $scope.appVersion = appVersion;
-            $scope.connections = connections;
+            $scope.connections = connections;            
 
             $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
                 $scope.showLoader = 1;
@@ -69,13 +69,18 @@
         .constant('appVersion', '1.0.0')
 
         // Main Run Function
-        .run( function initApplication ($rootScope, $state, Restangular, growl, connections) {
+        .run( function initApplication ($rootScope, $state, Restangular, growl, connections, suggestionsConnections) {
 
             $rootScope.$state = $state;
 
             Restangular.addRequestInterceptor(function(data, operation, what, url, response, deferred) {
                 if(url) {
-                    connections.addConnection();
+                    if(url.indexOf("/suggestions") === -1) {
+                        connections.addConnection();
+                    }
+                    else if(url.indexOf("/suggestions") > -1) {
+                        suggestionsConnections.addConnection();
+                    }
                     return data;
                 }
 
@@ -84,7 +89,12 @@
             Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {        
 
                 if(url) {    
-                    connections.removeConnection();
+                    if(url.indexOf("/suggestions") === -1) {
+                        connections.removeConnection();
+                    }
+                    else if(url.indexOf("/suggestions") > -1) {
+                        suggestionsConnections.removeConnection();
+                    }
                     return data;
                 }
             });
@@ -94,7 +104,12 @@
                 if (response.status === 404 || response.status === 500) {
                     growl.error(response.data.message);
                 }
-                connections.removeConnection();
+                if(response.config.url.indexOf("/suggestions") === -1) {
+                    connections.removeConnection();
+                }
+                else if(response.config.url.indexOf("/suggestions") > -1) {
+                    suggestionsConnections.removeConnection();
+                }               
                 return true;
                 
             });
