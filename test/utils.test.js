@@ -3,8 +3,8 @@ var should = require('should');
 var supertest = require('supertest');
 var utils = require('../common/utils/utility.js')
 
-describe('Test Utils Fucntions', function(){
-	 describe('Test getSearchQuery', function(){
+describe('Test Utils Functions', function(){
+	 describe('Test getToString', function(){
 	 	it('should return TO string', function(done){
 	 		var result = utils.getToString('Tyl');
 	 	    result.should.match('Tym');
@@ -23,4 +23,34 @@ describe('Test Utils Fucntions', function(){
 
 	 	});
 	 });	 
+
+	 describe('Test buildFilterUrlForRecall', function(){
+	 	it('should return search term for additional filter', function(done){
+	 		var result = utils.buildFilterUrlForRecall('Labeling');
+	 	    result.should.match('+AND+reason_for_recall:"Labeling:"');
+
+	 	    done();
+
+	 	});
+	 });	
+
+	 describe('Test removeSpecialChars', function(){
+	 	it('should return modified string with special characters removed', function(done){
+	 		var result = utils.removeSpecialChars('ACETAMENOPHEN, HYDRO! CHLORIDE');
+	 	    result.should.match('ACETAMENOPHEN HYDRO CHLORIDE');
+
+	 	    done();
+
+	 	});
+	 });		
+
+	 describe('Test getFormattedDt', function(){
+	 	it('should return modified string with the formatted date', function(done){
+	 		var result = utils.getFormattedDt('2012-09-14');
+	 	    result.should.match('20120914');
+
+	 	    done();
+
+	 	});
+	 });		   
 });
