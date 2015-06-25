@@ -342,7 +342,42 @@ from touching the row content above or below.
   opacity:0.05;
 }
 
+footer.pagination {
+  background:transparent;
+  display:block;
+  padding:20px 0;
+}
 
+.pagination-sm > li > a, .pagination-sm > li > span {
+  font-size: 14px;
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+    background-color: transparent;
+    border:0;
+    color: #777777;
+    cursor: not-allowed;
+    opacity:0.6;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: transparent;
+  border-color: #337ab7;
+  color: #ffffff;
+  cursor: default;
+  z-index: 2;
+}
+
+.detail-section  {
+  padding:0 15px;
+}
+
+.detail-section > div {
+  background-color: #ffffff;
+  border-left: 1px solid #e6e6e6;
+  border-right: 1px solid #e6e6e6;
+  padding:20px;
+}
 
 /******************************************************************
 Site Name: 18F 
@@ -391,17 +426,19 @@ Stylesheet: Base Stylesheet
   src: local('Roboto Black'), local('Roboto-Black'), url(http://fonts.gstatic.com/s/roboto/v14/mnpfi9pxYH-Go5UiibESIj8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
 }
 body {
-  background-color: #ffffff;
-  color: #293655;
-  font-weight: 200;
+  background-color: #fafafa;
+  color: #262626;
+  font-weight: 300;
   font-size: 16px;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
+.home header {
+  margin-bottom: 0;
+}
 .home .hero {
-  background: url(../assets/images/background2.1.jpeg) no-repeat left center;
+  background: url(../assets/images/MedCheck_hero.jpg) no-repeat left center;
   background-size: cover;
   height: 500px;
-  margin-top: 50px;
 }
 strong {
   font-weight: 900;
@@ -409,40 +446,40 @@ strong {
 h1 {
   font-size: 2em;
   font-weight: 900;
-  color: #293655;
   margin-bottom: 0;
+  color: #293655;
 }
 h2 {
   font-size: 1.8em;
-  color: #293655;
+  color: #154e7d;
 }
 h3 {
   font-size: 1.6em;
-  font-weight: 900;
+  font-weight: 300;
   margin: .5em 0;
 }
 h4 {
   font-size: 1.4em;
   line-height: 1.6em;
   font-size: 1.3em;
-  color: #99b35c;
+  color: #9ab45c;
 }
 h5 {
   font-size: 1.2em;
-  color: #b1a349;
-  margin-top: 0;
+  color: #154e7d;
+  margin-top: 5px;
 }
 p {
   line-height: 1.8em;
 }
 a {
-  color: #607d8b;
+  color: #154e7d;
 }
 a:hover {
   color: #36474f;
 }
 .navbar {
-  background-color: #293655;
+  background-color: #154e7d;
   color: #ffffff;
 }
 .navbar .nav > li > a:hover {
@@ -459,15 +496,131 @@ a:hover {
   color: #ffffff;
 }
 .btn-primary {
-  background-color: #293655;
+  background-color: #32a6ad;
+  border: 1px solid #cccccc;
 }
 .btn-primary:hover,
-.btn-primary .active {
-  background-color: #080a10;
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #278085;
+  border: 1px solid #cccccc;
 }
-.page-title {
-  border-left: 10px solid #99b35c;
-  padding-left: .6em;
+.med-header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #f2f2f2;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+.med-panel {
+  border-radius: 0px;
+  border: 1px solid #f2f2f2;
+  box-shadow: none;
+}
+.med-panel .panel-footer {
+  background-color: #f2f2f2;
+  border: 0px;
+  border-top: 2px solid #e6e6e6;
+  box-shadow: none;
+}
+.item-listing {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.item-listing > article:nth-child(even) > header .item-detail > div {
+  background-color: #f2f2f2;
+}
+.item-listing > article > header a {
+  font-weight: bold;
+}
+.item-listing > article > header a:hover,
+.item-listing > article > header a:focus,
+.item-listing > article > header a:active {
+  text-decoration: none;
+}
+.item-listing > article > header .item-detail.active > div {
+  background-color: #f9fcfe;
+}
+.item-listing > article > header .item-detail > div {
+  border: 1px solid #e6e6e6;
+  background-color: #ffffff;
+}
+.item-listing > article > header .item-detail > div:hover {
+  background-color: #f9fcfe;
+  cursor: pointer;
+}
+.med-search {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.med-filters {
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+  padding-top: 20px;
+  padding-bottom: 3px;
+  margin-bottom: 5px;
+}
+.med-graph {
+  margin-bottom: 20px;
+}
+.big-num {
+  font-size: 3em;
+  font-weight: 600;
+}
+.col-middle {
+  vertical-align: middle;
+}
+.row-same-height {
+  display: table;
+  width: 100%;
+  /* fix overflow */
+  table-layout: fixed;
+}
+.highlight {
+  color: #32a6ad;
+}
+.loading {
+  background-image: url(../images/med_loading.gif);
+  background-position: bottom;
+  background-repeat: repeat-x;
+}
+.pagination {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.pagination > li > a,
+.pagination > li > a:focus,
+.pagination > li > a:active {
+  border: 0px;
+  border-bottom: 2px solid transparent;
+  margin: 0 3px;
+  background-color: transparent;
+  color: #154e7d;
+  font-weight: 600;
+  border-radius: 0px;
+}
+.pagination > li > a:hover,
+.pagination > li > a:focus:hover,
+.pagination > li > a:active:hover {
+  border-bottom-color: #32a6ad;
+  color: #32a6ad;
+  background-color: transparent;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: 0px;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:active,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  border-bottom-color: #32a6ad;
+  color: #32a6ad;
 }
 /* import tablet */
 /******************************************************************
@@ -480,10 +633,9 @@ Stylesheet: Tablet Stylesheet
     font-size: 16px;
     width: 100&;
   }
-  .navbar-main .navbar-nav li a {
-    margin: 4px 3px;
-    padding-left: 6px;
-    padding-right: 6px;
+  .col-md-height {
+    display: table-cell;
+    float: none !important;
   }
 }
 /* import notebook */
@@ -495,11 +647,6 @@ Stylesheet: Notebook Stylesheet
 @media (min-width: 970px) {
   body {
     font-size: 18px;
-  }
-  .navbar-main .navbar-nav li a {
-    margin: 4px 5px;
-    padding-left: 8px;
-    padding-right: 8px;
   }
 }
 /* import desktop */
@@ -515,3 +662,5 @@ Stylesheet: Desktop Stylesheet
     padding-right: 10px;
   }
 }
+
+

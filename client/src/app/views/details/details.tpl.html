@@ -1,31 +1,24 @@
-<article class="container">
-  <header class="row">
-    <div class="col-md-8">
-        <div class="page-title">
-          <h1 ng-if="indicator=='brand'">{{details.drug.brand_name[0] | uppercase}}</h1>
-          <h1 ng-if="indicator=='generic'">{{details.drug.generic_name[0] | uppercase}}</h1>
-          <h5 ng-if="indicator=='brand'">{{details.drug.generic_name[0]}}</h5>
-        </div>
-        <p ng-if="indicator=='brand'">{{details.drug.purpose[0]}}</p>
-        <div class="results-heading vert-offset-top-2">The results of your search for <strong>{{name}}</strong> include(s) <strong>{{details.drug.count | number}}</strong> related items.</div>
-    </div>
+<div class="container-fluid">
+  <div class="row">
     <div class="col-md-4">
-      <nav class="col-lg-12">
-            <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li class="active">
-                    <a ui-sref=".recalls" class="text-uppercase" aria-controls="recalls" role="tab">Recalls <span class="badge">{{recalls.response.count | number}}</span></a>
-                </li>
-                <li>
-                    <a ui-sref=".events" class="text-uppercase" aria-controls="events" role="tab">Adverse Events <span class="badge">{{events.response.count | number}}</span></a>
-                </li>
+      <div class="panel med-panel">
+        <div class="panel-body med-info">
+          <h1 class="text-uppercase" ng-if="indicator=='brand'">{{details.drug.brand_name[0] | uppercase}}</h1>
+          <h1 class="text-uppercase" ng-if="indicator=='generic'">{{details.drug.generic_name[0] | uppercase}}</h1>
+          <span class="lead highlight" ng-if="indicator=='brand'">{{details.drug.generic_name[0] | uppercase}}</span>
+          <p class="small">{{details.drug.purpose[0]}}</p>
+          <nav>
+            <ul class="list-unstyled">
+                <li ui-sref-active="hidden" ng-if="recalls.response.count"><a ui-sref=".recalls" alt=""><span class="glyphicon glyphicon-ban-circle"></span> View Recalls</a></li>
+                <li ui-sref-active="hidden" ng-if="events.response.count"><a ui-sref=".events" alt=""><span class="glyphicon glyphicon-ban-circle"></span> View Adverse Events</a></li>
+                <!--<li><a href="#" alt=""><span class="glyphicon glyphicon-share"></span> Share Information</a></li>-->
             </ul>
-        </nav>
+          </nav>
+        </div>
+      </div>
     </div>
-  </header>
-  <section class="row">
-      <!-- Tab panes -->
-    <div class="tab-content col-md-12">
+    <div class="col-md-8">
       <div ui-view></div>
     </div>
-  </section>
-</article>
+  </div>
+</div>

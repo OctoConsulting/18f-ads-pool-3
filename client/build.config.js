@@ -82,6 +82,7 @@ module.exports = {
       'vendor/highcharts-ng/dist/highcharts-ng.min.js',
       'vendor/moment/min/moment.min.js',
       'vendor/angular-moment/angular-moment.min.js'
+
     ],
     css: [
        'vendor/font-awesome/css/font-awesome.min.css',
