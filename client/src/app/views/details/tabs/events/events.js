@@ -119,7 +119,7 @@
                 }, function() {
                 });
 
-                Restangular.one('events').customGET('',query)
+                return Restangular.one('events').customGET('',query)
                 .then(function(data) {
                     $scope.events.response = data.response;
                     $scope.events.pageChangeAction = 0;
