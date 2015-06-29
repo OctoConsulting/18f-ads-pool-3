@@ -593,7 +593,7 @@ processReactionsResponse = function (error, response, body, cb) {
 };
 
 /**
-  Fetches the reactions for the given drug. This method also supports pagination.
+  Fetches the event count by date for the given date range.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string} Drug type. It should be either brand or geenric.
@@ -616,7 +616,7 @@ Event.getEventCountByDate = function(q, typ, fromDate, toDate, cb){
 };
 
 /**
-  This method validates the data for reactions API
+  This method validates the data for event counts by date API.
 
   @param q {string}   Drug Name
   @param typ {string} Drug Type
@@ -633,7 +633,7 @@ validateEventCountByDateParams = function(q, typ, cb){
 };
 
 /**
-  This method construct the FDA Rest Api to fetch reactions.
+  This method construct the FDA Rest Api to fetch event counts by date.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string}  Drug type. It should be either brand or geenric.
@@ -676,7 +676,7 @@ constructEventCountByDateURL = function(q, typ, fromDate, toDate) {
 };
 
 /**
-  This method process the response from FDA API Response for reactions
+  This method process the response from FDA API Response for event counts by date.
 
   @param error {Error}
   @param response {Object}
@@ -707,7 +707,7 @@ processEventCountByDateResponse = function (error, response, body, cb) {
 };
 
 /**
-  Fetches the reactions for the given drug. This method also supports pagination.
+  Fetches the event counts by age.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string} Drug type. It should be either brand or geenric.
@@ -727,7 +727,7 @@ Event.getEventCountByAge = function(q, typ, cb){
 };
 
 /**
-  This method construct the FDA Rest Api to fetch reactions.
+  This method construct the FDA Rest Api to fetch event counts by age.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string}  Drug type. It should be either brand or geenric.
@@ -760,12 +760,10 @@ constructEventCountByAgeURL = function(q, typ) {
 */
 getTotalCountMatchesAgeRange = function(results, ageRange){
   var total = 0;  
-  logger.debug(ageRange);
   for(var j in results){
     var age = parseInt(results[j].term);
     if( (!ageRange.minAge || ageRange.minAge <= age ) 
         && (!ageRange.maxAge || ageRange.maxAge > age )){
-      logger.debug(results[j]);
       total = total + results[j].count;
     }
   }
@@ -773,7 +771,7 @@ getTotalCountMatchesAgeRange = function(results, ageRange){
 };
 
 /**
-  This method process the response from FDA API Response for reactions
+  This method process the response from FDA API Response for events count by age.
 
   @param error {Error}
   @param response {Object}
@@ -801,7 +799,7 @@ processEventCountByAgeResponse = function (error, response, body, cb) {
 };
 
 /**
-  This method validates the data for reactions API
+  This method validates the data for events count by Age API
 
   @param q {string}   Drug Name
   @param typ {string} Drug Type
@@ -818,7 +816,7 @@ validateEventCountByAgeParams = function(q, typ, cb){
 };
 
 /**
-  Fetches the reactions for the given drug. This method also supports pagination.
+  Fetches the event counts by gender.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string} Drug type. It should be either brand or geenric.
@@ -838,7 +836,7 @@ Event.getEventCountByGender = function(q, typ, cb){
 };
 
 /**
-  This method validates the data for reactions API
+  This method validates the data for event counts by gender API.
 
   @param q {string}   Drug Name
   @param typ {string} Drug Type
@@ -855,7 +853,7 @@ validateEventCountByGenderParams = function(q, typ, cb){
 };
 
 /**
-  This method construct the FDA Rest Api to fetch reactions.
+  This method construct the FDA Rest Api to fetch event counts by gender.
 
   @param q {string} The drung name for which the adverse events are requested for. 
   @param typ {string}  Drug type. It should be either brand or geenric.
@@ -881,7 +879,7 @@ constructEventCountByGenderURL = function(q, typ) {
 };
 
 /**
-  This method process the response from FDA API Response for reactions
+  This method process the response from FDA API Response for event counts by gender
 
   @param error {Error}
   @param response {Object}
@@ -1013,7 +1011,7 @@ Event.remoteMethod(
 Event.remoteMethod(
     'getEventCountByDate',
     {
-      description: 'Fetch event counts by date',
+      description: 'Fetch event counts by received date',
       accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
                 {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
                                                 'Should be either brand or generic']},
