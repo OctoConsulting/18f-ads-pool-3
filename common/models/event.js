@@ -95,7 +95,7 @@ processFetchEventsResponse = function (error, response, body, cb) {
 	          	}else if(results[i].patient.patientsex == '2'){
 	          		eventModel.patient.gender = constants.FEMALE;
 	          	}else{
-	          		eventModel.patient.gender = constants.unknown;
+	          		eventModel.patient.gender = constants.UNKNOWN;
 	          	}
 	          }
             //Setting the substances		          
@@ -748,10 +748,16 @@ constructEventCountByAgeURL = function(q, typ) {
       fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
    }
 
-   fdaEventURL = fdaEventURL + '&count=patientonsetage';
+   fdaEventURL = fdaEventURL + '&count=patient.patientonsetage';
    return fdaEventURL;
 };
 
+/**
+  This method sums up the counts for all the ages that fall in the passed in range
+  @param results {array}
+  @param response {Object}
+
+*/
 getTotalCountMatchesAgeRange = function(results, ageRange){
   var total = 0;  
   logger.debug(ageRange);
@@ -811,6 +817,102 @@ validateEventCountByAgeParams = function(q, typ, cb){
    }
 };
 
+/**
+  Fetches the reactions for the given drug. This method also supports pagination.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string} Drug type. It should be either brand or geenric.
+
+*/
+
+Event.getEventCountByGender = function(q, typ, cb){
+  //Validating the params
+  validateEventCountByGenderParams(q, typ, cb);
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = constructEventCountByGenderURL(q, typ);
+   logger.debug('fdaEventURL:: '+ fdaEventURL);
+   //Make rest API to FDA to retrieve adverse events for the drung
+   request(fdaEventURL, function (error, response, body) {
+      processEventCountByGenderResponse(error, response, body, cb);
+   });
+};
+
+/**
+  This method validates the data for reactions API
+
+  @param q {string}   Drug Name
+  @param typ {string} Drug Type
+  @param cb {Function} callback  
+*/
+
+validateEventCountByGenderParams = function(q, typ, cb){
+   if(typ != 'brand' && typ != 'generic'){    
+      error = new Error();
+      error.statusCode = 400;
+      error.message = messages.ERROR_TYP_VALIDATION;
+      return cb(error); 
+   }
+};
+
+/**
+  This method construct the FDA Rest Api to fetch reactions.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string}  Drug type. It should be either brand or geenric.
+
+*/
+
+constructEventCountByGenderURL = function(q, typ) {
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
+   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }
+
+   fdaEventURL = fdaEventURL + '&count=patient.patientsex';
+   return fdaEventURL;
+};
+
+/**
+  This method process the response from FDA API Response for reactions
+
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processEventCountByGenderResponse = function (error, response, body, cb) {
+    var retResults = [];
+    if(error){
+      logger.error('Error happened in retrieving the drug reactions information');
+      return cb(error); 
+    }else if (!error && response.statusCode == 200) {
+      var responseOBJ = JSON.parse(body);     
+      var results = responseOBJ.results;
+      var finalResults = [];
+      for(var i in results){
+        var obj = {};
+        if(results[i].term == '1'){
+          obj.label = constants.MALE;
+        }else if(results[i].term == '2'){
+          obj.label = constants.FEMALE;
+        }else{
+          obj.label = constants.UNKNOWN;
+        }
+        obj.value = results[i].count;
+        finalResults.push(obj);
+      }
+    }
+    return cb(null, finalResults); 
+};
 
 //REST API Endpoint Configuration
 Event.remoteMethod(
@@ -930,13 +1032,26 @@ Event.remoteMethod(
 Event.remoteMethod(
     'getEventCountByAge',
     {
-      description: 'Fetch event counts by date',
+      description: 'Fetch event counts by age',
       accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
                 {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
                                                 'Should be either brand or generic']}
               ],
       returns: {arg: 'results', type: 'array'},
       http: {path: '/countByAge', verb: 'get'}
+    }
+  );
+
+Event.remoteMethod(
+    'getEventCountByGender',
+    {
+      description: 'Fetch event counts by gender',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
+                                                'Should be either brand or generic']}
+              ],
+      returns: {arg: 'results', type: 'array'},
+      http: {path: '/countByGender', verb: 'get'}
     }
   );
 
