@@ -1,6 +1,6 @@
 module.exports = {	
-	ageReference: [{maxAge:10},{minAge:10,maxAge:20},{minAge:20,maxAge:30},{minAge:30,maxAge:40},
-	{minAge:40,maxAge:50},{minAge:50,maxAge:60},{minAge:60,maxAge:70},{minAge:70,maxAge:80},{minAge:80,maxAge:90},{minAge:90}],
+	ageReference: [{maxAge:10,label:'Under 10'},{minAge:10,maxAge:20,label:'Age 10 to 20'},{minAge:20,maxAge:30,label:'Age 20 to 30'},{minAge:30,maxAge:40,label:'Age 30 to 40'},
+	{minAge:40,maxAge:50,label:'Age 40 to 50'},{minAge:50,maxAge:60,label:'Age 50 to 60'},{minAge:60,maxAge:70,label:'Age 60 to 70'},{minAge:70,maxAge:80,label:'Age 70 to 80'},{minAge:80,maxAge:90,label:'Age 80 to 90'},{minAge:90,label:'90 and Up'}],
 	gender: [{code:1,val:'Male'},{code:2,val:'Female'}],
 	seriousness:[{code:'seriousnessdisabling',val:'Disability'},
 	{code:'seriousnessother',val:'Unknown'},

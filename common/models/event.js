@@ -706,6 +706,112 @@ processEventCountByDateResponse = function (error, response, body, cb) {
     return cb(null, finalResults); 
 };
 
+/**
+  Fetches the reactions for the given drug. This method also supports pagination.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string} Drug type. It should be either brand or geenric.
+
+*/
+
+Event.getEventCountByAge = function(q, typ, cb){
+  //Validating the params
+  validateEventCountByAgeParams(q, typ, cb);
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = constructEventCountByAgeURL(q, typ);
+   logger.debug('fdaEventURL:: '+ fdaEventURL);
+   //Make rest API to FDA to retrieve adverse events for the drung
+   request(fdaEventURL, function (error, response, body) {
+      processEventCountByAgeResponse(error, response, body, cb);
+   });
+};
+
+/**
+  This method construct the FDA Rest Api to fetch reactions.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string}  Drug type. It should be either brand or geenric.
+
+*/
+
+constructEventCountByAgeURL = function(q, typ) {
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
+   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }
+
+   fdaEventURL = fdaEventURL + '&count=patientonsetage';
+   return fdaEventURL;
+};
+
+getTotalCountMatchesAgeRange = function(results, ageRange){
+  var total = 0;  
+  logger.debug(ageRange);
+  for(var j in results){
+    var age = parseInt(results[j].term);
+    if( (!ageRange.minAge || ageRange.minAge <= age ) 
+        && (!ageRange.maxAge || ageRange.maxAge > age )){
+      logger.debug(results[j]);
+      total = total + results[j].count;
+    }
+  }
+  return total;
+};
+
+/**
+  This method process the response from FDA API Response for reactions
+
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processEventCountByAgeResponse = function (error, response, body, cb) {
+    var retResults = [];
+    if(error){
+      logger.error('Error happened in retrieving the drug reactions information');
+      return cb(error); 
+    }else if (!error && response.statusCode == 200) {
+      var responseOBJ = JSON.parse(body);     
+      var results = responseOBJ.results;
+      var finalResults = [];
+      for(var i in referenceData.ageReference){
+        var obj = {};
+        obj.label = referenceData.ageReference[i].label;
+        obj.value = getTotalCountMatchesAgeRange(results, referenceData.ageReference[i]);
+        finalResults.push(obj);
+      }
+    }
+    return cb(null, finalResults); 
+};
+
+/**
+  This method validates the data for reactions API
+
+  @param q {string}   Drug Name
+  @param typ {string} Drug Type
+  @param cb {Function} callback  
+*/
+
+validateEventCountByAgeParams = function(q, typ, cb){
+   if(typ != 'brand' && typ != 'generic'){    
+      error = new Error();
+      error.statusCode = 400;
+      error.message = messages.ERROR_TYP_VALIDATION;
+      return cb(error); 
+   }
+};
+
+
 //REST API Endpoint Configuration
 Event.remoteMethod(
     'fetchEvents',
@@ -818,6 +924,19 @@ Event.remoteMethod(
               ],
       returns: {arg: 'results', type: 'array'},
       http: {path: '/countByDate', verb: 'get'}
+    }
+  );
+
+Event.remoteMethod(
+    'getEventCountByAge',
+    {
+      description: 'Fetch event counts by date',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
+                                                'Should be either brand or generic']}
+              ],
+      returns: {arg: 'results', type: 'array'},
+      http: {path: '/countByAge', verb: 'get'}
     }
   );
 
