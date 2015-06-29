@@ -24,7 +24,7 @@ describe( 'Home', function() {
 
     // This is the mock for the back end call
     $httpBackend.expect('GET', '/api/drugs/suggestions?q=Tyl')
-        .respond({result: [{"id":"0027e3a2-862a-474d-8c33-dda1a2264b27","name":"Infants TYLENOL","indicator":"brand"}]});
+        .respond({result: [{"name":"Infants TYLENOL","indicator":"brand"}]});
   
     // Call the controller function and see if the returned suggestions are in the correct format
     scope.getSuggestions('Tyl').then(function(suggestions) {
@@ -39,11 +39,11 @@ describe( 'Home', function() {
   it( 'should return no results found for non-existing name', inject( function() {
 
     // This is the mock for the back end call
-    $httpBackend.expect('GET', '/api/drugs/suggestions?q=Xyz')
+    $httpBackend.expect('GET', '/api/drugs/suggestions?q=Xyzfaafds')
         .respond({result: [{"name":"No results found."}]});
   
     // Call the controller function and see if the returned suggestions has "No results found."
-    scope.getSuggestions('Xyz').then(function(suggestions) {
+    scope.getSuggestions('Xyzfaafds').then(function(suggestions) {
       expect(suggestions[0].name).not.toEqual("Infants TYLENOL");
       expect(suggestions[0].name).toEqual("No results found.");
     });

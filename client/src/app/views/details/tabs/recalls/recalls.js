@@ -79,13 +79,15 @@
                     query.reason = $scope.recalls.filters.reason.code;
                 }
 
-                Restangular.one('recalls').customGET('',query)
+                return Restangular.one('recalls').customGET('',query)
                 .then(function(data) {
                     $scope.recalls.response = data.response;
                     $scope.recalls.pageChangeAction = 0;
                 }, function() {
                     $scope.recalls.pageChangeAction = 0;
                 });
+               // console.log('returning something' + $scope.recalls.response.count);
+                //return 'something';
             };
 
             $scope.updateRecallTimeframe = function (time) {

@@ -1,5 +1,4 @@
 ## MedCheck
-MedCheck is available at: https://medcheck.octoconsulting.com
 
 ## Deployment
 MedCheck is deployed using [Docker](http://docker.com), with the docker image available publicly on [Docker Hub](https://registry.hub.docker.com/u/octoconsulting/18f-asd-prototype-cicd/). In order to deploy the application in your own Docker environment, the following steps are required:

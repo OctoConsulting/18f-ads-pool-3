@@ -592,6 +592,120 @@ processReactionsResponse = function (error, response, body, cb) {
     return cb(null, finalResults); 
 };
 
+/**
+  Fetches the reactions for the given drug. This method also supports pagination.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string} Drug type. It should be either brand or geenric.
+  @param fromDate {string} Filter the events by event received date that is greater than this date. 
+                              Valid format is yyyymmdd or yyyy-mm-dd
+  @param toDate {string} Filter the events by event received date that is greater than this date. 
+                              Valid format is yyyymmdd or yyyy-mm-dd 
+*/
+
+Event.getEventCountByDate = function(q, typ, fromDate, toDate, cb){
+  //Validating the params
+  validateEventCountByDateParams(q, typ, cb);
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = constructEventCountByDateURL(q, typ, fromDate, toDate);
+   logger.debug('fdaEventURL:: '+ fdaEventURL);
+   //Make rest API to FDA to retrieve adverse events for the drung
+   request(fdaEventURL, function (error, response, body) {
+      processEventCountByDateResponse(error, response, body, cb);
+   });
+};
+
+/**
+  This method validates the data for reactions API
+
+  @param q {string}   Drug Name
+  @param typ {string} Drug Type
+  @param cb {Function} callback  
+*/
+
+validateEventCountByDateParams = function(q, typ, cb){
+   if(typ != 'brand' && typ != 'generic'){    
+      error = new Error();
+      error.statusCode = 400;
+      error.message = messages.ERROR_TYP_VALIDATION;
+      return cb(error); 
+   }
+};
+
+/**
+  This method construct the FDA Rest Api to fetch reactions.
+
+  @param q {string} The drung name for which the adverse events are requested for. 
+  @param typ {string}  Drug type. It should be either brand or geenric.
+  @param fromDate {string} Filter the events by event received date that is greater than this date. 
+                              Valid format is yyyymmdd or yyyy-mm-dd
+  @param toDate {string} Filter the events by event received date that is greater than this date. 
+                              Valid format is yyyymmdd or yyyy-mm-dd 
+*/
+
+constructEventCountByDateURL = function(q, typ, fromDate, toDate) {
+   //Constructing the URL to fetch adverse events
+   var fdaEventURL = Event.app.get("fdaDrugEventApi");
+   var apiKey = Event.app.get("fdaApiKey");
+   fdaEventURL = fdaEventURL + 'api_key='+ apiKey; 
+   //Drung band names and generica name are all uppercase in adverse events dataset. So converting the case to Uppercase always.
+   q = utils.removeSpecialChars(q);
+   q = q.toUpperCase();
+   if(typ == 'brand'){    
+        fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.brand_name.exact:"'+ q +'"'; 
+   }else if(typ == 'generic'){
+      fdaEventURL = fdaEventURL + '&search=patient.drug.openfda.generic_name.exact:"'+ q +'"'; 
+   }
+   //Replacing the date
+   if(fromDate){
+     fromDate = fromDate.replace(/-/g,"");
+   }
+   if(toDate){
+     toDate = toDate.replace(/-/g,"");
+   }
+   //Adding filter for received dates
+   if(fromDate && toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:['+fromDate+'+TO+'+ toDate+'])';    
+   }else if(fromDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:>=' + fromDate+')';
+   }else if(toDate){
+     fdaEventURL = fdaEventURL + '+AND+(receivedate:<=' + toDate+')';
+   }
+   fdaEventURL = fdaEventURL + '&count=receivedate';
+   return fdaEventURL;
+};
+
+/**
+  This method process the response from FDA API Response for reactions
+
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processEventCountByDateResponse = function (error, response, body, cb) {
+    var retResults = [];
+    if(error){
+      logger.error('Error happened in retrieving the drug reactions information');
+      return cb(error); 
+    }else if (!error && response.statusCode == 200) {
+      var responseOBJ = JSON.parse(body);     
+      var results = responseOBJ.results;
+      var finalResults = [];
+      for(var i in results){
+        var obj = [];
+        var year = parseInt(results[i].time.substring(0, 4));
+        var month = parseInt(results[i].time.substring(4, 6));
+        var day = parseInt(results[i].time.substring(6, 8));
+        obj.push(Date.UTC(year, month, day));
+        obj.push(results[i].count);
+        finalResults.push(obj);
+      }
+    }
+    return cb(null, finalResults); 
+};
+
 //REST API Endpoint Configuration
 Event.remoteMethod(
     'fetchEvents',
@@ -687,4 +801,24 @@ Event.remoteMethod(
       http: {path: '/reactionOutComes', verb: 'get'}
     }
   );
+
+Event.remoteMethod(
+    'getEventCountByDate',
+    {
+      description: 'Fetch event counts by date',
+      accepts: [{arg: 'q', type: 'string', required: true, description:'Drug Name'},
+                {arg: 'typ', type: 'string', required: true, description: ['Drug Type - ', 
+                                                'Should be either brand or generic']},
+                {arg: 'fromDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']},
+                {arg: 'toDate', type: 'string', description: [
+                              'Filter the events by event received date that is greater than this date.',                             
+                              'Valid format is yyyymmdd or yyyy-mm-dd']}
+              ],
+      returns: {arg: 'results', type: 'array'},
+      http: {path: '/countByDate', verb: 'get'}
+    }
+  );
+
 };
