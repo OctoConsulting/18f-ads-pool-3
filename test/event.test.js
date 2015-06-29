@@ -208,4 +208,118 @@ describe('Test Event Model', function(){
 	 	});
 	 	
 	});	
+	
+	describe('Test - countByDate', function(){
+
+	 	it('Successful End-To-End Test - Search by brand', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByDate?q=IBUPROFEN&typ=brand').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+	 	it('Successful End-To-End Test - Search by generic', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByDate?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+		it('Error Check - Typ is other than brand and generic', function(done){
+	 		supertest(app).get('/api/events/countByDate?q="ROCEPHIN"&typ=other').expect(400).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(400);
+		 		var responseOBJ = res.body; 
+		 		responseOBJ.message.should.equal(messages.ERROR_TYP_VALIDATION);
+		 		done();
+	 		});	
+	 	});
+
+	});	
+
+	describe('Test - countByAge', function(){
+
+		it('Test - getTotalCountMatchesAgeRange', function(done){
+			var results = [];
+			results.push({term:5, count:10});
+			results.push({term:50, count:20});
+			results.push({term:11, count:30});
+			results.push({term:10, count:40});
+			results.push({term:16, count:50});
+			results.push({term:26, count:60});
+			results.push({term:17, count:70});
+			results.push({term:17.345, count:80});
+			results.push({term:14, count:90});
+			results.push({term:16, count:100});
+			var ageRange = {minAge:10, maxAge:20};
+			var count = getTotalCountMatchesAgeRange(results, ageRange);
+			count.should.equal(460);
+			done();
+	 	});
+
+	 	it('Successful End-To-End Test - Search by brand', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByAge?q=IBUPROFEN&typ=brand').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+	 	it('Successful End-To-End Test - Search by generic', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByAge?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+		it('Error Check - Typ is other than brand and generic', function(done){
+	 		supertest(app).get('/api/events/countByAge?q="ROCEPHIN"&typ=other').expect(400).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(400);
+		 		var responseOBJ = res.body; 
+		 		responseOBJ.message.should.equal(messages.ERROR_TYP_VALIDATION);
+		 		done();
+	 		});	
+	 	});
+
+	});
+
+	describe('Test - countByGender', function(){
+
+	 	it('Successful End-To-End Test - Search by brand', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByGender?q=IBUPROFEN&typ=brand').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+	 	it('Successful End-To-End Test - Search by generic', function(done){
+	 		this.timeout(30000);
+	 		supertest(app).get('/api/events/countByGender?q=IBUPROFEN&typ=generic').expect(200).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(200)
+		 		done();
+	 		});	
+	 	});
+
+		it('Error Check - Typ is other than brand and generic', function(done){
+	 		supertest(app).get('/api/events/countByGender?q="ROCEPHIN"&typ=other').expect(400).end(function(err,res){
+		 		if(err) throw err;
+		 		res.status.should.equal(400);
+		 		var responseOBJ = res.body; 
+		 		responseOBJ.message.should.equal(messages.ERROR_TYP_VALIDATION);
+		 		done();
+	 		});	
+	 	});
+
+	});
 });
