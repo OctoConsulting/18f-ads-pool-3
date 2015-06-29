@@ -22,7 +22,7 @@ describe( 'Detail', function() {
       scope.maxPerPage = 5;
       $httpBackend = _$httpBackend_;
       stateparams = { name: "ADVIL PM", typ : "brand"};
-      DetailsEventsController = $controller( 'DetailsEventsController', { $scope: scope, $stateParams:stateparams, detailsData: detailsData, eventsData:{"response":{}}, recallsData:{"response":{}},referenceData:{"response":{}}, eventReactionChartData:{"result":{}},eventOutcomesChartData:{"results":{}},eventCountData:{"results":{}},recallCountData:{"results":{}} });
+      DetailsEventsController = $controller( 'DetailsEventsController', { $scope: scope, $stateParams:stateparams, detailsData: detailsData, eventsData:{"response":{}}, recallsData:{"response":{}},referenceData:{"response":{}}, eventReactionChartData:{"result":[{"label":"Under 10","value":420}]},eventOutcomesChartData:{"results":[{"label":"Under 10","value":420}]},eventCountData:{"results":{}},recallCountData:{"results":{}},ageCountData:{"results":[{"label":"Under 10","value":420}]},genderCountData:{"results":[{"label":"Male","value":420}]} });
    }));
 
   it( 'should return events details', inject( function() {
