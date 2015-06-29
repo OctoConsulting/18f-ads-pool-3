@@ -56,64 +56,58 @@
 <h3 class="text-center" ng-if="indicator=='brand'">Adverse Events for <strong>{{details.drug.brand_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
 <h3 class="text-center" ng-if="indicator=='generic'">Adverse Events for <strong>{{details.drug.generic_name[0]}}</strong> <span class="highlight">({{events.response.count | number}})</span></h3>
 
-<div class="row">
-  <div class="col-md-6">
-    <h4 class="text-center">Top 5 Reactions</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors1' donut-data='charts.events.reactions'></div>      
-      </div>
-      <div class="col-md-6">
-        <div class="chart-text well vert-offset-top-1">
-          <ul class="list-unstyled">
-            <li ng-repeat="name in charts.events.reactions track by $index"><span class="square-box" style="background:{{charts.events.colors1[$index]}}"></span>{{name.label}} ({{chartReactionsFormatter(name)}})</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <h4 class="text-center">Event Outcomes</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="chart-height donut-chart" donut-chart donut-colors='charts.events.colors2' donut-data='charts.events.outcomes'></div>      
-      </div>
-      <div class="col-md-6">
-        <div class="chart-text well vert-offset-top-1">
-          <ul class="list-unstyled">
-            <li ng-repeat="name in charts.events.outcomes track by $index"><span class="square-box" style="background:{{charts.events.colors2[$index]}}"></span>{{name.label}} ({{chartOutcomesFormatter(name)}})</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>      
-</div>
-
-
 <div class="row vert-offset-top-2">
-  <div class="col-md-6">
+  <div class="col-md-6" ng-if="reactionsChart">
     <highchart id="topReactions" config="reactionsChart"></highchart>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6" ng-if="!reactionsChart">
+    <div class="well">
+      No Data Loaded
+    </div>
+  </div>  
+  <div class="col-md-6" ng-if="outcomesChart">
     <highchart id="outcomes" config="outcomesChart"></highchart>
   </div>
+  <div class="col-md-6" ng-if="!outcomesChart">
+    <div class="well">
+      No Data Loaded
+    </div>
+  </div>  
 </div>
 
 
 <div class="row vert-offset-top-2">
-  <div class="col-md-6">
+
+  <div class="col-md-6" ng-if="ageChart">
     <highchart id="ages" config="ageChart"></highchart>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6" ng-if="!ageChart">
+    <div class="well">
+      No Data Loaded
+    </div>
+  </div>
+
+  <div class="col-md-6" ng-if="genderChart">
     <highchart id="ages" config="genderChart"></highchart>
   </div>
+  <div class="col-md-6" ng-if="!genderChart">
+    <div class="well">
+      No Data Loaded
+    </div>
+  </div>
+
 </div>
 
 
 <div class="row vert-offset-top-2">
-  <div class="col-md-12">
+  <div class="col-md-12" ng-if="timeChart">
     <highchart id="timeline" config="timeChart"></highchart>    
   </div>
+  <div class="col-md-12" ng-if="!timeChart">
+    <div class="well">
+      No Data Loaded
+    </div>
+  </div>  
 </div>
 
 <section class="row">

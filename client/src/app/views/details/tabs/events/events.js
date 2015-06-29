@@ -47,9 +47,10 @@
             $scope.events.filters = {};
             $scope.charts = {};
             $scope.charts.events = {};
-            $scope.charts.events.colors1 = ["#237479","#2D9596","#32A6AD","#5BB8BD","#70C1C6"];
-            $scope.charts.events.colors2 = ["#9AB45C","#8DA84D","#819A47","#758C40","#697E3A","#5E7033"];
+            $scope.charts.events.colors1 = ['#1E6982','#4D7E96','#5397AD','#89C6D4','#B2C6D4'];
+            $scope.charts.events.colors2 = ['#4c6f28','#5c872f','#6ca037','#7cb83e','#8cc551','#9cce69'];
             $scope.maxPerPage = 5;
+
 
             $scope.charts.events.reactions = eventReactionChartData.result;
             $scope.charts.events.outcomes = eventOutcomesChartData.results;
@@ -74,32 +75,8 @@
                 lang: {
                     thousandsSep: ','
                 }
-            });
+            });           
 
-            $scope.recallsPageChanged = function () {
-                $scope.recalls.pageChangeAction = 1;
-                $scope.updateRecalls();
-            };
-
-            $scope.getRelevantImage = function(date) {
-                var threeYearsAgo = moment().subtract(3, 'years');
-                var sixYearsAgo = moment().subtract(6, 'years');
-                var tenYearsAgo = moment().subtract(10, 'years');
-                var assets = '/assets/images/icons/';
-
-                if(moment(date) > threeYearsAgo) {
-                    return assets+'dials_V4_alert4.png';
-                }
-                else if(moment(date) <= threeYearsAgo && moment(date) > sixYearsAgo) {
-                    return assets+'dials_V4_alert3.png';
-                }
-                else if(moment(date) <= sixYearsAgo && moment(date) > tenYearsAgo) {
-                    return assets+'dials_V4_alert2.png';
-                }
-                else {
-                    return assets+'dials_V4_alert1.png';
-                }                            
-            };
 
             $scope.updateEvents = function () {
 
@@ -146,6 +123,30 @@
                 }, function() {
                 });
 
+                Restangular.one('recalls').customGET('countByDate',query)
+                .then(function(data) {
+                    $scope.charts.events.recallCount = data.results;                 
+                }, function() {
+                });
+
+                Restangular.one('events').customGET('countByDate',query)
+                .then(function(data) {
+                    $scope.charts.events.eventCount = data.results;                 
+                }, function() {
+                });
+
+                Restangular.one('events').customGET('countByAge',query)
+                .then(function(data) {
+                    $scope.charts.events.ageCount = data.results;                 
+                }, function() {
+                });
+
+                Restangular.one('events').customGET('countByGender',query)
+                .then(function(data) {
+                    $scope.charts.events.genderCount = data.results;                 
+                }, function() {
+                });
+
                 return Restangular.one('events').customGET('',query)
                 .then(function(data) {
                     $scope.events.response = data.response;
@@ -153,14 +154,6 @@
                 }, function() {
                     $scope.events.pageChangeAction = 0;
                 });
-            };
-
-            $scope.chartReactionsFormatter = function(input) {
-                return Math.round(input.value/$scope.events.response.count*100,2) + '%';
-            };
-
-            $scope.chartOutcomesFormatter = function(input) {
-                return Math.round(input.value/$scope.events.response.count*100,2) + '%';
             };
 
             $scope.updateGender = function (gender) {
@@ -207,189 +200,217 @@
                 $scope.updateEvents();
             }; 
 
-
-            $scope.reactionsChart = {
-                options: {
-                    chart: {
-                        type: 'pie'
+            if($scope.charts.events.reactions) {
+                $scope.reactionsChart = {
+                    options: {
+                        chart: {
+                            type: 'pie'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                showInLegend: true,
+                                colors: $scope.charts.events.colors1,
+                                dataLabels: {
+                                    enabled: false,
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                    style: {
+                                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                    }
+                                }
+                            }
+                        },
+                        tooltip: {
+                            pointFormatter: function () {
+                                return '<span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+Highcharts.numberFormat(this.y)+'<)/b> ('+Math.round(this.y/$scope.events.response.count*100,2) + '%'+')<br/>.';
+                            }
+                        }               
                     },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: false
-                            },
-                            showInLegend: true
-                        }
-                    }              
-                },
-                series: [{
-                    name: 'Reactions',
-                    data: $scope.charts.events.reactions.map(function(item){
-                        return {'name':item.label, 'y':item.value};
-                    })
-                }],
-                title: {
-                    text: 'Top 5 Adverse Reactions'
-                },
-                loading: false
-            };
-
-            $scope.outcomesChart = {
-                options: {
-                    chart: {
-                        type: 'pie'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: false
-                            },
-                            showInLegend: true
-                        }
-                    }              
-                },               
-                series: [{
-                    name: 'Outcomes',
-                    data: $scope.charts.events.outcomes.map(function(item){
-                        return {'name':item.label, 'y':item.value};
-                    })
-                }],
-                title: {
-                    text: 'Event Outcomes'
-                },
-                loading: false
-            };
-
-            $scope.genderChart = {
-                options: {
-                    chart: {
-                        type: 'column'
-                    }
-                },
-                xAxis: {
-                    categories: $scope.charts.events.genderCount.map(function(item){
-                        return item.label;
-                    }),
+                    series: [{
+                        name: 'Reactions',
+                        data: $scope.charts.events.reactions.map(function(item){
+                            return {'name':item.label, 'y':item.value};
+                        })
+                    }],
                     title: {
-                        text: "Patient Gender"
-                    }
-                },                
-                series: [{
-                    name: 'Reactions',
-                    data: $scope.charts.events.genderCount.map(function(item){
-                        return item.value;
-                    })
-                }],
-                title: {
-                    text: 'Adverse Reactions By Gender'
-                },
+                        text: 'Top 5 Adverse Reactions'
+                    },
+                    loading: false
+                };
+            }
 
-                loading: false
-            };
-
-            $scope.ageChart = {
-                options: {
-                    chart: {
-                        type: 'bar'
-                    }
-                },
-                xAxis: {
-                    categories: $scope.charts.events.ageCount.map(function(item){
-                        return item.label;
-                    }),
+            if($scope.charts.events.outcomes) {
+                $scope.outcomesChart = {
+                    options: {
+                        chart: {
+                            type: 'pie'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                showInLegend: true,
+                                colors: $scope.charts.events.colors2,
+                                dataLabels: {
+                                    enabled: false,
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                    style: {
+                                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                    }
+                                }
+                            }
+                        },
+                        tooltip: {
+                            pointFormatter: function () {
+                                return '<span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+Highcharts.numberFormat(this.y)+'</b> ('+Math.round(this.y/$scope.events.response.count*100,2) + '%'+')<br/>.';
+                            }
+                        }                                 
+                    },               
+                    series: [{
+                        name: 'Outcomes',
+                        data: $scope.charts.events.outcomes.map(function(item){
+                            return {'name':item.label, 'y':item.value};
+                        })
+                    }],
                     title: {
-                        text: "Patient Age"
-                    }
-                },                
-                series: [{
-                    name: 'Reactions',
-                    data: $scope.charts.events.ageCount.map(function(item){
-                        return item.value;
-                    })
-                }],
-                title: {
-                    text: 'Adverse Reactions By Age'
-                },
+                        text: 'Event Outcomes'
+                    },
+                    loading: false
+                };
+            }
 
-                loading: false
-            };
+            if($scope.charts.events.genderCount) {
+                $scope.genderChart = {
+                    options: {
+                        chart: {
+                            type: 'column'
+                        }
+                    },
+                    xAxis: {
+                        categories: $scope.charts.events.genderCount.map(function(item){
+                            return item.label;
+                        }),
+                        title: {
+                            text: "Patient Gender"
+                        }
+                    },                
+                    series: [{
+                        name: 'Reactions',
+                        data: $scope.charts.events.genderCount.map(function(item){
+                            return item.value;
+                        })
+                    }],
+                    title: {
+                        text: 'Adverse Reactions By Gender'
+                    },
 
-            $scope.timeChart = {
-                options: {
-                    chart: {
-                        zoomType: 'x'
-                    },
-                    rangeSelector: {
-                        enabled: true
-                    },
-                    navigator: {
-                        enabled: true
-                    }
-                },
-                xAxis: {
-                    type: 'datetime'
-                },
-                yAxis: [{ // Primary yAxis
-                    labels: {
-                        format: '{value}',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
+                    loading: false
+                };                
+            }
+
+            if($scope.charts.events.ageCount) {
+                $scope.ageChart = {
+                    options: {
+                        chart: {
+                            type: 'bar'
                         }
                     },
+                    xAxis: {
+                        categories: $scope.charts.events.ageCount.map(function(item){
+                            return item.label;
+                        }),
+                        title: {
+                            text: "Patient Age"
+                        }
+                    },                
+                    series: [{
+                        name: 'Reactions',
+                        data: $scope.charts.events.ageCount.map(function(item){
+                            return item.value;
+                        })
+                    }],
                     title: {
-                        text: 'Recalls',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
+                        text: 'Adverse Reactions By Age'
+                    },
+
+                    loading: false
+                };
+            }
+            if($scope.charts.events.eventCount && $scope.charts.events.recallCount) {
+                $scope.timeChart = {
+                    options: {
+                        chart: {
+                            zoomType: 'x'
+                        },
+                        rangeSelector: {
+                            enabled: true
+                        },
+                        navigator: {
+                            enabled: true
                         }
                     },
-                    min:0
-                }, { // Secondary yAxis
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        title: {
+                            text: 'Recalls',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        min:0
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Adverse Events',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        opposite: true,
+                        min: 0
+                    }],             
+                    series: [{
+                        name: 'Adverse Events',
+                        type: 'line',
+                        //data: [[Date.UTC(2003,9,9),46],[Date.UTC(2003,10,9),31],[Date.UTC(2003,11,9),15],[Date.UTC(2004,1,9),3],[Date.UTC(2004,3,9),34],[Date.UTC(2004,11,9),85],[Date.UTC(2005,9,9),49],[Date.UTC(2006,9,9),25],[Date.UTC(2007,1,9),27],[Date.UTC(2007,4,9),26],[Date.UTC(2007,12,9),72],[Date.UTC(2008,1,9),7.6],[Date.UTC(2008,2,9),12],[Date.UTC(2008,2,19),10],[Date.UTC(2008,3,9),20],[Date.UTC(2009,1,9),3],[Date.UTC(2010,1,9),10],[Date.UTC(2011,1,9),11],[Date.UTC(2011,2,9),40],[Date.UTC(2013,5,9),22]],                    
+                        data: $scope.charts.events.eventCount,
+                        tooltip: {
+                            valueSuffix: ''
+                        },
+                        dataGrouping: {
+                            approximation: "sum",
+                            enabled: true,
+                            forced: true,
+                            units: [['month',[6]]]
+                        }
+                    }, {
+                        name: 'Recalls',
+                        type: 'column',
+                        yAxis: 1,
+                        //data: [[Date.UTC(2003,9,9),1],[Date.UTC(2003,10,9),1],[Date.UTC(2007,4,9),1],[Date.UTC(2007,12,9),1],[Date.UTC(2008,1,9),1],[Date.UTC(2008,2,9),1],[Date.UTC(2008,2,19),2],[Date.UTC(2008,3,9),1],[Date.UTC(2009,1,9),1],[Date.UTC(2010,1,9),1],[Date.UTC(2011,1,9),1]],
+                        data: $scope.charts.events.recallCount                  
+                    }],
                     title: {
-                        text: 'Adverse Events',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
+                        text: 'Medicine Recall Data 2015'
                     },
-                    labels: {
-                        format: '{value}',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    opposite: true,
-                    min: 0
-                }],             
-                series: [{
-                    name: 'Adverse Events',
-                    type: 'line',
-                    //data: [[Date.UTC(2003,9,9),46],[Date.UTC(2003,10,9),31],[Date.UTC(2003,11,9),15],[Date.UTC(2004,1,9),3],[Date.UTC(2004,3,9),34],[Date.UTC(2004,11,9),85],[Date.UTC(2005,9,9),49],[Date.UTC(2006,9,9),25],[Date.UTC(2007,1,9),27],[Date.UTC(2007,4,9),26],[Date.UTC(2007,12,9),72],[Date.UTC(2008,1,9),7.6],[Date.UTC(2008,2,9),12],[Date.UTC(2008,2,19),10],[Date.UTC(2008,3,9),20],[Date.UTC(2009,1,9),3],[Date.UTC(2010,1,9),10],[Date.UTC(2011,1,9),11],[Date.UTC(2011,2,9),40],[Date.UTC(2013,5,9),22]],                    
-                    data: $scope.charts.events.eventCount,
-                    tooltip: {
-                        valueSuffix: ''
-                    },
-                    dataGrouping: {
-                        approximation: "sum",
-                        enabled: true,
-                        forced: true,
-                        units: [['month',[6]]]
-                    }
-                }, {
-                    name: 'Recalls',
-                    type: 'column',
-                    yAxis: 1,
-                    //data: [[Date.UTC(2003,9,9),1],[Date.UTC(2003,10,9),1],[Date.UTC(2007,4,9),1],[Date.UTC(2007,12,9),1],[Date.UTC(2008,1,9),1],[Date.UTC(2008,2,9),1],[Date.UTC(2008,2,19),2],[Date.UTC(2008,3,9),1],[Date.UTC(2009,1,9),1],[Date.UTC(2010,1,9),1],[Date.UTC(2011,1,9),1]],
-                    data: $scope.charts.events.recallCount                  
-                }],
-                title: {
-                    text: 'Medicine Recall Data 2015'
-                },
-                loading: false,
-                useHighStocks: true
-            };
+                    loading: false,
+                    useHighStocks: true
+                };
+            }
         }
 })();
 
