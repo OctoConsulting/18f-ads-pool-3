@@ -181,6 +181,70 @@
             }; 
 
             
+            $scope.chartConfig = {
+                options: {
+                    chart: {
+                        type: 'line'
+                    }
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: 'Recalls',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    min:0
+                }, { // Secondary yAxis
+                    title: {
+                        text: 'Adverse Events',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true,
+                    min: 0
+                }],               
+                series: [{
+                    name: 'Adverse Events',
+                    type: 'line',
+                    data: [[Date.UTC(2003,9,9),46],[Date.UTC(2003,10,9),31],[Date.UTC(2003,11,9),15],[Date.UTC(2004,1,9),3],[Date.UTC(2004,3,9),34],[Date.UTC(2004,11,9),85],[Date.UTC(2005,9,9),49],[Date.UTC(2006,9,9),25],[Date.UTC(2007,1,9),27],[Date.UTC(2007,4,9),26],[Date.UTC(2007,12,9),72],[Date.UTC(2008,1,9),7.6],[Date.UTC(2008,2,9),12],[Date.UTC(2008,2,19),10],[Date.UTC(2008,3,9),20],[Date.UTC(2009,1,9),3],[Date.UTC(2010,1,9),10],[Date.UTC(2011,1,9),11],[Date.UTC(2011,2,9),40],[Date.UTC(2013,5,9),22]],                    
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+
+                }, {
+                    name: 'Recalls',
+                    type: 'scatter',
+                    yAxis: 1,
+                    data: [[Date.UTC(2003,9,9),1],[Date.UTC(2003,10,9),1],[Date.UTC(2007,4,9),1],[Date.UTC(2007,12,9),1],[Date.UTC(2008,1,9),1],[Date.UTC(2008,2,9),1],[Date.UTC(2008,2,19),2],[Date.UTC(2008,3,9),1],[Date.UTC(2009,1,9),1],[Date.UTC(2010,1,9),1],[Date.UTC(2011,1,9),1]],
+                    tooltip: {
+                        pointFormatter: function () {
+                            return '<b>' + Highcharts.dateFormat('%b %Y', this.x) +
+                                    '</b> ' + this.series.name + ': ' + this.y;
+                        }
+                    }                    
+                }],
+                title: {
+                    text: 'Medicine Recall Data 2015'
+                },
+                loading: false
+            };
         }
 })();
 
