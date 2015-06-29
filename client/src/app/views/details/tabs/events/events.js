@@ -19,14 +19,20 @@
                     },
                     eventOutcomesChartData: function(Restangular, $stateParams) {
                         return Restangular.one('events').customGET('reactionOutComes',{'q':$stateParams.name,'typ':$stateParams.typ});
-                    }                    
+                    },
+                    recallCountData: function(Restangular, $stateParams) {
+                        return Restangular.one('recalls').customGET('countByDate',{'q':$stateParams.name,'typ':$stateParams.typ});
+                    },
+                    eventCountData: function(Restangular, $stateParams) {
+                        return Restangular.one('events').customGET('countByDate',{'q':$stateParams.name,'typ':$stateParams.typ});
+                    }                 
                 }
             })
             ;
         })
         .controller( 'DetailsEventsController', DetailsEventsController);
 
-        function DetailsEventsController($log, $scope, Restangular, $state, detailsData, $stateParams, eventsData, recallsData, referenceData, eventReactionChartData, eventOutcomesChartData) {
+        function DetailsEventsController($log, $scope, Restangular, $state, detailsData, $stateParams, eventsData, recallsData, referenceData, eventReactionChartData, eventOutcomesChartData, recallCountData, eventCountData) {
             $scope.references = referenceData.response;
             $scope.details = detailsData;
             $scope.indicator = $stateParams.typ;
@@ -40,6 +46,9 @@
             $scope.charts.events.colors1 = ["#237479","#2D9596","#32A6AD","#5BB8BD","#70C1C6"];
             $scope.charts.events.colors2 = ["#9AB45C","#8DA84D","#819A47","#758C40","#697E3A","#5E7033"];
             $scope.maxPerPage = 5;
+
+            $scope.eventCount = eventCountData.results;
+            $scope.recallCount = recallCountData.results;
 
             $scope.events.currentPage = 1;
             $scope.events.maxPages = 5;
@@ -184,7 +193,8 @@
             $scope.chartConfig = {
                 options: {
                     chart: {
-                        type: 'line'
+                        type: 'line',
+                        zoomType: 'x'
                     }
                 },
                 xAxis: {
@@ -219,20 +229,21 @@
                     },
                     opposite: true,
                     min: 0
-                }],               
+                }],             
                 series: [{
                     name: 'Adverse Events',
                     type: 'line',
-                    data: [[Date.UTC(2003,9,9),46],[Date.UTC(2003,10,9),31],[Date.UTC(2003,11,9),15],[Date.UTC(2004,1,9),3],[Date.UTC(2004,3,9),34],[Date.UTC(2004,11,9),85],[Date.UTC(2005,9,9),49],[Date.UTC(2006,9,9),25],[Date.UTC(2007,1,9),27],[Date.UTC(2007,4,9),26],[Date.UTC(2007,12,9),72],[Date.UTC(2008,1,9),7.6],[Date.UTC(2008,2,9),12],[Date.UTC(2008,2,19),10],[Date.UTC(2008,3,9),20],[Date.UTC(2009,1,9),3],[Date.UTC(2010,1,9),10],[Date.UTC(2011,1,9),11],[Date.UTC(2011,2,9),40],[Date.UTC(2013,5,9),22]],                    
+                    //data: [[Date.UTC(2003,9,9),46],[Date.UTC(2003,10,9),31],[Date.UTC(2003,11,9),15],[Date.UTC(2004,1,9),3],[Date.UTC(2004,3,9),34],[Date.UTC(2004,11,9),85],[Date.UTC(2005,9,9),49],[Date.UTC(2006,9,9),25],[Date.UTC(2007,1,9),27],[Date.UTC(2007,4,9),26],[Date.UTC(2007,12,9),72],[Date.UTC(2008,1,9),7.6],[Date.UTC(2008,2,9),12],[Date.UTC(2008,2,19),10],[Date.UTC(2008,3,9),20],[Date.UTC(2009,1,9),3],[Date.UTC(2010,1,9),10],[Date.UTC(2011,1,9),11],[Date.UTC(2011,2,9),40],[Date.UTC(2013,5,9),22]],                    
+                    data:$scope.eventCount,
                     tooltip: {
                         valueSuffix: ''
                     }
-
                 }, {
                     name: 'Recalls',
                     type: 'scatter',
                     yAxis: 1,
-                    data: [[Date.UTC(2003,9,9),1],[Date.UTC(2003,10,9),1],[Date.UTC(2007,4,9),1],[Date.UTC(2007,12,9),1],[Date.UTC(2008,1,9),1],[Date.UTC(2008,2,9),1],[Date.UTC(2008,2,19),2],[Date.UTC(2008,3,9),1],[Date.UTC(2009,1,9),1],[Date.UTC(2010,1,9),1],[Date.UTC(2011,1,9),1]],
+                    //data: [[Date.UTC(2003,9,9),1],[Date.UTC(2003,10,9),1],[Date.UTC(2007,4,9),1],[Date.UTC(2007,12,9),1],[Date.UTC(2008,1,9),1],[Date.UTC(2008,2,9),1],[Date.UTC(2008,2,19),2],[Date.UTC(2008,3,9),1],[Date.UTC(2009,1,9),1],[Date.UTC(2010,1,9),1],[Date.UTC(2011,1,9),1]],
+                    data:$scope.recallCount,
                     tooltip: {
                         pointFormatter: function () {
                             return '<b>' + Highcharts.dateFormat('%b %Y', this.x) +
