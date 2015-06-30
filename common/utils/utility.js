@@ -17,7 +17,7 @@ module.exports.capitalizeString = function (str) {
 };
 
 //Return a string for search term based on given partial string
-module.exports.getSearchQuery = function (str) {
+module.exports.getSearchQuery = function (str, fdaLabelURL, apiKey) {
    var res = str.split(' ');	
    var range = '(';
 
@@ -31,7 +31,7 @@ module.exports.getSearchQuery = function (str) {
    }
 
    var genericRange = range.replace(/brand_name/g, 'generic_name');
-   var result = 'https://api.fda.gov/drug/label.json?api_key=yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi&search=';
+   var result = fdaLabelURL + 'api_key='+apiKey+'&search=';
    //var range = '[' + str + '+TO+' + toStr(str) + ']';
    result = result + range + '+OR+' + genericRange +'&limit=25';
 

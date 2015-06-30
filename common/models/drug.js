@@ -24,7 +24,9 @@ Drug.findSuggestions = function(q, cb){
 	logger.debug('Enterd findSuggestions method');
   //Fetching the search API
   q = utils.removeSpecialChars(q);
-  var fdaAPI = utils.getSearchQuery(q);
+  var fdaLabelURL = Drug.app.get("fdaDrugLabelApi");
+  var apiKey = Drug.app.get("fdaApiKey");
+  var fdaAPI = utils.getSearchQuery(q, fdaLabelURL, apiKey);
   logger.debug('fdaAPI:: '+ fdaAPI);
   //Making the API call
   request(fdaAPI, 
