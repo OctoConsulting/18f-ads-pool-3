@@ -1,3 +1,8 @@
+var async = require('async');
+var request = require('request');
+var log4js = require('log4js');
+log4js.configure('server/log4js_configuration.json', {});
+var logger = log4js.getLogger('utils');
 //Given a string , return a modified string with last character changed to next ASCII sequence character
 var toStr = module.exports.getToString = function (str) {
     if(!str) return null;
@@ -7,6 +12,47 @@ var toStr = module.exports.getToString = function (str) {
     var newString = str.slice(0,str.length-1) + nextChar;    
     
     return newString;
+};
+
+/**
+  This method makes the rest call for the given URI. 
+
+  FDA API is returning HTTP status code 429 with the following error  when there are many concurrent calls 
+  from the same API key. So this method makes upto 3 attempts if the response status 429.
+
+{
+ "error": {
+   "code": "OVER_RATE_LIMIT",
+   "message": "You have exceeded your rate limit. Try again later or contact us at https://api.fda.gov/contact for assistance"
+ }
+
+  @param uri {string}
+  @param cb  {Function} callback
+
+*/
+module.exports.processRestCall = function(uri, cb){
+  var count = 0;
+  var statusCode;
+  async.whilst(
+     function () { 
+      logger.debug('Attempting to make rest call for uri:: '+ uri + ' for the time:: ' + count);     
+      return count < 3; 
+    },
+     function (callback) {       
+        request(uri, function (error, response, body) {
+          count++;
+          statusCode = response.statusCode;
+          if(response.statusCode != 429 || count == 3){
+            count = 3;
+            cb(error, response, body);
+          }else{
+            setTimeout(callback, 1000);
+          }                    
+        });
+    },
+    function (err) {
+    }
+  );
 };
 
 //Given a string return a string with first letter in Uppercase and following characters in Lowercase

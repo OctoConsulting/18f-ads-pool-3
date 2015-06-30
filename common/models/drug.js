@@ -29,8 +29,26 @@ Drug.findSuggestions = function(q, cb){
   var fdaAPI = utils.getSearchQuery(q, fdaLabelURL, apiKey);
   logger.debug('fdaAPI:: '+ fdaAPI);
   //Making the API call
-  request(fdaAPI, 
-          function (error, response, body) {
+  // request(fdaAPI, 
+  //         function (error, response, body) {
+  //   processFindSuggestionsResponse(error, response, body,cb);
+  // });
+  utils.processRestCall(fdaAPI, function (error, response, body) {
+      processFindSuggestionsResponse(q,error, response, body, cb);
+   });
+};
+
+/**
+  This method process the response from FDA API Response for find suggestions
+  
+  @param q {string} input drug name
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processFindSuggestionsResponse = function (q, error, response, body, cb) {
     var drugSuggestions = [];  
     //if error returning error object  
     if(error){
@@ -83,7 +101,6 @@ Drug.findSuggestions = function(q, cb){
       }      
     }
     return cb(null, drugSuggestions);
-  });
 };
 
 //Implementation of Drug details REST API endpoint.
@@ -99,7 +116,24 @@ Drug.getDrugDetails = function(q, typ, cb){
       fdaLabelURL = fdaLabelURL + '&search=generic_name:"'+q+'"'; 
 
    logger.debug('fdaLabelURL:: '+ fdaLabelURL);
-   request(fdaLabelURL, function (error, response, body) {
+   // request(fdaLabelURL, function (error, response, body) {
+   //    processDrugDetailsResponse(error, response, body, cb);
+   // });
+   utils.processRestCall(fdaLabelURL, function (error, response, body) {
+      processDrugDetailsResponse(error, response, body, cb);
+   });
+};
+
+/**
+  This method process the response from FDA API Response for drug details
+
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processDrugDetailsResponse = function (error, response, body, cb) {
     if(error){
       logger.debug('Error happened in retrieving the drug label information');
       error.message = 'Your search could not be made at this time.';
@@ -122,8 +156,7 @@ Drug.getDrugDetails = function(q, typ, cb){
       error.statusCode = 400;
       error.message = 'No results were found for your search.';
       return cb(error);
-    }   
-   });
+    }
 };
 
 //REST API Endpoint Configuration

@@ -6,11 +6,65 @@ var utils = require('../utils/utility');
 
 module.exports = function(Recall) {
 
+/**
+  This method process the response from FDA API Response for recall details
+
+  @param error {Error}
+  @param response {Object}
+  @param body {Object}
+  @param cb  {Function} callback
+*/
+
+processRecallDetailsResponse = function (error, response, body, cb) {
+    if(error){
+      logger.error('Error occured when retrieving the drug recall information');
+
+      return cb(error); 
+    } else if (!error && response.statusCode == 200) {
+       var responseOBJ = JSON.parse(body);
+       var results = responseOBJ.results;
+       var meta = responseOBJ.meta;
+       var recalls = [];
+       var response = {};
+       if(results.length != 0){          
+          var recallObj = {};
+          //Set results metadata
+          response.count = meta.results.total;
+          response.skip = meta.results.skip;
+          response.limit = meta.results.limit;
+
+          for(var i=0; i < results.length; i++) {
+            //Set Recall details
+            var recallDetails = {};
+            recallDetails.recall_number = results[i].recall_number;
+            if(results[i].recall_initiation_date){
+              var date = results[i].recall_initiation_date;
+              recallDetails.recall_initiation_date = date.substring(0,4)+'-'+date.substring(4,6)+'-'+date.substring(6,8);
+            }           
+            recallDetails.reason_for_recall = results[i].reason_for_recall;
+            recallDetails.distribution_pattern = results[i].distribution_pattern;
+            recallDetails.recalling_firm = results[i].recalling_firm;
+            recallDetails.product_description = results[i].product_description;
+            recallDetails.product_quantity = results[i].product_quantity;
+
+            recalls.push(recallDetails);
+        }
+        response.recalls = recalls;
+  
+          return cb(null, response);         
+       }    
+    } 
+    else{
+      return cb(null, {});
+    } 
+};
+
 //Implementation of Rest End Point for '/recalls' path, return Response with "response" JSON object with metadata and 
 //an array of recall details given a brand or generic drug  
 Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate, cb){
    var fdaRecallURL = Recall.app.get('fdaDrugEnforcementApi') + 'api_key=' + Recall.app.get('fdaApiKey') +  '&search=';
    q = utils.removeSpecialChars(q);
+   q = q.toUpperCase();
    if(typ === 'generic')
   	 fdaRecallURL = fdaRecallURL + 'openfda.generic_name.exact:"'+ q +'"' ;
    if(typ === 'brand')
@@ -34,48 +88,11 @@ Recall.getRecallDetails = function(q, typ, limit, skip, reason, fromDate, toDate
      }     
 
    logger.debug('fdaRecallURL:: '+ fdaRecallURL);
-   request(fdaRecallURL, function (error, response, body) {
-    if(error){
-      logger.error('Error occured when retrieving the drug recall information');
-
-      return cb(error); 
-    } else if (!error && response.statusCode == 200) {
-       var responseOBJ = JSON.parse(body);
-       var results = responseOBJ.results;
-       var meta = responseOBJ.meta;
-       var recalls = [];
-       var response = {};
-       if(results.length != 0){          
-          var recallObj = {};
-          //Set results metadata
-          response.count = meta.results.total;
-          response.skip = meta.results.skip;
-          response.limit = meta.results.limit;
-
-          for(var i=0; i < results.length; i++) {
-	          //Set Recall details
-	          var recallDetails = {};
-	          recallDetails.recall_number = results[i].recall_number;
-            if(results[i].recall_initiation_date){
-              var date = results[i].recall_initiation_date;
-              recallDetails.recall_initiation_date = date.substring(0,4)+'-'+date.substring(4,6)+'-'+date.substring(6,8);
-            }	          
-	          recallDetails.reason_for_recall = results[i].reason_for_recall;
-	          recallDetails.distribution_pattern = results[i].distribution_pattern;
-	          recallDetails.recalling_firm = results[i].recalling_firm;
-	          recallDetails.product_description = results[i].product_description;
-	          recallDetails.product_quantity = results[i].product_quantity;
-
-	          recalls.push(recallDetails);
-	      }
-	      response.recalls = recalls;
-  
-          return cb(null, response);         
-       }    
-    } 
-    else{
-      return cb(null, {});
-    }   
+   // request(fdaRecallURL, function (error, response, body) { 
+   //  processRecallDetailsResponse(error, response, body,cb);  
+   // });
+    utils.processRestCall(fdaRecallURL, function (error, response, body) {
+      processRecallDetailsResponse(error, response, body, cb);
    });
 };
 
@@ -97,7 +114,10 @@ Recall.getRecallCountByDate = function(q, typ, fromDate, toDate, cb){
    var fdaRecallURL = constructRecallCountByDateURL(q, typ, fromDate, toDate);
    logger.debug('fdaRecallURL:: '+ fdaRecallURL);
    //Make rest API to FDA to retrieve adverse recalls for the drung
-   request(fdaRecallURL, function (error, response, body) {
+   // request(fdaRecallURL, function (error, response, body) {
+   //    processRecallCountByDateResponse(error, response, body, cb);
+   // });
+    utils.processRestCall(fdaRecallURL, function (error, response, body) {
       processRecallCountByDateResponse(error, response, body, cb);
    });
 };

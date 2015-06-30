@@ -249,8 +249,11 @@ Event.fetchEvents = function(q, typ, skip, limit, minAge, maxAge, gender, seriou
    var fdaEventURL = constructFetchEventsRestUri(q, typ, skip, limit, minAge, maxAge, gender, seriousness, fromDate, toDate);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
-   request(fdaEventURL, function (error, response, body) {
-   		processFetchEventsResponse(error, response, body, cb);
+   // request(fdaEventURL, function (error, response, body) {
+   // 		processFetchEventsResponse(error, response, body, cb);
+   // });
+    utils.processRestCall(fdaEventURL, function (error, response, body) {
+      processFetchEventsResponse(error, response, body, cb);
    });
 };
 
@@ -418,7 +421,10 @@ Event.getReactionOutComes = function(q, typ, minAge, maxAge, gender, seriousness
   var reactionOutComesURL = constructReactionOutComesRestUri(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate);
   logger.debug('reactionOutComesURL:: '+ reactionOutComesURL);
   //Make rest API to FDA to retrieve reaction outComes for the drung
-   request(reactionOutComesURL, function (error, response, body) {
+   // request(reactionOutComesURL, function (error, response, body) {
+   //    processGetReactionOutComesResponse(error, response, body, cb);
+   // });
+    utils.processRestCall(reactionOutComesURL, function (error, response, body) {
       processGetReactionOutComesResponse(error, response, body, cb);
    });
 };
@@ -541,7 +547,10 @@ Event.getReactions = function(q, typ, minAge, maxAge, gender, seriousness, fromD
    var fdaEventURL = constructReactionsURL(q, typ, minAge, maxAge, gender, seriousness, fromDate, toDate);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
-   request(fdaEventURL, function (error, response, body) {
+   // request(fdaEventURL, function (error, response, body) {
+   //    processReactionsResponse(error, response, body, cb);
+   // });
+    utils.processRestCall(fdaEventURL, function (error, response, body) {
       processReactionsResponse(error, response, body, cb);
    });
 };
@@ -605,7 +614,10 @@ Event.getEventCountByDate = function(q, typ, fromDate, toDate, cb){
    var fdaEventURL = constructEventCountByDateURL(q, typ, fromDate, toDate);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
-   request(fdaEventURL, function (error, response, body) {
+   // request(fdaEventURL, function (error, response, body) {
+   //    processEventCountByDateResponse(error, response, body, cb);
+   // });
+    utils.processRestCall(fdaEventURL, function (error, response, body) {
       processEventCountByDateResponse(error, response, body, cb);
    });
 };
@@ -716,7 +728,10 @@ Event.getEventCountByAge = function(q, typ, cb){
    var fdaEventURL = constructEventCountByAgeURL(q, typ);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
-   request(fdaEventURL, function (error, response, body) {
+   // request(fdaEventURL, function (error, response, body) {
+   //    processEventCountByAgeResponse(error, response, body, cb);
+   // });
+   utils.processRestCall(fdaEventURL, function (error, response, body) {
       processEventCountByAgeResponse(error, response, body, cb);
    });
 };
@@ -825,7 +840,10 @@ Event.getEventCountByGender = function(q, typ, cb){
    var fdaEventURL = constructEventCountByGenderURL(q, typ);
    logger.debug('fdaEventURL:: '+ fdaEventURL);
    //Make rest API to FDA to retrieve adverse events for the drung
-   request(fdaEventURL, function (error, response, body) {
+   // request(fdaEventURL, function (error, response, body) {
+   //    processEventCountByGenderResponse(error, response, body, cb);
+   // });
+  utils.processRestCall(fdaEventURL, function (error, response, body) {
       processEventCountByGenderResponse(error, response, body, cb);
    });
 };
