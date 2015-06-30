@@ -5,7 +5,6 @@ var constants = require('../messages/constants');
 var messages = require('../messages/event-messages');
 var referenceData = require('../messages/referenceConstants');
 var eventData = require('./event.test.data');
-var fdaEventURL = app.get("fdaDrugEventApi") + 'api_key='+ app.get("fdaApiKey");
 
 describe('Test Event Model', function(){
 	 describe('Test REST API - fetchEvents', function(){
