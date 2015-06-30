@@ -24,7 +24,7 @@ module.exports = {
     }
   },
   legacyExplorer: false,
-  fdaApiKey: 'yiv5ZoikJg3kSSZ5edvsiqnJa9yvHoxrm6EWT8yi',
+  fdaApiKey: 'ZMVwWDJ7ETtbYhANWObe2X0x3L2pjMXoauke80Wf',
   fdaDrugEventApi: 'https://api.fda.gov/drug/event.json?',
   fdaDrugLabelApi: 'https://api.fda.gov/drug/label.json?',
   fdaDrugEnforcementApi: 'https://api.fda.gov/drug/enforcement.json?'
