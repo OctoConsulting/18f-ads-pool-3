@@ -349,7 +349,7 @@
                     loading: false
                 };
             }
-            if($scope.charts.events.eventCount && $scope.charts.events.recallCount) {
+            if($scope.charts.events.eventCount || $scope.charts.events.recallCount) {
                 $scope.timeChart = {
                     options: {
                         chart: {
