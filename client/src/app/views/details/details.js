@@ -7,9 +7,9 @@
             .state( 'details', {
                 url: '/details/:typ/:name',
                 views: {
-                    "menu": {
-                        controller: 'MenuController',
-                        templateUrl: 'views/menu/menu.tpl.html'
+                    "header": {
+                        controller: 'HeaderController',
+                        templateUrl: 'views/header/header.tpl.html'
                     },
                     "main": {
                         controller: 'DetailsController',

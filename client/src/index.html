@@ -26,7 +26,7 @@
   
   <body ng-class="$state.current.name==='home' ? 'home':''">
     <div growl></div>
-    <div ui-view="menu"></div>
+    <div ui-view="header"></div>
     <div ui-view="main"></div>
     <div ui-view="footer"></div>
     <div class="modal-backdrop fade in"  ng-show="showLoader || connections.getValue();"></div>
