@@ -1,15 +1,34 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <h1 class="text-uppercase" ng-if="indicator=='brand'">{{details.drug.brand_name[0] | uppercase}}</h1>
       <h1 class="text-uppercase" ng-if="indicator=='generic'">{{details.drug.generic_name[0] | uppercase}}</h1>
       <span class="lead highlight" ng-if="indicator=='brand'">{{details.drug.generic_name[0] | uppercase}}</span>
-      <p read-more ng-model="details.drug.purpose[0]" words="true" length="50" class="small"></p>
-      <ul class="nav nav-pills vert-offset-top-2" role="tablist">
+      <p read-more ng-model="details.drug.purpose[0]" words="true" length="50" class="small"></p>        
+    </div>
+    <div class="col-md-2 text-center vert-offset-top-2 col-sm-6 col-xs-6">
+      <img class="center img-responsive" src="assets/images/version_6.3_icons_02.png" />
+      <h5 class="normal-weight">Adverse Events</h5>
+      <h5>{{totalEvents | number}}</h5>
+    </div>
+    <div class="col-md-2  text-center vert-offset-top-2 col-sm-6 col-xs-6">
+      <img class="center img-responsive" src="assets/images/version_6.3_icons_03.png" />
+      <h5 class="normal-weight">Recalls</h5>
+      <h5>{{totalRecalls | number}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-pills hidden-xs hidden-sm" role="tablist">
         <li role="presentation" ui-sref-active="active"><a ui-sref=".summary" ui-sref-opts="{reload:true}" aria-controls="home" role="tab" data-toggle="tab">Summary</a></li>
         <li role="presentation" ui-sref-active="active"><a ui-sref=".events" ui-sref-opts="{reload:true}" aria-controls="profile" role="tab" data-toggle="tab" ng-if="totalEvents">Adverse Events</a></li>
         <li role="presentation" ui-sref-active="active"><a ui-sref=".recalls" ui-sref-opts="{reload:true}" aria-controls="messages" role="tab" data-toggle="tab" ng-if="totalRecalls">Recalls</a></li>
-      </ul>          
+      </ul>
+      <ul class="nav nav-pills nav-stacked hidden-md hidden-lg" role="tablist">
+        <li role="presentation" ui-sref-active="active"><a ui-sref=".summary" ui-sref-opts="{reload:true}" aria-controls="home" role="tab" data-toggle="tab">Summary</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref=".events" ui-sref-opts="{reload:true}" aria-controls="profile" role="tab" data-toggle="tab" ng-if="totalEvents">Adverse Events</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref=".recalls" ui-sref-opts="{reload:true}" aria-controls="messages" role="tab" data-toggle="tab" ng-if="totalRecalls">Recalls</a></li>
+      </ul>                  
     </div>
   </div>
   <div class="row">
