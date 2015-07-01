@@ -1,56 +1,54 @@
 <div class="med-filters text-center">
   <nav class="navbar navbar-default">
-    <div class="container-fluid increase-both">
-      <ul class="nav navbar-nav">
-        <li dropdown>
-            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-              <span ng-if="!events.filters.gender">Gender</span> <span ng-if="events.filters.gender"> {{events.filters.gender.val}} </span><span class="caret"></span>
-            </a>
-            <ul role="menu" class="dropdown-menu">
-              <li><a ng-click="updateGender();">Any Gender</a></li>
-              <li ng-repeat="genderItem in references.gender">
-                <a ng-click="updateGender(genderItem);">{{genderItem.val}}</a>
-              </li>
-            </ul>
-        </li>
-        <li dropdown>
-            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <span ng-if="!events.filters.age">Age</span> <span ng-if="events.filters.age && !events.filters.age.minAge"> Under {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && events.filters.age.minAge && events.filters.age.maxAge" > Ages {{events.filters.age.minAge}} to {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && !events.filters.age.maxAge"> {{events.filters.age.minAge}} and up </span> <span class="caret"></span>
-            </a>
-            <ul role="menu" class="dropdown-menu">
-              <li><a ng-click="updateAge();">All ages</a></li>
-              <li ng-repeat="ageItem in references.age">
-                <a ng-if="!ageItem.minAge" ng-click="updateAge(ageItem);">Under {{ageItem.maxAge}}</a>
-                <a ng-if="ageItem.minAge && ageItem.maxAge" ng-click="updateAge(ageItem);">Ages {{ageItem.minAge}} to {{ageItem.maxAge}}</a>
-                <a ng-if="!ageItem.maxAge" ng-click="updateAge(ageItem);">{{ageItem.minAge}} and up</a>
-              </li>
-            </ul>
-        </li> 
-        <li dropdown>
-            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <span ng-if="!events.filters.time">Time Frame</span> <span ng-if="events.filters.time && !events.filters.time.minDt">Past {{events.filters.time.maxDt}} years</span><span ng-if="events.filters.time &&!events.filters.time.maxDt">Over {{events.filters.time.minDt}} years</span><span class="caret"></span>
-            </a>
-            <ul role="menu" class="dropdown-menu">
-              <li><a ng-click="updateTimeframe();">All time frames</a></li>
-              <li ng-repeat="timeItem in references.timeline">
-                <a ng-if="!timeItem.minDt" ng-click="updateTimeframe(timeItem);">Past {{timeItem.maxDt}} years</a>
-                <a ng-if="!timeItem.maxDt" ng-click="updateTimeframe(timeItem);">Over {{timeItem.minDt}} years</a>
-              </li>
-            </ul>
-        </li>
-        <li dropdown>
-            <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <span ng-if="!events.filters.severity">Severity</span> <span ng-if="events.filters.severity"> {{events.filters.severity.val}} </span> <span class="caret"></span>
-            </a>
-            <ul role="menu" class="dropdown-menu">
-              <li><a ng-click="updateSeverity();">View all severities</a></li>
-              <li ng-repeat="seriousItem in references.seriousness">
-                <a ng-click="updateSeverity(seriousItem);">{{seriousItem.val}}</a>
-              </li>
-            </ul>
-        </li>                                                                 
-      </ul>
-    </div>
+    <ul class="nav navbar-nav">
+      <li dropdown>
+          <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <span ng-if="!events.filters.gender">Gender</span> <span ng-if="events.filters.gender"> {{events.filters.gender.val}} </span><span class="caret"></span>
+          </a>
+          <ul role="menu" class="dropdown-menu">
+            <li><a ng-click="updateGender();">Any Gender</a></li>
+            <li ng-repeat="genderItem in references.gender">
+              <a ng-click="updateGender(genderItem);">{{genderItem.val}}</a>
+            </li>
+          </ul>
+      </li>
+      <li dropdown>
+          <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+              <span ng-if="!events.filters.age">Age</span> <span ng-if="events.filters.age && !events.filters.age.minAge"> Under {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && events.filters.age.minAge && events.filters.age.maxAge" > Ages {{events.filters.age.minAge}} to {{events.filters.age.maxAge}} </span> <span ng-if="events.filters.age && !events.filters.age.maxAge"> {{events.filters.age.minAge}} and up </span> <span class="caret"></span>
+          </a>
+          <ul role="menu" class="dropdown-menu">
+            <li><a ng-click="updateAge();">All ages</a></li>
+            <li ng-repeat="ageItem in references.age">
+              <a ng-if="!ageItem.minAge" ng-click="updateAge(ageItem);">Under {{ageItem.maxAge}}</a>
+              <a ng-if="ageItem.minAge && ageItem.maxAge" ng-click="updateAge(ageItem);">Ages {{ageItem.minAge}} to {{ageItem.maxAge}}</a>
+              <a ng-if="!ageItem.maxAge" ng-click="updateAge(ageItem);">{{ageItem.minAge}} and up</a>
+            </li>
+          </ul>
+      </li> 
+      <li dropdown>
+          <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+              <span ng-if="!events.filters.time">Time Frame</span> <span ng-if="events.filters.time && !events.filters.time.minDt">Past {{events.filters.time.maxDt}} years</span><span ng-if="events.filters.time &&!events.filters.time.maxDt">Over {{events.filters.time.minDt}} years</span><span class="caret"></span>
+          </a>
+          <ul role="menu" class="dropdown-menu">
+            <li><a ng-click="updateTimeframe();">All time frames</a></li>
+            <li ng-repeat="timeItem in references.timeline">
+              <a ng-if="!timeItem.minDt" ng-click="updateTimeframe(timeItem);">Past {{timeItem.maxDt}} years</a>
+              <a ng-if="!timeItem.maxDt" ng-click="updateTimeframe(timeItem);">Over {{timeItem.minDt}} years</a>
+            </li>
+          </ul>
+      </li>
+      <li dropdown>
+          <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
+              <span ng-if="!events.filters.severity">Severity</span> <span ng-if="events.filters.severity"> {{events.filters.severity.val}} </span> <span class="caret"></span>
+          </a>
+          <ul role="menu" class="dropdown-menu">
+            <li><a ng-click="updateSeverity();">View all severities</a></li>
+            <li ng-repeat="seriousItem in references.seriousness">
+              <a ng-click="updateSeverity(seriousItem);">{{seriousItem.val}}</a>
+            </li>
+          </ul>
+      </li>                                                                 
+    </ul>
   </nav>
 </div>
 

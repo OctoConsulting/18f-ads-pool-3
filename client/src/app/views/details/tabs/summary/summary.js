@@ -288,11 +288,17 @@
                         },
                         plotOptions: {
                             column: {
+                                showInLegend: false,
                                 colorByPoint:true
                             }
                         },
                         colors: ['#293655','#89C5D3','#B1C5D3']
                     },
+                    yAxis: {
+                        title: {
+                            text: "Events"
+                        }
+                    },                    
                     xAxis: {
                         categories: $scope.charts.events.genderCount.map(function(item){
                             return item.label;
@@ -323,10 +329,16 @@
                         },
                         plotOptions: {
                             bar: {
+                                showInLegend: false,
                                 colorByPoint:true
                             }
                         },
                         colors: ['#5397AC']                                              
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Events"
+                        }
                     },
                     xAxis: {
                         categories: $scope.charts.events.ageCount.map(function(item){
@@ -407,7 +419,7 @@
                             approximation: "sum",
                             enabled: true,
                             forced: true,
-                            units: [['month',[6]]]
+                            units: [['month',[3]]]
                         }
                     }, {
                         name: 'Recalls',
