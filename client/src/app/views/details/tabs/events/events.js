@@ -234,7 +234,7 @@
                         })
                     }],
                     title: {
-                        text: 'Top 5 Adverse Reactions'
+                        text: 'Top 5 Adverse Events'
                     },
                     loading: false
                 };
@@ -302,7 +302,7 @@
                         })
                     }],
                     title: {
-                        text: 'Adverse Reactions By Gender'
+                        text: 'Adverse Events By Gender'
                     },
 
                     loading: false
@@ -331,7 +331,7 @@
                         })
                     }],
                     title: {
-                        text: 'Adverse Reactions By Age'
+                        text: 'Adverse Events By Age'
                     },
 
                     loading: false
