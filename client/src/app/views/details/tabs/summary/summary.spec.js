@@ -5,7 +5,7 @@
  * automatically.
  */
 
-describe( 'Detail Events - ', function() {
+describe( 'Detail Summary - ', function() {
   beforeEach( module( 'app') );
   beforeEach( module( 'ngMockE2E') );
   
@@ -22,10 +22,22 @@ describe( 'Detail Events - ', function() {
       scope.maxPerPage = 5;
       $httpBackend = _$httpBackend_;
       stateparams = { name: "ADVIL PM", typ : "brand"};
-      DetailsEventsController = $controller( 'DetailsEventsController', { $scope: scope, $stateParams:stateparams, detailsData: detailsData, eventsData:{"response":{}}, recallsData:{"response":{}},referenceData:{"response":{}} });
+      DetailsSummaryController = $controller( 'DetailsSummaryController', { $scope: scope, $stateParams:stateparams, detailsData: detailsData, eventsData:{"response":{}}, recallsData:{"response":{}},referenceData:{"response":{}}, eventReactionChartData:{"result":[{"label":"Under 10","value":420}]},eventOutcomesChartData:{"results":[{"label":"Under 10","value":420}]},eventCountData:{"results":{}},recallCountData:{"results":{}},ageCountData:{"results":[{"label":"Under 10","value":420}]},genderCountData:{"results":[{"label":"Male","value":420}]} });
    }));
 
   it( 'should return events details', inject( function() {
+
+
+    $httpBackend.expect('GET', '/api/events/reactions?limit=5&q=ADVIL+PM&skip=0&typ=brand')
+        .respond('{"result":[{"label":"DRUG INEFFECTIVE","value":493},{"label":"SOMNOLENCE","value":112},{"label":"INSOMNIA","value":93},{"label":"OVERDOSE","value":86},{"label":"FEELING ABNORMAL","value":86}]}');
+
+    $httpBackend.expect('GET', '/api/events/reactionOutComes?limit=5&q=ADVIL+PM&skip=0&typ=brand')
+        .respond('{"results":[{"label":"Unknown","value":501},{"label":"Not recovered/not resolved","value":64},{"label":"Recovered/resolved","value":50},{"label":"Recovering/resolving","value":14},{"label":"Fatal","value":3},{"label":"Recovered/resolved with sequelae","value":2}]}');
+
+    $httpBackend.expect('GET', '/api/recalls/countByDate?limit=5&q=ADVIL+PM&skip=0&typ=brand').respond('{}');
+    $httpBackend.expect('GET', '/api/events/countByDate?limit=5&q=ADVIL+PM&skip=0&typ=brand').respond('{}');
+    $httpBackend.expect('GET', '/api/events/countByAge?limit=5&q=ADVIL+PM&skip=0&typ=brand').respond('{}');
+    $httpBackend.expect('GET', '/api/events/countByGender?limit=5&q=ADVIL+PM&skip=0&typ=brand').respond('{}');
 
 
     // This is the mock for the back end call
@@ -38,6 +50,8 @@ describe( 'Detail Events - ', function() {
     scope.updateEvents().then(function() {
        expect(scope.events.response.count).toEqual(1624);
        expect(scope.events.response.events[0].safetyreportid).toEqual("10009511");
+       expect(scope.charts.events.reactions[0].label).toEqual("DRUG INEFFECTIVE");
+       expect(scope.charts.events.outcomes[0].value).toEqual(501);
     });
 
     // Perform the async ajax call

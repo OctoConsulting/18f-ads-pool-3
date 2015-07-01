@@ -5,7 +5,7 @@
  * automatically.
  */
 
-describe( 'Detail', function() {
+describe( 'Detail Recalls - ', function() {
   beforeEach( module( 'app') );
   beforeEach( module( 'ngMockE2E') );
   

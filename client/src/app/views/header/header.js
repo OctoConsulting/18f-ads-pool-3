@@ -10,7 +10,7 @@
         function HeaderController($scope, Restangular, $state) {
 
             $scope.search = function () {
-                $state.go('details.events', {typ: $scope.query.indicator, name: $scope.query.name});
+                $state.go('details.summary', {typ: $scope.query.indicator, name: $scope.query.name});
             };
 
             // Function to get suggestions from the users search 
