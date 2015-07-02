@@ -5,10 +5,10 @@ MedCheck is deployed using [Docker](http://docker.com), with the docker image av
 
 ### Download the container
 
-	docker pull docker pull octoconsulting/18f-ads
+	docker pull octoconsulting/18f-ads
 
 ### Start the container
-	docker run -d -p 80:3000 -t docker pull octoconsulting/18f-ads
+	docker run -d -p 80:3000 -t octoconsulting/18f-ads
 
 This will start the container listening on port 80, you can specify a different port by changing the command above. Also, this port will have to be open and accessible on your server.
 
