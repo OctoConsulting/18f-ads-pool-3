@@ -236,7 +236,7 @@
                         })
                     }],
                     title: {
-                        text: 'Top 5 Reactions'
+                        text: 'Adverse Event Reactions'
                     },
                     loading: false
                 };
