@@ -47,7 +47,7 @@
             $scope.events.filters = {};
             $scope.charts = {};
             $scope.charts.events = {};
-            $scope.charts.events.colors1 = ['#1E6982','#4D7E96','#5397AD','#89C6D4','#B2C6D4'];
+            $scope.charts.events.colors1 = ['#1E6982','#4D7E96','#5397AD','#89C6D4','#B2C6D4','#214a58'];
             $scope.charts.events.colors2 = ['#4c6f28','#5c872f','#6ca037','#7cb83e','#8cc551','#9cce69'];
             $scope.maxPerPage = 5;
 
