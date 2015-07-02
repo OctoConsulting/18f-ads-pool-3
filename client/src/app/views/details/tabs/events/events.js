@@ -34,7 +34,11 @@
                 $scope.events.totalPages = 1000;
             }
 
-            
+            $scope.eventsPageChanged = function () {
+                $scope.events.pageChangeAction = 1;
+                $scope.updateEvents();
+            };
+           
             $scope.updateEvents = function () {
 
                 var query = {'q':$stateParams.name.toUpperCase(),'typ':$stateParams.typ,'limit':$scope.maxPerPage,'skip':($scope.events.currentPage-1)*$scope.maxPerPage};

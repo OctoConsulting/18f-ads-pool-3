@@ -38,7 +38,7 @@
 
             $scope.recallsPageChanged = function () {
                 $scope.recalls.pageChangeAction = 1;
-                $scope.updateEvents();
+                $scope.updateRecalls();
             };
 
             $scope.getRelevantImage = function(date) {
