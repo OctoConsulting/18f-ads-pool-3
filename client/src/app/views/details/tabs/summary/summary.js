@@ -236,7 +236,7 @@
                         })
                     }],
                     title: {
-                        text: 'Top 5 Adverse Events'
+                        text: 'Top 5 Adverse Reactions'
                     },
                     loading: false
                 };
