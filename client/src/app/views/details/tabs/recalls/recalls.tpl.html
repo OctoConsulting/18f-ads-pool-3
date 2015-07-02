@@ -14,7 +14,7 @@
       </li>                      
       <li dropdown>
           <a dropdown-toggle class="white" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle" href="#">
-              <span ng-if="!recalls.filters.time">Time Frame</span> <span ng-if="recalls.filters.time && !recalls.filters.time.minDt">Past {{recalls.filters.time.maxDt}} years</span><span ng-if="recalls.filters.time &&!recalls.filters.time.maxDt">Over {{recalls.filters.time.minDt}} years</span><span class="caret"></span>
+            <span ng-if="!recalls.filters.time">Time Frame</span> <span ng-if="recalls.filters.time && !recalls.filters.time.minDt">Past {{recalls.filters.time.maxDt}} years</span><span ng-if="recalls.filters.time &&!recalls.filters.time.maxDt">Over {{recalls.filters.time.minDt}} years</span><span class="caret"></span>
           </a>
           <ul role="menu" class="dropdown-menu">
             <li><a ng-click="updateRecallTimeframe();">All time frames</a></li>

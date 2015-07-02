@@ -7,14 +7,18 @@
       <p read-more ng-model="details.drug.purpose[0]" words="true" length="50" class="small"></p>        
     </div>
     <div class="col-md-2 text-center vert-offset-top-2 col-sm-6 col-xs-6">
-      <img class="center img-responsive" src="assets/images/version_6.3_icons_02.png" />
-      <h5 class="normal-weight">Adverse Events</h5>
-      <h5>{{totalEvents | number}}</h5>
+      <button type="button" ui-sref=".events" class="no-button">
+        <img class="center img-responsive" src="assets/images/version_6.3_icons_02.png" />
+        <h5 class="normal-weight">Adverse Events</h5>
+        <h5>{{totalEvents | number}}</h5>
+      </button>
     </div>
     <div class="col-md-2  text-center vert-offset-top-2 col-sm-6 col-xs-6">
-      <img class="center img-responsive" src="assets/images/version_6.3_icons_03.png" />
-      <h5 class="normal-weight">Recalls</h5>
-      <h5>{{totalRecalls | number}}</h5>
+      <button type="button" ui-sref=".recalls" class="no-button">
+        <img class="center img-responsive" src="assets/images/version_6.3_icons_03.png" />
+        <h5 class="normal-weight">Recalls</h5>
+        <h5>{{totalRecalls | number}}</h5>
+      </button>
     </div>
   </div>
   <div class="row">

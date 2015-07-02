@@ -310,7 +310,7 @@
                         }
                     },                
                     series: [{
-                        name: 'Reactions',
+                        name: 'Adverse Events',
                         data: $scope.charts.events.genderCount.map(function(item){
                             return item.value;
                         })
@@ -351,7 +351,7 @@
                         }
                     },                
                     series: [{
-                        name: 'Reactions',
+                        name: 'Adverse Events',
                         data: $scope.charts.events.ageCount.map(function(item){
                             return item.value;
                         })
