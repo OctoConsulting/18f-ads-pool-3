@@ -566,16 +566,22 @@ Event.getReactions = function(q, typ, minAge, maxAge, gender, seriousness, fromD
 
 processReactionsResponse = function (error, response, body, cb) {
     var retResults = [];
+    var otherResults = [];
+    var meta = {};
+    var totalCount = 0;
+
     if(error){
       logger.error('Error happened in retrieving the drug reactions information');
       return cb(error); 
     }else if (!error && response.statusCode == 200) {
       var responseOBJ = JSON.parse(body);     
       var results = responseOBJ.results;
+      
 
       if(results) {
         if(results.length > 5) {
           retResults = results.slice(0, 5);
+          otherResults = results.slice(5,results.length);
         } else {
           retResults = results;
         }
@@ -587,13 +593,27 @@ processReactionsResponse = function (error, response, body, cb) {
           var obj = {};
           obj.label = retResults[i].term;
           obj.value = retResults[i].count;
+          totalCount = totalCount + retResults[i].count;
 
           finalResults.push(obj);
 
         }
       }
+      if(otherResults){
+        var othersVal = 0;
+        var obj = {};
+
+        for(var i=0; i < otherResults.length; i++) {          
+          othersVal = othersVal+otherResults[i].count;
+        }
+        totalCount = totalCount + othersVal;
+        obj.label = 'Others';
+        obj.value = othersVal;
+        finalResults.push(obj);
+      }
+      meta.totalCount = totalCount;
     }
-    return cb(null, finalResults); 
+    return cb(null, finalResults, meta); 
 };
 
 /**
@@ -986,7 +1006,7 @@ Event.remoteMethod(
                               'Filter the events by event received date that is greater than this date.',                             
                               'Valid format is yyyymmdd or yyyy-mm-dd']}
                 ],
-      returns: {arg: 'result', type: 'array'},
+      returns: [{arg: 'result', type: 'array'}, {arg: 'meta', type: 'object'}],
       http: {path: '/reactions', verb: 'get'}
     }
   );

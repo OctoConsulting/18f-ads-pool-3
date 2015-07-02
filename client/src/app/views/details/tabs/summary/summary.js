@@ -53,6 +53,7 @@
 
 
             $scope.charts.events.reactions = eventReactionChartData.result;
+            $scope.charts.events.reactions.totalCount = eventReactionChartData.meta.totalCount;
             $scope.charts.events.outcomes = eventOutcomesChartData.results;
             $scope.charts.events.eventCount = eventCountData.results;
             $scope.charts.events.recallCount = recallCountData.results;
@@ -113,7 +114,8 @@
  
                 Restangular.one('events').customGET('reactions',query)
                 .then(function(data) {
-                    $scope.charts.events.reactions = data.result;                 
+                    $scope.charts.events.reactions = data.result;     
+                    $scope.charts.events.reactions.totalCount = data.meta.totalCount;            
                 }, function() {
                 });
 
@@ -223,7 +225,7 @@
                         },
                         tooltip: {
                             pointFormatter: function () {
-                                return '<span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+Highcharts.numberFormat(this.y)+'<)/b> ('+Math.round(this.y/$scope.events.response.count*100,2) + '%'+')<br/>.';
+                                return '<span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+Highcharts.numberFormat(this.y)+'<)/b> ('+Math.round(this.y/$scope.charts.events.reactions.totalCount*100,2) + '%'+')<br/>.';
                             }
                         }               
                     },
