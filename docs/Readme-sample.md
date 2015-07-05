@@ -39,9 +39,9 @@ The team initially planned for 3 production releases of the prototype.  Features
 User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog).  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, a product demo was conducted, feedback collected, product deployed to production and the team conducted a sprint review and retrospective (Link to retrospectives).  All the user and design documentation necessary for the execution of the sprint was constantly updated.
 
 <p align="center">
-|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250"/>
-|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250"/>
-|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="250"/>|
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250"/>
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250"/>
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="250"/>
 </p>
 
 #### User Experience Approach ####
