@@ -39,6 +39,10 @@ The team initially planned for 3 production releases of the prototype.  Features
 
 User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users.  Each version of the backlog is stored on GitHub.  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, the team conducted a sprint review and retrospective.  Documentation from each retrospective is saved on GitHub.
 
+![Team Work](https://github.com/OctoConsulting/18f-ads-pool-3/docs/Agile/Teamwork.JPG?raw=true)
+![Scrum Board](https://github.com/OctoConsulting/18f-ads-pool-3/docs/Agile/Teamwork.JPG?raw=true)
+![Kanban Board](https://github.com/OctoConsulting/18f-ads-pool-3/docs/Agile/Teamwork.JPG?raw=true)
+
 #### User Experience Approach ####
 
 In developing the prototype, Octo took a user centric approach in accordance with play #1 in the Digital Services Playbook. The information gathered from the users was used to continually refine the design of the prototype.  After every engagement with the user, UX and UI specialists continued to perform heuristic evaluations, and usability tests to refine the wireframes and final product.  Throughout the process, the UX/UI team worked very closely with the development team to ensure all changes to the user interface were implemented in the prototype.
@@ -65,6 +69,7 @@ Octo’s prototype is deployed within a Docker container available publicly on D
 
 Octo team utilized Nagios to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts are sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded.  Screenshots demonstrating real-time monitoring are saved in GitHub. 
 
+![Technical Stack](https://github.com/OctoConsulting/18f-ads-pool-3/docs/Agile/Teamwork.JPG?raw=true)
 
 ### Sprint # X (Hardening) ###
 
@@ -83,7 +88,7 @@ Pending
 | 2. Address the whole experience, from start to finish  | Generated Workflows to document how a user progresses through the prototype, Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype, Created an information architecture to organize content on the site  |
 | 3. Make it simple and intuitive  | Evaluated ten basic heuristic principles to review the end to end user experience, Conducted multiple rounds usability test of the prototype   |
 | 4. Build the services using agile and iterative practices  | Conducted development using Scrum while UI/UX and DevOps followed Kanban  |
-| 5. Structure budgets and contracts to support delivery  | N/A  |
+| 5. Structure budgets and contracts to support delivery  | A budget based was determined based on the scope and team stuck to the budget for the initial set of releases.  The budget and scope were revised after additional time was allowed  |
 | 6. Assign one leader and hold that person accountable  | Mr. Joe Truppo is assigned as the leader of the team and was held accountable for the overall delivery of the prototype  |
 | 7 Bring in experienced teams  | Average experience level of the members across the team is 8 years with each member specializing in multiple roles  |
 | 8 Choose a modern technology stack  | A modern technology stack the includes node.js, Loopback.js, Angular.js and Bootstrap was selected with a Restful backend  |
