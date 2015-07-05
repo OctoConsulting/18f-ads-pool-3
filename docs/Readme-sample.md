@@ -5,41 +5,38 @@
 </p>
 
 # Introduction #
-MedCheck is a responsive web application developed by Octo Consulting Group in response to the solicitation released by 18F for Agile Delivery Services (ADS).  MedCheck leverages the APIs offered by fda.gov and provides analysis of adverse events and recalls of various drugs.  Octo’s team of agile experts, developers, testers, user interface/experience designers and dev-ops engineers used a user centric approach and followed an agile delivery process (as illustrated by Figure 1) in delivering the MedCheck application in multiple releases.  The key highlights of our approach include:
+MedCheck is a responsive web application developed by Octo Consulting Group in response to the solicitation released by 18F for Agile Delivery Services (ADS).  MedCheck leverages the APIs offered by fda.gov and provides analysis of adverse events and recalls of various drugs.  Octo’s team used a user centric approach and followed an agile delivery process (Figure 1) in delivering the MedCheck application in multiple releases.  The key highlights of our approach include:
 *	Focus on user experience through the creation of user personas, user testing and market surveys
 *	Use of Kanban for managing the backlog for User Interface and User Experience (UI/UX) and DevOps teams
 *	Use of Scrum to manage the backlog and delivery of the development team
 *	Use of docker containers, docker hub and Jenkins to automate continuous integration and delivery
 
 # Our Approach #
-The following diagram (Figure 1) outlines Octo team’s approach in continuous delivering MedCheck application in multiple releases and sprints.
+The following diagram (Figure 1) outlines Octo team’s approach for continuous delivery of MedCheck application in multiple releases and sprints.
 
 ![Image of MedCheck](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/approach.png?raw=true)
 
 ## Planning Phase ##
 
-Upon the release of 18F solicitation for ADS, Octo assembled a project team consisting of experienced agile experts, developers, UI/UX designers and devops engineers.  The team matrix and roles are documented here (on Github – provide URL).  The team also engaged a group of Octo employees to serve as “users” during the development of the prototype.  The designated user team reviewed the FDA API and datasets, and crafted a problem statement for the project team (saved on GitHub – provide URL) that served as the primary scope for the project team.
+Upon the release of 18F solicitation for ADS, Octo assembled a project team consisting of experienced agile experts, developers, user experience designers (UX), visual designers (UI), analysts and devops engineers.  The team also engaged a group of Octo employees to serve as “users” during the development of the prototype.  The designated user team reviewed the FDA API and crafted a problem statement for the project team (Link to Problem) that served as the primary scope for the project team.
 
 
 ## Agile Development Phase ##
 
 ### Sprint # 0 (Planning) ###
-During this planning sprint, the project team spent some team analyzing the dataset to understand the API and data at a high level.  This analysis was key in guiding the architecture definition and development of initial user experience artifacts (such as personas).  A modern technology stack that is based on the principles of open standards and open architecture was selected and the devops team stood up the initial development and production environments.  
+During this sprint, the project team reviewed the problem statement and analyzed the dataset to understand the API and data at a high level.  This analysis was key in guiding the architecture definition and development of initial user experience artifacts (such as personas).  An open, modern technology stack was selected and the devops team stood up the initial development, integration and production environments.  
 
 In addition, the team performed the following activities during this sprint:
-* Reviewed the Problem Statement (saved on GitHub)
-* Created a Product Vision (saved on GitHub)
 * Began identifying high level features required to meet the needs of the users
 * Decomposed the features into user and technical stories that could be completed in a single sprint
-* Created a roadmap for delivery of features in multiple releases (saved on GitHub)
-* Decided that the sprints are two hours long and documented the definitions of “done” and “ready” (artifacts on GitHub).
+* Created a product vision and roadmap for delivery of features in multiple releases (Link)
 
 ### Sprint # 1..N (Sprinting) ###
 Octo team built the prototype iteratively using an Agile approach.  The development team used a Scrum based approach where as the UI/UX and DevOps teams tracked their work using Kanban to ensure they stay ahead of the development team. 
 
 The team initially planned for 3 production releases of the prototype.  Features were planned for each Release, and individual stories for each feature were slotted in sprints within each Release (Links to pictures).  The team made adjustments to the product based on user feedback after each demo to the users.  Team also made adjustments to the product as needed during the implementation by collaborating with the users closely and worked within the constraints offered by FDA API.  For example, team proposed alternate set of features to the users when FDA API could not provide some of the data needed for a specific feature requested by the users.
 
-User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog).  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, the team conducted a sprint review and retrospective (Link to retrospectives).
+User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog).  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, a product demo was conducted, feedback collected, product deployed to production and the team conducted a sprint review and retrospective (Link to retrospectives).  All the user and design documentation necessary for the execution of the sprint was constantly updated.
 
 <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250">
 <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250">
@@ -69,12 +66,11 @@ Nagios is used to monitor the health of the infrastructure and the deployed prot
 
 ### Sprint # X (Hardening) ###
 
-Pending
-
+During this sprint, the team performed final field testing to ensure the application met the needs of the users and conducted usability testing with a broader Octo employee base.  The team also conducted final security testing to ensure all the security and accessibility needs are met, and made the necessary adjustments.  DevOps team developed final deployment documentation.
 
 ## Closeout Phase ##
 
-Pending
+During this phase, the team closed out the execution of the prototype by completing the documentation necessary (Readme.md, pricing, etc.) for submitting the solicitation response to the government.
 
 # Alignment to Digital Services Playbook #
 
