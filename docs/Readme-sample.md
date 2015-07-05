@@ -5,14 +5,14 @@
 </p>
 
 # Introduction #
-MedCheck is a responsive web application developed by Octo Consulting Group in response to the solicitation released by 18F for Agile Delivery Services (ADS).  MedCheck leverages the APIs offered by fda.gov and provides analysis of adverse events and recalls of various drugs.  Octo’s team used a user centric approach and followed an agile delivery process (Figure 1) in delivering the MedCheck application in multiple releases.  The key highlights of our approach include:
+MedCheck is a responsive web application developed by Octo Consulting Group in response to the solicitation released by 18F for Agile Delivery Services (ADS).  MedCheck leverages the APIs offered by fda.gov and provides analysis of adverse events and recalls of various drugs.  Octo’s team used a user centric approach and followed an agile delivery process in delivering the MedCheck application in multiple releases.  The key highlights of our approach include:
 *	Focus on user experience through the creation of user personas, user testing and market surveys
 *	Use of Kanban for managing the backlog for User Interface and User Experience (UI/UX) and DevOps teams
 *	Use of Scrum to manage the backlog and delivery of the development team
 *	Use of docker containers, docker hub and Jenkins to automate continuous integration and delivery
 
 # Our Approach #
-The following diagram (Figure 1) outlines Octo team’s approach for continuous delivery of MedCheck application in multiple releases and sprints.
+The following diagram outlines Octo team’s overall approach for responding to the solicitation and for continuous delivery of MedCheck application in multiple releases and sprints.
 
 ![Image of MedCheck](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/approach.png?raw=true)
 
@@ -38,9 +38,11 @@ The team initially planned for 3 production releases of the prototype.  Features
 
 User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog).  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, a product demo was conducted, feedback collected, product deployed to production and the team conducted a sprint review and retrospective (Link to retrospectives).  All the user and design documentation necessary for the execution of the sprint was constantly updated.
 
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250">
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250">
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="250">
+<p align="center">
+|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250"/>
+|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250"/>
+|<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="250"/>|
+</p>
 
 #### User Experience Approach ####
 
@@ -62,7 +64,9 @@ Karma test framework was used to write test cases for front end and a combinatio
 
 Nagios is used to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts are sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded. (Links to screenshots) 
 
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="400">
+<p align="center">
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/techstack.png?raw=true">
+</p>
 
 ### Sprint # X (Hardening) ###
 
