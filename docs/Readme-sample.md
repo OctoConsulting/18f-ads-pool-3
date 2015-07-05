@@ -1,4 +1,9 @@
-![Image of MedCheck](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/logo.png?raw=true)
+
+
+<p align="center">
+  <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/logo.png?raw=true">
+</p>
+
 # Introduction #
 MedCheck is a responsive web application developed by Octo Consulting Group in response to the solicitation released by 18F for Agile Delivery Services (ADS).  MedCheck leverages the APIs offered by fda.gov and provides analysis of adverse events and recalls of various drugs.  Octo’s team of agile experts, developers, testers, user interface/experience designers and dev-ops engineers used a user centric approach and followed an agile delivery process (as illustrated by Figure 1) in delivering the MedCheck application in multiple releases.  The key highlights of our approach include:
 *	Focus on user experience through the creation of user personas, user testing and market surveys
@@ -30,46 +35,37 @@ In addition, the team performed the following activities during this sprint:
 * Decided that the sprints are two hours long and documented the definitions of “done” and “ready” (artifacts on GitHub).
 
 ### Sprint # 1..N (Sprinting) ###
-Octo team built the prototype iteratively using Agile methodologies as recommended by Digital Services play #4.  The development team used a Scrum based approach The UI/UX and DevOps teams tracked their work using Kanban to ensure they stay ahead of the development team ((pictures in GitHub). 
+Octo team built the prototype iteratively using an Agile approach.  The development team used a Scrum based approach where as the UI/UX and DevOps teams tracked their work using Kanban to ensure they stay ahead of the development team. 
 
-The team initially planned for 3 production releases of the prototype.  Features were planned for each Release, and individual stories for each feature were slotted in sprints within each Release.  Pictures of the features initially planned in the first 3 releases are saved on GitHub.  Applying Agile principles to embrace change and conduct frequent user reviews, the team adjusted course on several occasions:
-* When the dataset couldn’t provide usable contextual information on medications, the team proposed an alternate set of features to our users and gained their agreement to change the requested product features.  
-* The team conducted a product demonstration at the end of each release, and added/reprioritized features and user stories based on user feedback
-* After the team completed all desired functionality in Release 3, the team planned and executed a fourth release to incorporate additional functionality requested by our users 
+The team initially planned for 3 production releases of the prototype.  Features were planned for each Release, and individual stories for each feature were slotted in sprints within each Release (Links to pictures).  The team made adjustments to the product based on user feedback after each demo to the users.  Team also made adjustments to the product as needed during the implementation by collaborating with the users closely and worked within the constraints offered by FDA API.  For example, team proposed alternate set of features to the users when FDA API could not provide some of the data needed for a specific feature requested by the users.
 
-User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users.  Each version of the backlog is stored on GitHub.  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, the team conducted a sprint review and retrospective.  Documentation from each retrospective is saved on GitHub.
+User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog).  The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, the team conducted a sprint review and retrospective (Link to retrospectives).
 
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="300">
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="300">
-<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="300">
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG" width="250">
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic Feature Story Breakdown - Day 3.JPG" width="250">
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="250">
 
 #### User Experience Approach ####
 
-In developing the prototype, Octo took a user centric approach in accordance with play #1 in the Digital Services Playbook. The information gathered from the users was used to continually refine the design of the prototype.  After every engagement with the user, UX and UI specialists continued to perform heuristic evaluations, and usability tests to refine the wireframes and final product.  Throughout the process, the UX/UI team worked very closely with the development team to ensure all changes to the user interface were implemented in the prototype.
+The information gathered from users was used to continuously refine the the prototype.  After every interation with the user, UX and UI specialists performed heuristic evaluations, and conducted usability tests to refine the wireframes and final product.  Throughout the process, the UX/UI team worked very closely with the development team to ensure all changes to the user interface were implemented in the prototype.
 
-The project team captured user needs in multiple ways:
+The project team captured user feedback in several ways and produced multiple UX/UI artifacts to ensure the prototype is developed in alignment with user needs:
 * Met with the user to ensure that the problem statement was fully understood and to discuss desired features and the priority for all features
-* Created user personas to capture the demographics and needs of different users of the prototype (saved on GitHub)
-* Conducted release reviews to see demonstration of features added in each release
-* Distributed an electronic survey desired features and expected usage of the prototype.  Analysis of the survey responses are saved on GitHub
-Following play #2 in the Digital Services Playbook, the UX/UI team utilized User-Centered Design techniques to address the entire user experience:
-* Generated Workflows to document how a user progresses through the prototype (saved on GitHub)
-* Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype (multiple versions are saved on GitHub)
-* Created an information architecture to organize content on the site, as well as the data structure and enriched content, including visualizations and metadata
-
-In addition, Octo team also evaluated ten basic heuristic principles to review the end-to-end user experience  (saved in GitHub) and conducted multiple rounds of usability tests of the prototype to ensure the final product is simple and intuitive to the users.
+* Created user personas to capture the demographics and needs of different users of the prototype (Link to personas)
+* Distributed an electronic survey desired features and expected usage of the prototype (Link to survey results).  
+* Generated Workflows to document how a user progresses through the prototype (Link to workflows)
+* Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype (Link to wireframes)
+* Created an information architecture to organize site content and enriched content using visualizations and metadata
 
 #### Technical Approach ####
 
-Following play #8 in the Digital Services playbook, Octo implemented the prototype using modern and fully open technology stacks with a focus on mobile first and API first approaches.  Node.js and Loopback were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end implementation frameworks. NG boilerplate and Loopback are used for scaffolding the application. The stack is primarily javascript based and data is exchanged using Restful services and json for an API first approach. (Link for Architecture Diagram)
+Octo implemented the prototype using modern and fully open technology stacks with a focus on mobile first and API first approaches.  Node.js and Loopback frameworks were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end frameworks. Angular.js based front end exchanged data with Loopback based service layer using secure Restful services with json as the primary data exchange format (Link for Architecture Diagram).
 
-Octo followed a Test Driven Development approach to develop the prototype by using Karma to write test cases for Angular code and a combination of Mocha, Supertest and Should to write test cases for the service layer.  As prescribed in play #10 in the Digital Services playbook, test cases are automatically executed when new code is checked into the repository.  Whenever code is saved in the GitHub repository, a Jenkins hook automatically initiates the testing process.  If all test cases pass successfully, the automated build and promotion process deploys the code to the integration server. The Octo DevOps team used Docker and Chef to code the infrastructure of the prototype to any environment as needed.  
+Karma test framework was used to write test cases for front end and a combination of Mocha, Supertest and Should were used to write test cases for the service layer.  All test cases are automatically executed when new code is checked into the repository via a Jenkins hook for GitHub.  Once all test cases pass successfully, the Jenkins based automated build and promotion script deploys the code to the integration server. The Octo DevOps team used Docker and Chef to code the infrastructure, and the prototype is deployed within a Docker container available publicly on Docker Hub. The integration and production environments are deployed on Amazon Web Services (AWS) EC2 instances.
 
-Octo’s prototype is deployed within a Docker container available publicly on Docker Hub. Following Digital Services play #9, the test and production environments utilize AWS EC2, which is a flexible hosting environment with the ability to adapt and scale as needed. 
+Nagios is used to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts are sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded. (Links to screenshots) 
 
-Octo team utilized Nagios to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts are sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded.  Screenshots demonstrating real-time monitoring are saved in GitHub. 
-
-![Technical Stack](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG?raw=true)
+<img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Kanban Board - End of Sprint 1.JPG" width="400">
 
 ### Sprint # X (Hardening) ###
 
