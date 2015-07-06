@@ -7,10 +7,15 @@
         .controller( 'HeaderController', HeaderController);
 
         // Home controller
-        function HeaderController($scope, Restangular, $state) {
+        function HeaderController($scope, Restangular, $state, growl) {
 
             $scope.search = function () {
-                $state.go('details.summary', {typ: $scope.query.indicator, name: $scope.query.name});
+                if($scope.query.indicator && $scope.query.name) {
+                    $state.go('details.summary', {typ: $scope.query.indicator, name: $scope.query.name});   
+                }
+                else {
+                    growl.warning("Please select a drug from the search suggestions");
+                }
             };
 
             // Function to get suggestions from the users search 

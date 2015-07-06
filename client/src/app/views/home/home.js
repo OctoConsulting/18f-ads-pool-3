@@ -23,10 +23,16 @@
         .controller( 'HomeController', HomeController);
 
         // Home controller
-        function HomeController($scope, Restangular, $state, suggestionsConnections) {
+        function HomeController($scope, Restangular, $state, suggestionsConnections, growl) {
             $scope.suggestionsConnections = suggestionsConnections;
             $scope.search = function () {
-                $state.go('details.summary', {typ: $scope.query.indicator, name: $scope.query.name});
+				if($scope.query.indicator && $scope.query.name) {
+					$state.go('details.summary', {typ: $scope.query.indicator, name: $scope.query.name});	
+				}
+				else {
+					growl.warning("Please select a drug from the search suggestions");
+				}
+
             };
 
             // Function to get suggestions from the users search 
