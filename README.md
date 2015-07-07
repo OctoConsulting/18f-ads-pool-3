@@ -27,7 +27,7 @@ The following diagram outlines our approach for responding to the solicitation a
 
 ## Planning Phase ##
 
-Upon the release of the solicitation, Octo assembled a project team consisting of experienced agile experts, developers, user experience designers (UX), visual designers (UI), analysts and devops engineers. The team engaged a group of Octo employees to serve as ìusersî during the development of the prototype. The designated user team reviewed the FDA APIs and crafted a problem statement that served as the primary scope for the project team (Link to Problem).
+Upon the release of the solicitation, Octo assembled a project team consisting of experienced agile experts, developers, user experience designers (UX), visual designers (UI), analysts and devops engineers. The team engaged a group of Octo employees to serve as ìusersî during the development of the prototype. The designated user team reviewed the FDA APIs and crafted a problem statement that served as the primary scope for the project team (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Octo%2018F%20Problem%20Statement.docx>).
 
 ## Agile Development Phase ##
 
@@ -37,12 +37,12 @@ During Spring 0, the project team reviewed the problem statement and analyzed th
 In addition, the team performed the following activities during this sprint:
 * Identified high level features required to meet the needs of the users
 * Decomposed the features into user and technical stories that could be completed in a single sprint
-* Created a product vision and roadmap for delivery of features in multiple releases (Link)
+* Created a product vision and roadmap for delivery of features in multiple releases (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Epic%20Feature%20Story%20Breakdown%20-%20Day%204%20Release%204.JPG>)
 
 ### Sprint # 1..N (Sprinting) ###
-The prototype was iteratively built using an Agile approach; the development team using Scrum while the UI/UX and DevOps teams tracked their work using Kanban to ensure they stay ahead of the development team. The team initially planned for 3 production releases of the prototype. Features were planned for each Release, and individual stories for each feature were slotted in sprints within each Release (Links to pictures). The team made adjustments to the product based on user feedback after each demo to the users. The team also made adjustments to the product during the implementation by collaborating with the users while working within the constraints imposed by the APIs. For example, we proposed an alternate set of features to the users when the FDA API could not provide some of the data needed for a specific features requested.
+The prototype was iteratively built using an Agile approach; the development team using Scrum while the UI/UX and DevOps teams tracked their work using Kanban to ensure they stay ahead of the development team. The team initially planned for 3 production releases of the prototype. Features were planned for each Release, and individual stories for each feature were slotted in sprints within each Release (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/Agile>). The team made adjustments to the product based on user feedback after each demo to the users. The team also made adjustments to the product during the implementation by collaborating with the users while working within the constraints imposed by the APIs. For example, we proposed an alternate set of features to the users when the FDA API could not provide some of the data needed for a specific features requested.
 
-User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (Link to backlog). The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, a product demo was conducted, feedback collected, product deployed to production, and a sprint review and retrospective completed (Link to retrospectives).  All user and design documentation necessary for the execution of the sprint was constantly updated.
+User stories were documented in a product backlog, with multiple versions reflecting the changing features identified by our users (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Product%20Backlog%20Pool%203%20v6.xlsx>). The team planned stories to be completed in each sprint, estimating each story using points, and reviewed completed stories with the Product Manager.  At the end of each sprint, a product demo was conducted, feedback collected, product deployed to production, and a sprint review and retrospective completed (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/Agile>).  All user and design documentation necessary for the execution of the sprint was constantly updated.
 
 <p align="center">
 <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Teamwork.JPG?raw=true" width="250"/>
@@ -56,19 +56,19 @@ The information gathered from users was used to continuously refine the prototyp
 
 The project team captured user feedback in several ways and produced multiple UX/UI artifacts to ensure the prototype was developed in alignment with user needs:
 * Met with the user to ensure that the problem statement was fully understood, to discuss desired features, and prioritization for all features
-* Created user personas to capture demographics and needs of different users of the prototype (Link to personas)
-* Distributed an electronic survey for desired features and expected usage of the prototype (Link to survey results).
-* Generated Workflows to document how a user progresses through the prototype (Link to workflows)
-* Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype (Link to wireframes)
+* Created user personas to capture demographics and needs of different users of the prototype (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Personas>)
+* Distributed an electronic survey for desired features and expected usage of the prototype (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Survey>).
+* Generated Workflows to document how a user progresses through the prototype (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Workflows>)
+* Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype (<https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UI>)
 * Created an information architecture to organize site content and enriched content using visualizations and metadata
 
 #### Technical Approach ####
 
-Octo implemented the prototype using modern and open technology stacks with a focus on mobile and API first.  Node.js and Loopback frameworks were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end frameworks. Angular.js based front end exchanged data with Loopback based service layer using secure Restful services with json as the primary data exchange format (Link for Architecture Diagram).
+Octo implemented the prototype using modern and open technology stacks with a focus on mobile and API first.  Node.js and Loopback frameworks were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end frameworks. Angular.js based front end exchanged data with Loopback based service layer using secure Restful services with json as the primary data exchange format (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/CI%20CD%20and%20CM%20Workflow.png>).
 
 The Karma test framework was used to write test cases for front end and a combination of Mocha, Supertest and Should were used to write test cases for the service layer. All test cases were automatically executed when new code was checked into the repository via a Jenkins hook for GitHub.  Once all test cases passed, the Jenkins-based automated build and promotion script deployed the code to the integration server. The DevOps team used Docker and Chef to code the infrastructure, and the prototype was deployed within a Docker container available publicly on Docker Hub. The integration and production environments were deployed on AWS EC2 instances.
 
-Nagios was used to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts were sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded. (Links to screenshots) 
+Nagios was used to monitor the health of the infrastructure and the deployed prototype code.  Automatic email alerts were sent to the administrator when predetermined thresholds on response time, concurrent users, disk usage, or server load are exceeded.
 
 <p align="center">
 <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/techstack.png?raw=true">
