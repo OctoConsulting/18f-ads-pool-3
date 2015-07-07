@@ -6,7 +6,7 @@
   <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/logo.png?raw=true">
 </p>
 
-Application URL:
+Prototype URL:
 <https://medcheck.octoconsulting.com>
 
 Deployment Instructions:
