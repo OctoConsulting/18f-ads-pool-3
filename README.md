@@ -57,14 +57,14 @@ The information gathered from users was used to continuously refine the prototyp
 The project team captured user feedback in several ways and produced multiple UX/UI artifacts to ensure the prototype was developed in alignment with user needs:
 * Met with the user to ensure that the problem statement was fully understood, to discuss desired features, and prioritization for all features
 * Created user personas to capture demographics and needs of different users of the prototype ([Link to Personas](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Personas))
-* Distributed an electronic survey for desired features and expected usage of the prototype ([Link to Prototype](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Survey))
+* Distributed an electronic survey for desired features and expected usage of the prototype ([Link to Survey](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Survey))
 * Generated Workflows to document how a user progresses through the prototype ([Link to Workflows](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Workflows))
 * Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype ([Link to UI Docs](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UI))
 * Created an information architecture to organize site content and enriched content using visualizations and metadata
 
 #### Technical Approach ####
 
-Octo implemented the prototype using modern and open technology stacks with a focus on mobile and API first.  Node.js and Loopback frameworks were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end frameworks. Angular.js based front end exchanged data with Loopback based service layer using secure Restful services with json as the primary data exchange format ([Link to UI Docs](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/CI%20CD%20and%20CM%20Workflow.png)).
+Octo implemented the prototype using modern and open technology stacks with a focus on mobile and API first.  Node.js and Loopback frameworks were selected as the primary stack for the service layer with Angular.js and Bootstrap serving as the front-end frameworks. Angular.js based front end exchanged data with Loopback based service layer using secure Restful services with json as the primary data exchange format ([Link to Tech Stack](https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Technology%20Stack.xlsx)).
 
 The Karma test framework was used to write test cases for front end and a combination of Mocha, Supertest and Should were used to write test cases for the service layer. All test cases were automatically executed when new code was checked into the repository via a Jenkins hook for GitHub.  Once all test cases passed, the Jenkins-based automated build and promotion script deployed the code to the integration server. The DevOps team used Docker and Chef to code the infrastructure, and the prototype was deployed within a Docker container available publicly on Docker Hub. The integration and production environments were deployed on AWS EC2 instances.
 
