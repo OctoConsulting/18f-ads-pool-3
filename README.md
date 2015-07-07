@@ -55,7 +55,7 @@ User stories were documented in a product backlog, with multiple versions reflec
 The information gathered from users was used to continuously refine the prototype.  After every iteration with the user, UX and UI specialists performed heuristic evaluations, and conducted usability tests to refine the wireframes and final product.  Throughout the process, the UX/UI team worked closely with the development team to ensure all user interface changes were implemented in the prototype.
 
 The project team captured user feedback in several ways and produced multiple UX/UI artifacts to ensure the prototype was developed in alignment with user needs:
-* Met with the user to ensure that the problem statement was fully understood, to discuss desired features, and prioritization for all features
+* Met with the user to ensure that the problem statement was fully understood, to discuss desired features, and to prioritize all features
 * Created user personas to capture demographics and needs of different users of the prototype ([ Personas](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Personas))
 * Distributed an electronic survey for desired features and expected usage of the prototype ([User Survey](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Survey))
 * Generated Workflows to document how a user progresses through the prototype ([ Workflows](https://github.com/OctoConsulting/18f-ads-pool-3/tree/master/docs/UX/User%20Workflows))
