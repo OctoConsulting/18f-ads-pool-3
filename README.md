@@ -1,6 +1,35 @@
+# GSA Agile Delivery Services (ADS I) RFQ# 4QTFHS150004 #
+## Octo Consulting Group ##
+## Response to Pool 3: Full Stack ##
+
 <p align="center">
   <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/logo.png?raw=true">
 </p>
+
+<https://medcheck.octoconsulting.com>
+
+# Deployment #
+MedCheck is deployed using [Docker](http://docker.com), with the docker image available publicly on [Docker Hub](https://registry.hub.docker.com/u/octoconsulting/18f-ads/). In order to deploy the application in your own Docker environment, the following steps are required:
+
+## Download the container ##
+
+	docker pull octoconsulting/18f-ads
+
+## Start the container ##
+	docker run -d -p 80:3000 -t octoconsulting/18f-ads
+
+This will start the container listening on port 80, you can specify a different port by changing the command above. Also, this port will have to be open and accessible on your server.
+
+## Get the container ID with docker ps ##
+	# docker ps
+	CONTAINER ID          IMAGE                      ...
+	[container_id]        octoconsulting/18f-ads     ...
+
+## Tell the container to fetch and build the application ##
+	docker exec [container_id] /usr/local/bin/buildMedCheck.sh
+
+## ... That's it! ##
+Once the build is complete you can access the application on the port you specified above.
 
 # Introduction #
 MedCheck is a responsive web application developed by Octo Consulting Group (Octo) in response to the solicitation released by GSA 18F for Agile Delivery Services (ADS). MedCheck leverages fda.gov APIs and provides analysis of adverse events and recalls of various drugs. Octoís team used a user-centric approach and followed an agile delivery process in delivering the MedCheck application across multiple releases. The key highlights of our approach include:
@@ -21,7 +50,7 @@ Upon the release of the solicitation, Octo assembled a project team consisting o
 ## Agile Development Phase ##
 
 ### Sprint # 0 (Planning) ###
-During Spring 0, the project team reviewed the problem statement and analyzed the dataset to understand the API and data at a high level.  This analysis was key in guiding the architecture definition and development of initial user experience artifacts (such as personas).  An open, modern technology stack was selected and the devops team stood up the initial development, integration and production environments.  
+During Spring 0, the project team reviewed the problem statement and analyzed the dataset to understand the API and data at a high level.  This analysis was key in guiding the architecture definition and development of initial user experience artifacts (such as personas).  An open, modern technology stack was selected and the devops team stood up the initial development, integration and production environments.
 
 In addition, the team performed the following activities during this sprint:
 * Identified high level features required to meet the needs of the users
@@ -46,7 +75,7 @@ The information gathered from users was used to continuously refine the prototyp
 The project team captured user feedback in several ways and produced multiple UX/UI artifacts to ensure the prototype was developed in alignment with user needs:
 * Met with the user to ensure that the problem statement was fully understood, to discuss desired features, and prioritization for all features
 * Created user personas to capture demographics and needs of different users of the prototype (Link to personas)
-* Distributed an electronic survey for desired features and expected usage of the prototype (Link to survey results).  
+* Distributed an electronic survey for desired features and expected usage of the prototype (Link to survey results).
 * Generated Workflows to document how a user progresses through the prototype (Link to workflows)
 * Created a basic wireframe and prototype of the homepage to lay a foundation for the prototype (Link to wireframes)
 * Created an information architecture to organize site content and enriched content using visualizations and metadata
@@ -88,29 +117,3 @@ During this phase, the team closed out the execution of the prototype by complet
 | 11 Manage security and privacy...  | Nagios used to monitor the health of the infrastructure and prototype for continuous monitoring.  HTTPS/SSL used to encrypt the communications between browser and server  |
 | 12 Use data to drive decisions  | Data collected during each sprint and release (Points considered, Team Velocity, API Capabilities, etc.) is used to work with users and adjust course as needed  |
 | 13 Default to Open  | Technical stack selected is open source and the prototype is developed using open standards such as Restful services and Json.  |
-
-## MedCheck
-https://medcheck.octoconsulting.com
-
-## Deployment
-MedCheck is deployed using [Docker](http://docker.com), with the docker image available publicly on [Docker Hub](https://registry.hub.docker.com/u/octoconsulting/18f-ads/). In order to deploy the application in your own Docker environment, the following steps are required:
-
-### Download the container
-
-	docker pull octoconsulting/18f-ads
-
-### Start the container
-	docker run -d -p 80:3000 -t octoconsulting/18f-ads
-
-This will start the container listening on port 80, you can specify a different port by changing the command above. Also, this port will have to be open and accessible on your server.
-
-### Get the container ID with docker ps
-	# docker ps
-	CONTAINER ID          IMAGE                      ...
-	[container_id]        octoconsulting/18f-ads     ...
-
-### Tell the container to fetch and build the application
-	docker exec [container_id] /usr/local/bin/buildMedCheck.sh
-
-### ... That's it!
-Once the build is complete you can access the application on the port you specified above.
