@@ -14,7 +14,7 @@ Deployment Instructions:
 
 # Introduction #
 
-MedCheck is a responsive web application developed by Octo Consulting Group (Octo) in response to the solicitation released by GSA 18F for Agile Delivery Services (ADS). MedCheck leverages fda.gov APIs and provides analysis of adverse events and recalls of various drugs. Octoís team used a user-centric approach and followed an agile delivery process in delivering the MedCheck application across multiple releases. The key highlights of our approach include:
+MedCheck is a responsive web application developed by Octo Consulting Group (Octo) in response to the solicitation released by GSA 18F for Agile Delivery Services (ADS). MedCheck leverages fda.gov APIs and provides analysis of adverse events and recalls of various drugs. Octo's team used a user-centric approach and followed an agile delivery process in delivering the MedCheck application across multiple releases. The key highlights of our approach include:
 *	Focus on user experience through the creation of user personas, user testing and market surveys
 *	Use of Scrum to manage the backlog and delivery of the development team
 *	Use of Kanban for managing the backlog for User Interface and User Experience (UI/UX) and DevOps teams
@@ -27,7 +27,7 @@ The following diagram outlines our approach for responding to the solicitation a
 
 ## Planning Phase ##
 
-Upon the release of the solicitation, Octo assembled a project team consisting of experienced agile experts, developers, user experience designers (UX), visual designers (UI), analysts and devops engineers. The team engaged a group of Octo employees to serve as ìusersî during the development of the prototype. The designated user team reviewed the FDA APIs and crafted a problem statement that served as the primary scope for the project team (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Octo%2018F%20Problem%20Statement.docx>).
+Upon the release of the solicitation, Octo assembled a project team consisting of experienced agile experts, developers, user experience designers (UX), visual designers (UI), analysts and devops engineers. The team engaged a group of Octo employees to serve as ìusersî during the development of the prototype. The designated users team reviewed the FDA APIs and crafted a problem statement that served as the primary scope for the project team (<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/Agile/Octo%2018F%20Problem%20Statement.docx>).
 
 ## Agile Development Phase ##
 
