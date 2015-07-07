@@ -100,6 +100,10 @@ During this sprint, the team performed final field testing to ensure the applica
 
 During this phase, the team closed out the execution of the prototype by completing the documentation necessary for submitting the solicitation response to the government.
 
+## RFQ Section 24.0 Factor 1: Technical Approach ##
+*   Evidence to Digital Services Playbook - See Repository for Artifacts
+*   Criteria A through K – See Attachment E Approach Criteria Evidence for Pool 2
+
 # Alignment to Digital Services Playbook #
 
 | DSP Play  | Team Activities  |
