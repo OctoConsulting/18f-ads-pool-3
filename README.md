@@ -6,12 +6,14 @@
   <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/logo.png?raw=true">
 </p>
 
-<p align="center">
-Application URL: <https://medcheck.octoconsulting.com>
-Deployment Instructions: <https://medcheck.octoconsulting.com>
-<p>
+Application URL:
+<https://medcheck.octoconsulting.com>
+
+Deployment Instructions:
+<https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/deployment-instructions.md>
 
 # Introduction #
+
 MedCheck is a responsive web application developed by Octo Consulting Group (Octo) in response to the solicitation released by GSA 18F for Agile Delivery Services (ADS). MedCheck leverages fda.gov APIs and provides analysis of adverse events and recalls of various drugs. Octoís team used a user-centric approach and followed an agile delivery process in delivering the MedCheck application across multiple releases. The key highlights of our approach include:
 *	Focus on user experience through the creation of user personas, user testing and market surveys
 *	Use of Scrum to manage the backlog and delivery of the development team
