@@ -74,7 +74,7 @@ Nagios was used to monitor the health of the infrastructure and the deployed pro
 <img src="https://github.com/OctoConsulting/18f-ads-pool-3/blob/master/docs/images/techstack.png?raw=true">
 </p>
 
-### Sprint # X (Hardening) ###
+### Sprint # 22 (Hardening) ###
 
 During this sprint, the team performed final field testing to ensure the application met the needs of the users and conducted usability testing with a broader set of Octo employees. The team conducted final security testing to ensure all the security and accessibility needs were met, and made the necessary adjustments. The DevOps team developed final deployment documentation.
 
